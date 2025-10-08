@@ -1,0 +1,30 @@
+{
+  "title": "Damp Docs",
+  "description": "Documentation for DAMP - Dockerized Application Management Platform",
+  "icon": "Building",
+  "root": true,
+  "pages": [
+    "---Introduction---",
+    "index",
+    "what-is-damp",
+    "comparison",
+    "installation",
+    "---Managing Projects---",
+    "versioning",
+    "static-export",
+    "internationalization",
+    "navigation",
+    "search",
+    "(integrations)",
+    "---Debugging---",
+    "page-conventions",
+    "markdown",
+    "---Services---",
+    "...(ui)",
+    "---Migration Guides---",
+    "python",
+    "typescript",
+    "obsidian",
+    "openapi"
+  ]
+}

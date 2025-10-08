@@ -1,0 +1,116 @@
+---
+title: DAMP vs. Alternatives
+description: See how DAMP compares to other PHP development solutions
+icon: Scale
+---
+
+# DAMP vs. Alternatives
+
+Choosing the right development environment is crucial for productivity. Here's how DAMP stacks up against popular alternatives.
+
+## Comparison Overview
+
+<Tabs items={['Laravel Herd', 'DDEV/Lando', 'XAMPP/MAMP']}>
+  <Tab value="Laravel Herd">
+    ### vs. Laravel Herd
+    
+    | Feature | DAMP | Laravel Herd |
+    |---------|------|--------------|
+    | **Architecture** | True Docker containers | Binary installation |
+    | **Learning Value** | Learn Docker & containerization | Vendor-specific tool |
+    | **Production Parity** | Identical to production | Different from production |
+    | **Service Flexibility** | Any Docker service | Limited to bundled services |
+    | **Team Consistency** | Docker guarantees consistency | OS-dependent behavior |
+    
+    <Callout type="info">
+      **The Verdict**: While Herd is quick to set up, DAMP provides better long-term value by teaching Docker skills and ensuring your development environment matches production.
+    </Callout>
+  </Tab>
+  
+  <Tab value="DDEV/Lando">
+    ### vs. DDEV/Lando
+    
+    | Feature | DAMP | DDEV/Lando |
+    |---------|------|------------|
+    | **Interface** | Visual desktop app | Complex CLI commands |
+    | **Learning Curve** | Beginner-friendly | Expert-oriented |
+    | **Daily Usage** | Click and go | Memorize commands |
+    | **Error Handling** | Clear visual feedback | Terminal error messages |
+    | **Onboarding** | Intuitive GUI | Documentation-heavy |
+    
+    <Callout type="tip">
+      **The Verdict**: DDEV and Lando are powerful but require significant CLI expertise. DAMP offers the same Docker benefits with zero command-line complexity.
+    </Callout>
+  </Tab>
+  
+  <Tab value="XAMPP/MAMP">
+    ### vs. XAMPP/MAMP
+    
+    | Feature | DAMP | XAMPP/MAMP |
+    |---------|------|-------------|
+    | **Isolation** | Fully isolated containers | System-wide installation |
+    | **Version Management** | Multiple versions per project | One version system-wide |
+    | **System Impact** | Zero system pollution | Modifies system configuration |
+    | **Conflicts** | Impossible | Common (ports, versions) |
+    | **Modern Workflow** | Docker-native, production-ready | Legacy architecture |
+    
+    <Callout type="warning">
+      **The Verdict**: XAMPP/MAMP are outdated approaches that pollute your system. DAMP provides clean, isolated environments with the flexibility modern development requires.
+    </Callout>
+  </Tab>
+</Tabs>
+
+## Why Choose DAMP?
+
+### For Beginners
+
+<Card icon={<GraduationCap />}>
+  **Easy to Learn, Hard to Outgrow**
+  
+  Start with a simple visual interface, but you're learning Docker - a critical production skill - from day one.
+</Card>
+
+### For Teams
+
+<Card icon={<Users />}>
+  **Guaranteed Consistency**
+  
+  Docker containers ensure everyone on your team has identical environments, regardless of their OS or machine.
+</Card>
+
+### For Production
+
+<Card icon={<Rocket />}>
+  **Dev-Production Parity**
+  
+  Your development environment uses the same containers as production, eliminating "works on my machine" issues.
+</Card>
+
+## The Best of All Worlds
+
+DAMP combines:
+
+- ✅ **Herd's simplicity** - Visual interface, easy setup
+- ✅ **DDEV's power** - Full Docker containerization
+- ✅ **XAMPP's familiarity** - Desktop app you can see and touch
+- ✅ **Modern architecture** - Built with Tauri, React, and Rust
+
+<Callout type="success">
+  **Ready to make the switch?** [Download DAMP](/download) and experience the future of PHP development.
+</Callout>
+
+## Still Have Questions?
+
+<Cards>
+  <Card title="Documentation" href="/docs">
+    Explore our comprehensive guides
+  </Card>
+  
+  <Card title="Community" href="/community">
+    Join our Discord community
+  </Card>
+  
+  <Card title="GitHub" href="https://github.com/your-org/damp">
+    Contribute or report issues
+  </Card>
+</Cards>
