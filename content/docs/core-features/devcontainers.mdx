@@ -1,0 +1,406 @@
+---
+title: DevContainers
+description: VS Code DevContainer integration for seamless development
+-icon: Code
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { File, Folder, Files } from 'fumadocs-ui/components/files';
+import { FaDocker } from "react-icons/fa6";
+import { VscJson } from "react-icons/vsc";
+import { VscGear } from "react-icons/vsc";
+import { SiPhp } from "react-icons/si";
+
+DAMP creates a complete **VS Code DevContainer** setup for every project, giving you a professional development environment that runs entirely inside Docker containers.
+
+<Callout type="success">
+  **Full Development Environment**
+  
+  Edit code, debug, run commands - all inside a container with PHP, Node.js, Composer, and extensions pre-configured.
+</Callout>
+
+## Project Structure
+
+When you create a project, DAMP automatically generates this structure:
+
+<Files>
+  <Folder name="your-project" defaultOpen={true}>
+    <Folder name=".devcontainer" defaultOpen={true}>
+      <File name="devcontainer.json" icon={<VscJson />} />
+      <File name="Dockerfile" icon={<FaDocker />} />
+      <File name="php.ini" icon={<VscGear />} />
+      <File name="xdebug.ini" icon={<VscGear />} />
+    </Folder>
+    <Folder name=".vscode" defaultOpen={true}>
+      <File name="launch.json" icon={<VscJson />} />
+    </Folder>
+    <File name="index.php" icon={<SiPhp />} />
+  </Folder>
+</Files>
+
+<Callout type="info">
+  **Everything Pre-Configured**
+  
+  All files are generated automatically with smart defaults - just open in VS Code and start coding!
+</Callout>
+
+## Key Features
+
+<Cards>
+  <Card title="Full Customization" icon={<Settings />}>
+    Modify devcontainer.json, Dockerfile, and PHP configs per project
+  </Card>
+  
+  <Card title="Network Isolation" icon={<Network />}>
+    Uses dedicated `devnet` Docker network for service communication
+  </Card>
+  
+  <Card title="Fast Performance" icon={<Zap />}>
+    Named Docker volumes instead of slow Windows bind mounts
+  </Card>
+  
+  <Card title="XDebug Ready" icon={<Bug />}>
+    Step-through debugging works out of the box
+  </Card>
+</Cards>
+
+## DevContainer Configuration
+
+### devcontainer.json
+
+The heart of your development environment:
+
+```json
+{
+    "name": "myapp",
+    "build": {
+        "dockerfile": "./Dockerfile",
+        "args": { "VARIANT": "8.3" }
+    },
+    "runArgs": [
+        "--network=devnet",
+        "--name", "myapp_devcontainer"
+    ],
+    "forwardPorts": [8080],
+    "postStartCommand": "php artisan serve --host=0.0.0.0"
+}
+```
+
+**Key Settings:**
+
+- **`--network=devnet`** - Connects to DAMP's shared network for Caddy/MySQL access
+- **`--name`** - Container naming pattern: `{project-name}_devcontainer`
+- **`forwardPorts`** - Exposes PHP dev server on port 8080
+
+<Callout type="warning">
+  **Network Requirement**
+  
+  The `devnet` network is essential - it allows your container to communicate with Caddy (web server) and MySQL services.
+</Callout>
+
+## Docker Volumes for Speed
+
+DAMP uses **named Docker volumes** instead of bind mounts:
+
+```json
+{
+    "workspaceMount": "source=myapp_volume,target=/workspace,type=volume",
+    "workspaceFolder": "/workspace/myapp"
+}
+```
+
+### Why Volumes?
+
+<table>
+  <thead>
+    <tr>
+      <th>Bind Mounts (Slow)</th>
+      <th>Named Volumes (Fast)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>❌ Windows filesystem overhead</td>
+      <td>✅ Native Docker filesystem</td>
+    </tr>
+    <tr>
+      <td>❌ Slow I/O operations</td>
+      <td>✅ Lightning-fast reads/writes</td>
+    </tr>
+    <tr>
+      <td>❌ File watching issues</td>
+      <td>✅ Reliable file change detection</td>
+    </tr>
+    <tr>
+      <td>❌ Permission problems</td>
+      <td>✅ Consistent permissions</td>
+    </tr>
+  </tbody>
+</table>
+
+<Callout type="tip">
+  **Performance Boost**
+  
+  Named volumes can be 10-20x faster than Windows bind mounts, especially for Composer and npm operations!
+</Callout>
+
+## PHP Configuration
+
+### php.ini
+
+Customize PHP settings per project:
+
+```ini
+; Custom PHP settings
+memory_limit = 256M
+upload_max_filesize = 64M
+post_max_size = 64M
+max_execution_time = 300
+```
+
+### xdebug.ini
+
+Pre-configured for debugging:
+
+```ini
+[xdebug]
+zend_extension=xdebug
+xdebug.mode=develop,debug
+xdebug.start_with_request=yes
+xdebug.client_host=host.docker.internal
+```
+
+<Callout type="success">
+  **Zero-Config Debugging**
+  
+  XDebug works immediately - just set breakpoints in VS Code and press F5!
+</Callout>
+
+## Customization Workflow
+
+Need to change something? Follow these steps:
+
+<Steps>
+
+<Step>
+**Edit Configuration**
+
+Modify `devcontainer.json`, `Dockerfile`, or PHP config files directly in your project folder.
+</Step>
+
+<Step>
+**Rebuild Container**
+
+In VS Code, press `Ctrl+Shift+P` and run:
+- "Dev Containers: Rebuild Container"
+</Step>
+
+<Step>
+**Changes Applied**
+
+Your container rebuilds with the new configuration!
+</Step>
+
+</Steps>
+
+## Common Customizations
+
+### Add PHP Extensions
+
+Edit `devcontainer.json`:
+
+```json
+{
+    "features": {
+        "ghcr.io/opencodeco/devcontainers/install-php-extensions:0": {
+            "extensions": "bcmath pdo_mysql mysqli intl zip gd redis imagick"
+        }
+    }
+}
+```
+
+### Change PHP Version
+
+Edit `devcontainer.json`:
+
+```json
+{
+    "build": {
+        "args": {
+            "VARIANT": "8.2"  // Change to 7.4, 8.0, 8.1, 8.2, 8.3
+        }
+    }
+}
+```
+
+### Add VS Code Extensions
+
+Edit `devcontainer.json`:
+
+```json
+{
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "xdebug.php-debug",
+                "onecentlin.laravel-extension-pack"
+            ]
+        }
+    }
+}
+```
+
+<Callout type="info">
+  **Extensions Install Automatically**
+  
+  VS Code extensions listed in devcontainer.json install automatically when you open the container.
+</Callout>
+
+## Laravel Projects
+
+Laravel sites get special treatment:
+
+```json
+{
+    "postCreateCommand": "npm install && npm run build",
+    "postStartCommand": "composer run devcontainer"
+}
+```
+
+The `devcontainer` script runs:
+- ✅ PHP artisan serve (web server)
+- ✅ Queue worker
+- ✅ Pail (real-time logs)
+- ✅ Vite dev server (hot reload)
+
+All services run concurrently with color-coded output!
+
+## Network Architecture
+
+```
+┌────────────────────────────────────┐
+│       Docker Network: devnet       │
+├────────────────────────────────────┤
+│                                    │
+│  ┌──────────────────────┐          │
+│  │  Caddy Web Server    │          │
+│  │  (damp-web)          │          │
+│  └──────────┬───────────┘          │
+│             │                      │
+│             │ Reverse Proxy        │
+│             ↓                      │
+│  ┌──────────────────────┐          │
+│  │ myapp_devcontainer   │          │
+│  │ PHP 8.3 + Node.js    │          │
+│  │ Port: 8080           │          │
+│  └──────────┬───────────┘          │
+│             │                      │
+│             │ Database Connection  │
+│             ↓                      │
+│  ┌──────────────────────┐          │
+│  │  MySQL Database      │          │
+│  │  (damp-mysql)        │          │
+│  └──────────────────────┘          │
+│                                    │
+└────────────────────────────────────┘
+```
+
+**Container Naming:**
+- Pattern: `{project-name}_devcontainer`
+- Example: `myapp_devcontainer`, `blog_devcontainer`
+
+This naming allows Caddy to route traffic to the correct container.
+
+## VS Code Integration
+
+### Opening in DevContainer
+
+1. Open project folder in VS Code
+2. Click "Reopen in Container" notification
+3. VS Code rebuilds and attaches to container
+4. Start coding inside the container!
+
+### Debugging
+
+Press `F5` to start debugging with this configuration:
+
+```json
+{
+    "type": "php",
+    "request": "launch",
+    "name": "Listen for Xdebug",
+    "port": 9003,
+    "pathMappings": {
+        "/workspace/myapp": "${workspaceFolder}"
+    }
+}
+```
+
+<Callout type="tip">
+  **Debugging Tips**
+  
+  - Breakpoints work immediately
+  - Inspect variables in Debug panel
+  - Step through code with F10/F11
+  - View call stack and watch expressions
+</Callout>
+
+## Best Practices
+
+### ✅ Do
+
+- **Commit devcontainer files** to version control
+- **Customize per project** - each project can have different settings
+- **Rebuild after changes** - always rebuild container after editing config
+- **Use named volumes** - keep the default volume configuration for speed
+
+### ❌ Don't
+
+- **Don't modify running containers** - changes won't persist
+- **Don't use bind mounts** - they're slow on Windows
+- **Don't hardcode ports** - use the defaults (8080)
+- **Don't skip rebuild** - config changes require container rebuild
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="Container Won't Start">
+    <b>Problem:</b> DevContainer fails to build<br/><br/>
+    <b>Solutions:</b>
+    <ol>
+      <li>Check Docker Desktop is running</li>
+      <li>Verify syntax in <code>devcontainer.json</code></li>
+      <li>Ensure <code>devnet</code> network exists</li>
+      <li>Check Docker logs for errors</li>
+    </ol>
+  </Accordion>
+  <Accordion title="Slow Performance">
+    <b>Problem:</b> File operations are slow<br/><br/>
+    <b>Solutions:</b>
+    <ol>
+      <li>Verify using named volumes (not bind mounts)</li>
+      <li>Check Docker Desktop resource allocation</li>
+      <li>Disable antivirus scanning of Docker volumes</li>
+      <li>Use WSL2 backend (if on Windows)</li>
+    </ol>
+  </Accordion>
+  <Accordion title="Can't Connect to Database">
+    <b>Problem:</b> Application can't reach MySQL<br/><br/>
+    <b>Solutions:</b>
+    <ol>
+      <li>Verify <code>--network=devnet</code> in <code>runArgs</code></li>
+      <li>Check MySQL service is running</li>
+      <li>Use <code>damp-mysql</code> as hostname (not <code>localhost</code>)</li>
+      <li>Rebuild container after network changes</li>
+    </ol>
+  </Accordion>
+</Accordions>
+
+---
+
+<Callout type="success">
+  **Professional Development Environment**
+  
+  With DevContainers, you get a complete, isolated, and fast development setup that matches your production environment perfectly.
+</Callout>

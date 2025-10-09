@@ -1,5 +1,7 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { Box, Download, ScrollText } from 'lucide-react';
+import { FaDiscord } from "react-icons/fa6";
+
 
 /**
  * Shared layout configurations
@@ -29,6 +31,13 @@ export function baseOptions(): BaseLayoutProps {
         text: 'Download',
         url: '/download',
         icon: <Download />,
+      },
+      {
+        type: 'icon',
+        label: 'Discord', // `aria-label`
+        icon: <FaDiscord />,
+        text: 'Discord',
+        url: 'https://discord.gg/hSXe4vmMF',
       },
     ],
   };
