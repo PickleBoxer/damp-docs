@@ -1,4 +1,5 @@
 import { DownloadClient } from './download-client';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Download DAMP',
@@ -64,9 +65,9 @@ export default function DownloadPage() {
         </p>
         <p className="mt-2">
           Need help? Check out our{' '}
-          <a href="/docs" className="text-fd-foreground underline hover:no-underline">
+          <Link href="/docs" className="text-fd-foreground underline hover:no-underline">
             documentation
-          </a>.
+          </Link>.
         </p>
       </div>
     </main>

@@ -7,13 +7,19 @@ export const metadata = {
   description: 'Latest updates and improvements to DAMP',
 };
 
+interface ChangelogData {
+  date: string;
+  version?: string;
+  tags?: string[];
+}
+
 export default function ChangelogPage() {
   const allPages = changelogSource.getPages();
   
   // Sort by date (newest first)
   const sortedChangelogs = [...allPages].sort((a, b) => {
-    const dateA = new Date((a.data as any).date).getTime();
-    const dateB = new Date((b.data as any).date).getTime();
+    const dateA = new Date((a.data as ChangelogData).date).getTime();
+    const dateB = new Date((b.data as ChangelogData).date).getTime();
     return dateB - dateA;
   });
 
@@ -33,10 +39,11 @@ export default function ChangelogPage() {
         <div className="relative">
           {sortedChangelogs.map((page) => {
             const MDXContent = page.data.body;
-            const date = new Date((page.data as any).date);
+            const data = page.data as ChangelogData;
+            const date = new Date(data.date);
             const formattedDate = formatDate(date);
-            const version = (page.data as any).version;
-            const tags = (page.data as any).tags;
+            const version = data.version;
+            const tags = data.tags;
 
             return (
               <div key={page.url} className="relative">

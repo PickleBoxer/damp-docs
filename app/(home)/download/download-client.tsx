@@ -97,7 +97,7 @@ export function DownloadClient() {
 
         <div className="text-center mb-6">
           <p className="text-fd-muted-foreground">
-            Your download should start automatically. If it doesn't, use the buttons below.
+            Your download should start automatically. If it doesn&apos;t, use the buttons below.
           </p>
         </div>
 
