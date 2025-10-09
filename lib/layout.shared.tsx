@@ -1,5 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { Box, Book } from 'lucide-react';
+import { Box, Download } from 'lucide-react';
 
 /**
  * Shared layout configurations
@@ -19,6 +19,12 @@ export function baseOptions(): BaseLayoutProps {
       ),
     },
     // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [],
+    links: [
+      {
+        text: 'Download',
+        url: '/download',
+        icon: <Download />,
+      },
+    ],
   };
 }
