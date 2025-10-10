@@ -485,7 +485,7 @@ function PreviewSection() {
   return (
     <div className="relative mt-12 min-w-full overflow-hidden xl:-mx-12 dark:[mask-image:linear-gradient(to_top,transparent,white_40px)]">
       {/* Images Container with Fixed Aspect Ratio */}
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '2 / 1' }}>
+      <div className="relative w-full overflow-hidden aspect-[2/1]">
         {tabs.map((tab) => (
           <div
             key={tab.id}
@@ -495,13 +495,14 @@ function PreviewSection() {
           >
             <Image
               alt={tab.alt}
-              width={1574}
-              height={987}
+              width={790}
+              height={593}
               src={tab.image}
-              className="h-auto object-contain select-none px-4 -mb-32"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 790px"
+              className="h-auto w-full max-w-[790px] object-contain select-none px-4 -mb-32"
               priority={tab.id === 'dashboard'}
-              quality={90}
-              style={{ maxWidth: '790px' }}
+              loading={tab.id === 'dashboard' ? 'eager' : 'lazy'}
+              quality={95}
             />
           </div>
         ))}
