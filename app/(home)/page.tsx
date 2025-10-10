@@ -459,19 +459,22 @@ function PreviewSection() {
     { 
       id: 'dashboard' as const, 
       label: 'Dashboard', 
-      image: '/screenshots/dash.png',
+      image: '/screenshots/dash.webp',
+      fallback: '/screenshots/dash.png',
       alt: 'DAMP Dashboard showing local services, running services count, and sites status overview'
     },
     { 
       id: 'sites' as const, 
       label: 'Sites', 
-      image: '/screenshots/projects.png',
+      image: '/screenshots/projects.webp',
+      fallback: '/screenshots/projects.png',
       alt: 'DAMP Sites management showing Laravel projects with PHP versions and devcontainer status'
     },
     { 
       id: 'services' as const, 
       label: 'Services', 
-      image: '/screenshots/services.png',
+      image: '/screenshots/services.webp',
+      fallback: '/screenshots/services.png',
       alt: 'DAMP Services page showing available databases, caching systems, and development tools'
     },
   ];
