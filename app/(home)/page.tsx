@@ -154,13 +154,15 @@ export default function HomePage() {
                   <span>.devcontainer/devcontainer.json</span>
                 </div>
                 <pre className="text-xs text-fd-muted-foreground">
-                  <code className="block">{`{
+                  <code className="block">
+                    {`{
   "name": "DAMP PHP",
   "image": "damp-php:8.3",
   "features": {
     "composer": "latest"
   }
-}`}</code>
+}`}
+</code>
                 </pre>
               </div>
             </div>
