@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Box, Shield, Code, Terminal, Container, Lock, Bug, Package, Globe, Database, Zap, Sparkles } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import DampAppDashboard from "@/components/mockup/DampAppDashboard";
 
 export default function HomePage() {
   return (
@@ -57,6 +58,14 @@ export default function HomePage() {
 
             {/* Interactive Preview */}
             <PreviewSection />
+          </section>
+
+          {/* App Dashboard Mockup */}
+          <section className="border-x border-t px-4 py-12 md:px-8 md:py-16 bg-gradient-to-b from-fd-secondary/30 to-fd-background">
+            {/* Mockup Content with Constrained Height */}
+            <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
+              <DampAppDashboard />
+            </div>
           </section>
 
           {/* Tagline Section */}
