@@ -1,0 +1,327 @@
+---
+title: Managing Sites
+description: Manage, delete, and sync your DAMP projects
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+View, manage, and delete your PHP projects from DAMP's dashboard.
+
+## Site Dashboard
+
+### Site List
+
+All your projects displayed as cards showing:
+
+- **Site Name** - Project identifier
+- **Domain** - HTTPS URL (e.g., `mysite.local`)
+- **Status Indicator**
+  - 🟢 **Running** - DevContainer active
+  - 🔴 **Created** - Not yet opened in VS Code
+  - ⚪ **Stopped** - DevContainer stopped
+
+<Callout type="info">
+  **Status Detection**
+  
+  DAMP checks if your DevContainer is running in real-time. Green = accessible via browser!
+</Callout>
+
+### Site Details
+
+Click any site card to view full details and actions.
+
+## Site Actions
+
+### Open in VS Code
+
+**One-click launch** directly into VS Code:
+
+1. Click "Open in VS Code" button
+2. VS Code opens the project
+3. Reopen in Container when prompted
+4. Start coding!
+
+<Callout type="tip">
+  **Quick Access**
+  
+  This is the fastest way to start working on a project - no folder browsing needed!
+</Callout>
+
+### Open Folder
+
+Open the project folder in Windows Explorer:
+
+- View project files
+- Copy/paste files
+- Backup project manually
+
+### Browse Site
+
+Visit the site in your default browser:
+
+```
+https://mysite.local
+```
+
+<Callout type="warning">
+  **DevContainer Required**
+  
+  Site must be running in VS Code DevContainer to respond to browser requests!
+</Callout>
+
+### Environment Variables
+
+View connection information for services:
+
+```
+# Database (if MySQL installed)
+DB_HOST=damp-mysql
+DB_PORT=3306
+DB_DATABASE=development
+DB_USERNAME=developer
+DB_PASSWORD=devpassword
+
+# Redis (if installed)
+REDIS_HOST=damp-redis
+REDIS_PORT=6379
+
+# Mail (if Mailpit installed)
+MAIL_HOST=damp-mailpit
+MAIL_PORT=1025
+```
+
+**Copy to Clipboard** - One click copies all environment variables!
+
+## Volume Sync
+
+Named volumes provide **fast performance** but files live in the container. Sync copies them to your local machine.
+
+**Quick Action:**
+- **Sync From Volume** - Copy container files to local folder
+
+**Options:**
+- Exclude `node_modules/` - Skip Node.js dependencies
+- Exclude `vendor/` - Skip PHP dependencies
+
+<Callout type="info">
+  **Detailed Guide**
+  
+  Learn when and how to sync effectively. See the complete [Volume Sync Guide](/docs/volume-sync) for:
+  - Performance benefits of named volumes
+  - When to sync (backup, Git commits, code review)
+  - Excluding large folders for faster sync
+  - Troubleshooting sync issues
+</Callout>
+
+## Laravel Tools
+
+Sites marked as Laravel get additional features:
+
+### Open Tinker
+
+Launch Laravel's interactive REPL:
+
+1. Click "Open Tinker" button
+2. Terminal opens with Tinker running
+3. Test code interactively
+
+```php
+>>> User::count()
+=> 5
+
+>>> $user = User::first()
+>>> $user->name
+=> "John Doe"
+```
+
+Learn more: [Tinker Documentation](/docs/tinker-repl)
+
+## Ngrok Tunneling
+
+Share your local site publicly:
+
+### Enable Tunnel
+
+<Steps>
+
+<Step>
+**Open Tunnel Tab**
+
+Select a site → click "Tunnel" tab
+</Step>
+
+<Step>
+**Configure (Optional)**
+
+- Choose region (us, eu, ap, etc.)
+- Set custom subdomain (requires paid Ngrok plan)
+</Step>
+
+<Step>
+**Start Tunnel**
+
+Click "Start Tunnel" - public URL created in seconds!
+</Step>
+
+</Steps>
+
+**Tunnel URL Example:**
+
+```
+https://abc123.ngrok.io → https://mysite.local
+```
+
+Share the ngrok URL with clients, testers, or webhooks!
+
+Learn more: [Ngrok Tunneling](/docs/ngrok-tunneling)
+
+## Deleting Sites
+
+### Safe Deletion
+
+When you delete a site, DAMP:
+
+1. ✅ Stops the DevContainer (if running)
+2. ✅ Removes site from DAMP dashboard
+3. ✅ Removes domain from hosts file
+4. ✅ Removes SSL certificate
+5. ✅ Removes Caddy configuration
+6. ✅ **Preserves project folder**
+7. ✅ **Preserves named volume**
+
+<Callout type="success">
+  **Non-Destructive**
+  
+  Your code and data are safe! Only DAMP's tracking and configuration are removed.
+</Callout>
+
+### Delete Process
+
+<Steps>
+
+<Step>
+**Select Site**
+
+Click the site you want to remove
+</Step>
+
+<Step>
+**Click Delete**
+
+Click "Delete Site" button
+</Step>
+
+<Step>
+**Confirm**
+
+Confirm deletion in dialog
+</Step>
+
+<Step>
+**Done**
+
+Site removed from DAMP - folder and volume remain on disk
+</Step>
+
+</Steps>
+
+### What Remains After Deletion
+
+Your local filesystem still contains:
+
+```
+C:\Users\You\Projects\mysite\    ← Project folder intact
+```
+
+Docker volumes still exist:
+
+```bash
+docker volume ls
+# Shows: mysite_data
+```
+
+### Complete Removal
+
+To fully remove everything:
+
+```powershell
+# 1. Delete from DAMP (above steps)
+
+# 2. Delete project folder
+Remove-Item -Path "C:\Users\You\Projects\mysite" -Recurse -Force
+
+# 3. Delete Docker volume
+docker volume rm mysite_data
+```
+
+## Bulk Operations
+
+### Refresh All Sites
+
+Click **"Refresh"** button to:
+- Update all site statuses
+- Check DevContainer states
+- Refresh connection info
+
+### Search Sites
+
+Use the search bar to filter sites by name or domain.
+
+---
+
+<Callout type="tip">
+  **Pro Tip**
+  
+  Keep your sites organized with clear naming conventions like `client-project` or `app-v2`!
+</Callout>
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Site Shows 'Created' Instead of 'Running'">
+    **Problem:** Site exists but shows red "Created" status
+
+    **Solution:**
+    1. Open site in VS Code
+    2. Reopen in Container
+    3. Wait for DevContainer to fully start
+    4. Refresh DAMP
+  </Accordion>
+  <Accordion title="Site Not Accessible in Browser">
+    **Problem:** `https://mysite.local` doesn't load
+
+    **Solutions:**
+    - ✅ Check site status is "Running" (green)
+    - ✅ Verify DevContainer is active in VS Code
+    - ✅ Trust SSL certificate in DAMP
+    - ✅ Check Caddy service is running
+    - ✅ Clear browser cache
+  </Accordion>
+  <Accordion title="Volume Sync Not Working">
+    **Problem:** Sync fails or files don't update
+
+    **Solutions:**
+    - ✅ Close site in VS Code before syncing
+    - ✅ Check Docker Desktop is running
+    - ✅ Verify volume exists: `docker volume ls`
+    - ✅ Try opposite sync direction
+  </Accordion>
+</Accordions>
+
+---
+
+## Next Steps
+
+<Cards>
+  <Card title="Development Tools" href="/docs/development-tools/xdebug-debugging">
+    Debug with XDebug and use Tinker REPL
+  </Card>
+  
+  <Card title="Ngrok Tunneling" href="/docs/development-tools/ngrok-tunneling">
+    Share sites publicly with tunnels
+  </Card>
+  
+  <Card title="DevContainers" href="/docs/core-features/devcontainers">
+    Understand DevContainer architecture
+  </Card>
+</Cards>

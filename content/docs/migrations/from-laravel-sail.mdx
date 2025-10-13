@@ -1,0 +1,269 @@
+---
+title: Migrate from Laravel Sail
+description: Switch from Sail to DAMP DevContainers
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+Switch from **Laravel Sail** to DAMP and get **VS Code DevContainers**, **named volumes**, and **visual service management**.
+
+## Why Migrate?
+
+| Feature | Sail | DAMP |
+|---------|------|------|
+| **Visual Management** | ❌ CLI only | ✅ GUI app |
+| **Named Volumes** | ⚠️ Manual | ✅ Automatic |
+| **Multiple Projects** | ⚠️ Port conflicts | ✅ Auto-assigned ports |
+| **HTTPS** | ❌ Manual setup | ✅ Built-in |
+
+<Callout type="success">
+  **Keep Your Code**
+  
+  DAMP replaces `docker-compose.yml` with DevContainers - your Laravel code stays the same!
+</Callout>
+
+## Migration Process
+
+<Steps>
+
+<Step>
+**Stop Sail**
+
+Stop all Sail containers:
+
+```bash
+# In your project directory
+./vendor/bin/sail down
+```
+
+This frees up ports and stops services.
+</Step>
+
+<Step>
+**Open DAMP**
+
+Launch DAMP and click **"Add Site"** button.
+</Step>
+
+<Step>
+**Select "Existing Project"**
+
+Choose the **Existing Project** option.
+</Step>
+
+<Step>
+**Configure Site**
+
+Fill in the details:
+
+| Field | Value | Example |
+|-------|-------|---------|
+| **Name** | Your site name | `my-sail-app` |
+| **Path** | Your project folder | `C:\Projects\my-sail-app` |
+| **PHP Version** | Match `docker-compose.yml` | `8.3` |
+
+<Callout type="info">
+  **Is Laravel Project?**
+  
+  Toggle **"Is Laravel Project"** ON to enable Tinker and Laravel features!
+</Callout>
+</Step>
+
+<Step>
+**Install Services**
+
+Check your `docker-compose.yml` services and install equivalents:
+
+| Sail Service | DAMP Service | Install? |
+|--------------|--------------|----------|
+| `mysql` | MySQL | ✅ Required |
+| `redis` | Redis | ✅ If using |
+| `meilisearch` | Meilisearch | ✅ If using |
+| `mailpit` | Mailpit | ✅ Recommended |
+
+Go to Services page → Click "Install" for each needed service.
+</Step>
+
+<Step>
+**Update .env File**
+
+Open project in VS Code DevContainer and update `.env`:
+
+```
+# Old Sail config
+DB_HOST=mysql
+REDIS_HOST=redis
+MEILISEARCH_HOST=http://meilisearch:7700
+
+# New DAMP config
+DB_HOST=damp-mysql
+REDIS_HOST=damp-redis
+MEILISEARCH_HOST=http://damp-meilisearch:7700
+
+# Mail
+MAIL_HOST=damp-mailpit
+MAIL_PORT=1025
+```
+</Step>
+
+<Step>
+**Migrate Data (Optional)**
+
+If you have Sail database data:
+
+**Export from Sail:**
+```bash
+./vendor/bin/sail mysql -u sail -p sail > backup.sql
+```
+
+**Import to DAMP:**
+```bash
+# Inside DevContainer terminal
+mysql -h damp-mysql -u damp -pdamp damp < backup.sql
+```
+</Step>
+
+<Step>
+**Test Your Site**
+
+1. Open in VS Code: Click "Open in VS Code" in DAMP
+2. Reopen in Container when prompted
+3. Browse to `https://yoursite.local`
+4. Install SSL certificate if needed
+</Step>
+
+</Steps>
+
+## What Changed
+
+### Files Replaced
+
+DAMP replaces Sail files with DevContainer files:
+
+**Sail Files (can be deleted):**
+```
+├── docker-compose.yml      ← Remove
+├── docker/                 ← Remove
+└── .env.example            ← Update
+```
+
+**DAMP Files (added):**
+```
+├── .devcontainer/          ← Added by DAMP
+│   ├── devcontainer.json
+│   ├── Dockerfile
+│   └── xdebug.ini
+└── .vscode/                ← Added by DAMP
+    ├── launch.json
+    └── settings.json
+```
+
+<Callout type="tip">
+  **Clean Up**
+  
+  You can delete `docker-compose.yml` and the `docker/` folder after migration!
+</Callout>
+
+### Command Changes
+
+**Sail Commands:**
+```bash
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail composer install
+./vendor/bin/sail npm install
+```
+
+**DAMP Equivalent:**
+```bash
+# No "sail" prefix needed - run directly in DevContainer
+php artisan migrate
+composer install
+npm install
+```
+
+### Service Hostnames
+
+**Sail:**
+```
+DB_HOST=mysql
+REDIS_HOST=redis
+```
+
+**DAMP:**
+```
+DB_HOST=damp-mysql      # Prefixed with "damp-"
+REDIS_HOST=damp-redis
+```
+
+## Key Benefits
+
+### 🎯 Better VS Code Integration
+
+**Sail:** Run commands via `./vendor/bin/sail`
+
+**DAMP:** Native terminal inside DevContainer - no wrapper needed!
+
+### 🚀 Named Volumes
+
+**Sail:** Manual volume configuration
+
+**DAMP:** Automatic named volumes for performance
+
+### 🔒 HTTPS Out of the Box
+
+**Sail:** Manual Nginx/Caddy setup
+
+**DAMP:** HTTPS with Caddy included
+
+### 🖥️ Visual Management
+
+**Sail:** CLI commands only
+
+**DAMP:** GUI for service installation, site management
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Port Already in Use">
+  
+    **Problem:** Sail containers still running
+
+    **Solution:**
+    ```bash
+    ./vendor/bin/sail down --volumes  # Remove volumes too
+    docker ps  # Verify no containers running
+    ```
+
+  </Accordion>
+  <Accordion title="Database Connection Failed">
+    **Problem:** Can't connect to MySQL
+
+    **Solutions:**
+    1. Install MySQL service in DAMP
+    2. Update `.env` with `DB_HOST=damp-mysql`
+    3. Restart DevContainer
+  </Accordion>
+  <Accordion title="Volume Permissions">
+    **Problem:** Permission denied errors
+
+    **Solution:**
+    DAMP uses named volumes with proper permissions automatically - just restart DevContainer.
+  </Accordion>
+  <Accordion title="Missing Data">
+    **Problem:** Database is empty
+
+    **Solutions:**
+    1. Export data from Sail (see Step 7)
+    2. Import to DAMP database
+    3. Or run migrations fresh: `php artisan migrate:fresh --seed`
+  </Accordion>
+</Accordions>
+
+---
+
+<Callout type="info">
+  **Sail Aliases**
+  
+  Remove Sail aliases from your shell profile (`.bashrc`, `.zshrc`) after migration - you won't need them!
+</Callout>

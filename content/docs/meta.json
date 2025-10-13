@@ -11,21 +11,14 @@
     "installation",
     "---Core Features---",
     "...core-features",
+    "---Managing Sites---",
+    "creating-sites",
+    "managing-sites",
+    "volume-sync",
     "---Development Tools---",
     "...development-tools",
-    "---Managing Projects---",
-    "versioning",
-    "static-export",
-    "internationalization",
-    "navigation",
-    "search",
-    "(integrations)",
-    "---Services---",
-    "...services",
+    "services",
     "---Migration Guides---",
-    "python",
-    "typescript",
-    "obsidian",
-    "openapi"
+    "...migrations"
   ]
 }

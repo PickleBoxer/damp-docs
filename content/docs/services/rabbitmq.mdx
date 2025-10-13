@@ -1,0 +1,160 @@
+---
+title: RabbitMQ
+description: Message broker for queues and messaging
+icon: MessageSquare
+---
+
+Reliable **message broker** for handling queues, background jobs, and distributed messaging. Industry-standard AMQP protocol.
+
+## Default Configuration
+
+```yaml
+Image: rabbitmq:4-management-alpine
+Container: damp-rabbitmq
+Ports:
+  - 5672:5672   # AMQP
+  - 15672:15672 # Management UI
+Network: devnet
+Volume: damp-rabbitmq:/var/lib/rabbitmq
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `RABBITMQ_DEFAULT_USER` | `rabbitmq` | Admin username |
+| `RABBITMQ_DEFAULT_PASS` | `rabbitmq` | Admin password |
+
+## Connection Information
+
+### AMQP Protocol
+
+**From Docker Containers:**
+
+```
+amqp://rabbitmq:rabbitmq@damp-rabbitmq:5672
+```
+
+**From Host Machine:**
+
+```
+amqp://rabbitmq:rabbitmq@localhost:5672
+```
+
+### Management Console
+
+```
+http://localhost:15672
+```
+
+**Login:**
+- Username: `rabbitmq`
+- Password: `rabbitmq`
+
+## Laravel Queue Configuration
+
+### Install AMQP Extension
+
+```bash
+# In devcontainer
+pecl install amqp
+```
+
+### Install Laravel Package
+
+```bash
+composer require vladimir-yuldashev/laravel-queue-rabbitmq
+```
+
+### Configure .env
+
+```
+QUEUE_CONNECTION=rabbitmq
+
+RABBITMQ_HOST=damp-rabbitmq
+RABBITMQ_PORT=5672
+RABBITMQ_USER=rabbitmq
+RABBITMQ_PASSWORD=rabbitmq
+RABBITMQ_VHOST=/
+RABBITMQ_QUEUE=default
+```
+
+### Dispatch Jobs
+
+```php
+use App\Jobs\ProcessOrder;
+
+// Dispatch to queue
+ProcessOrder::dispatch($order);
+
+// Run queue worker
+php artisan queue:work rabbitmq
+```
+
+## Management Console Features
+
+- 📊 **Overview** - Connections, channels, queues
+- 📝 **Queues** - Create, view, purge queues
+- 🔄 **Exchanges** - Routing configuration
+- 👥 **Connections** - Active connections
+- 📈 **Metrics** - Message rates, memory usage
+
+## Common Operations
+
+### Create Queue
+
+```bash
+# Via console at http://localhost:15672
+# Or via PHP:
+```
+
+```php
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+$connection = new AMQPStreamConnection(
+    'damp-rabbitmq', 5672, 'rabbitmq', 'rabbitmq'
+);
+$channel = $connection->channel();
+
+$channel->queue_declare('task_queue', false, true, false, false);
+
+$msg = new AMQPMessage('Hello World!');
+$channel->basic_publish($msg, '', 'task_queue');
+```
+
+## Use Cases
+
+- ⏰ **Background Jobs** - Email sending, report generation
+- 🔄 **Task Distribution** - Load balancing across workers
+- 📨 **Event Broadcasting** - Pub/sub messaging
+- 🔗 **Microservices** - Service-to-service communication
+- 📊 **Analytics** - Event tracking and processing
+
+<Callout type="success">
+  **Persistent Queues**
+  
+  Messages survive container restarts - jobs are safe in the `damp-rabbitmq` volume!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **Dead Letter Exchanges**
+  
+  Configure failed job handling via dead letter exchanges for robust error handling!
+</Callout>
+
+## Monitoring
+
+Access real-time metrics:
+
+```
+http://localhost:15672/#/
+```
+
+View:
+- Message rates (publish/deliver)
+- Queue depths
+- Consumer count
+- Memory usage

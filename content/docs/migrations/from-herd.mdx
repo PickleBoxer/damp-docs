@@ -1,0 +1,200 @@
+---
+title: Migrate from Laravel Herd
+description: Switch from Herd to DAMP in minutes
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+Switch from **Laravel Herd** to DAMP and get **DevContainers**, **HTTPS**, and **service isolation** for your existing projects.
+
+## Migration Process
+
+<Steps>
+
+<Step>
+**Stop Herd Services**
+
+Stop Herd to free ports 80 and 443:
+
+1. Open Laravel Herd
+2. Click "Stop All Services"
+3. (Optional) Quit Herd completely
+</Step>
+
+<Step>
+**Open DAMP**
+
+Launch DAMP and click **"Add Site"** button.
+</Step>
+
+<Step>
+**Select "Existing Project"**
+
+Choose the **Existing Project** option.
+</Step>
+
+<Step>
+**Configure Site**
+
+Fill in the details:
+
+| Field | Value | Example |
+|-------|-------|---------|
+| **Name** | Your site name | `my-laravel-app` |
+| **Path** | Your project folder | `C:\Herd\my-laravel-app` |
+| **PHP Version** | Match your current version | `8.3` |
+
+<Callout type="info">
+  **Is Laravel Project?**
+  
+  Toggle **"Is Laravel Project"** ON to enable Laravel-specific features like Tinker!
+</Callout>
+</Step>
+
+<Step>
+**Install Services**
+
+After site creation, install services your project uses:
+
+- **MySQL** - If using database
+- **Redis** - If using caching/queues
+- **Mailpit** - For email testing
+
+Go to Services page → Click "Install" for each service needed.
+</Step>
+
+<Step>
+**Update .env File**
+
+Open your project in VS Code DevContainer and update `.env`:
+
+```
+# Old Herd config
+DB_HOST=127.0.0.1
+
+# New DAMP config
+DB_HOST=damp-mysql
+
+# Redis (if using)
+REDIS_HOST=damp-redis
+
+# Mail (if using)
+MAIL_HOST=damp-mailpit
+MAIL_PORT=1025
+```
+</Step>
+
+<Step>
+**Test Your Site**
+
+1. Open in VS Code: Click "Open in VS Code" in DAMP
+2. Reopen in Container when prompted
+3. Browse to `https://yoursite.local`
+4. Install SSL certificate if needed
+</Step>
+
+</Steps>
+
+## What DAMP Adds
+
+DAMP creates these files in your project:
+
+```
+your-laravel-app/
+├── .devcontainer/          ← Added by DAMP
+│   ├── devcontainer.json
+│   ├── Dockerfile
+│   ├── php.ini
+│   └── xdebug.ini
+├── .vscode/                ← Added by DAMP
+│   ├── launch.json
+│   └── settings.json
+└── [Your existing Laravel files remain unchanged]
+```
+
+<Callout type="warning">
+  **Git Ignore**
+  
+  These folders are already in Laravel's `.gitignore` - team members can use their own setup!
+</Callout>
+
+## Key Differences
+
+### Service Access
+
+**Herd:**
+```
+DB_HOST=127.0.0.1
+DB_PORT=3306
+```
+
+**DAMP:**
+```
+DB_HOST=damp-mysql  # Container name
+DB_PORT=3306
+```
+
+### Domain Access
+
+**Herd:**
+```
+http://my-laravel-app.test
+```
+
+**DAMP:**
+```
+https://my-laravel-app.local  # HTTPS by default!
+```
+
+### Artisan Commands
+
+**Herd:** Run directly on host
+```bash
+php artisan migrate
+```
+
+**DAMP:** Run in DevContainer terminal
+```bash
+# Inside VS Code DevContainer
+php artisan migrate
+```
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Port Conflict">
+  **Problem:** Caddy can't start - ports in use
+
+  **Solution:**
+  Fully quit Herd (not just stop services):
+  1. Right-click Herd tray icon
+  2. Click "Quit Herd"
+  3. Restart DAMP
+  </Accordion>
+  <Accordion title="Database Connection Failed">
+  **Problem:** Can't connect to MySQL
+
+  **Solutions:**
+  1. Install MySQL service in DAMP
+  2. Update `.env` with `DB_HOST=damp-mysql`
+  3. Restart DevContainer
+
+  </Accordion>
+  <Accordion title="Site Not Accessible">
+  **Problem:** `https://site.local` doesn't load
+
+  **Solutions:**
+  1. Verify site status is "Running" in DAMP
+  2. Check DevContainer is active in VS Code
+  3. Install SSL certificate from DAMP
+
+  </Accordion>
+</Accordions>
+
+---
+
+<Callout type="tip">
+  **Run Both Temporarily**
+  
+  You can run Herd and DAMP simultaneously on different ports to test migration before fully switching!
+</Callout>

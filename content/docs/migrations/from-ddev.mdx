@@ -1,0 +1,404 @@
+---
+title: Migrate from DDEV
+description: Switch from DDEV to DAMP DevContainers
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+Switch from **DDEV** to DAMP and get **native VS Code DevContainers**, **visual service management**, and **simplified configuration**.
+
+## Why Migrate?
+
+| Feature | DDEV | DAMP |
+|---------|------|------|
+| **DevContainers** | ⚠️ Manual | ✅ Native VS Code integration |
+| **Configuration** | `.ddev/` folder | `.devcontainer/` (standard) |
+| **Visual Management** | ❌ CLI only | ✅ GUI application |
+| **Service Installation** | YAML config | Click to install |
+| **Laravel Focus** | ⚠️ Generic | ✅ Laravel-optimized |
+
+<Callout type="success">
+  **Keep Your Code**
+  
+  DAMP replaces DDEV's `.ddev/` folder with `.devcontainer/` - your project code stays the same!
+</Callout>
+
+## Migration Process
+
+<Steps>
+
+<Step>
+**Stop DDEV**
+
+Stop all DDEV containers:
+
+```bash
+# In your project directory
+ddev stop
+
+# Optional: Remove DDEV containers completely
+ddev delete -O
+```
+</Step>
+
+<Step>
+**Export DDEV Database**
+
+Export your database before stopping DDEV:
+
+```bash
+# While DDEV is running
+ddev export-db --file=backup.sql.gz
+```
+
+Or use direct mysqldump:
+```bash
+ddev mysql -e "mysqldump -u root -proot db > backup.sql"
+```
+</Step>
+
+<Step>
+**Open DAMP**
+
+Launch DAMP and click **"Add Site"** button.
+</Step>
+
+<Step>
+**Select "Existing Project"**
+
+Choose the **Existing Project** option.
+</Step>
+
+<Step>
+**Configure Site**
+
+Fill in the details:
+
+| Field | Value | Example |
+|-------|-------|---------|
+| **Name** | Your site name | `my-ddev-site` |
+| **Path** | Your project folder | `C:\Sites\my-ddev-site` |
+| **PHP Version** | Match `.ddev/config.yaml` | `8.3` |
+
+Check your DDEV PHP version:
+```yaml
+# .ddev/config.yaml
+php_version: "8.3"  # Use this version
+```
+
+<Callout type="info">
+  **Is Laravel Project?**
+  
+  Toggle **"Is Laravel Project"** ON to enable Laravel-specific features!
+</Callout>
+</Step>
+
+<Step>
+**Install Services**
+
+Map DDEV services to DAMP:
+
+| DDEV Service | DAMP Service | Install? |
+|--------------|--------------|----------|
+| `db` (MySQL) | MySQL | ✅ Required |
+| `db` (PostgreSQL) | PostgreSQL | ✅ If using |
+| `redis` | Redis | ✅ If configured |
+| `mailhog` | Mailpit | ✅ Recommended |
+
+Check your `.ddev/config.yaml`:
+```yaml
+services:
+  redis:
+    type: redis:7
+  # Install matching service in DAMP
+```
+
+Go to Services page → Click "Install" for each service.
+</Step>
+
+<Step>
+**Import Database**
+
+Import your exported database:
+
+```bash
+# Inside VS Code DevContainer terminal
+gunzip < backup.sql.gz | mysql -h damp-mysql -u damp -pdamp damp
+
+# Or if you have uncompressed SQL
+mysql -h damp-mysql -u damp -pdamp damp < backup.sql
+```
+</Step>
+
+<Step>
+**Update Configuration**
+
+Open project in VS Code DevContainer and update `.env`:
+
+**DDEV .env:**
+```
+DB_HOST=db
+DB_DATABASE=db
+DB_USERNAME=db
+DB_PASSWORD=db
+
+REDIS_HOST=redis
+
+MAIL_HOST=localhost
+MAIL_PORT=1025
+```
+
+**DAMP .env:**
+```
+DB_HOST=damp-mysql
+DB_DATABASE=damp
+DB_USERNAME=damp
+DB_PASSWORD=damp
+
+REDIS_HOST=damp-redis
+
+MAIL_HOST=damp-mailpit
+MAIL_PORT=1025
+```
+</Step>
+
+<Step>
+**Clean Up DDEV Files**
+
+After successful migration, you can remove:
+
+```
+my-project/
+├── .ddev/              ← Can delete
+│   ├── config.yaml
+│   └── ...
+└── .gitignore          ← Update to remove .ddev
+```
+
+<Callout type="warning">
+  **Backup First**
+  
+  Keep `.ddev/` folder until you verify everything works in DAMP!
+</Callout>
+</Step>
+
+<Step>
+**Test Your Site**
+
+1. Open in VS Code: Click "Open in VS Code" in DAMP
+2. Reopen in Container when prompted
+3. Browse to `https://my-project.local`
+4. Install SSL certificate from DAMP
+</Step>
+
+</Steps>
+
+## What Changed
+
+### Configuration Files
+
+**DDEV:**
+```
+.ddev/
+├── config.yaml         ← Project config
+├── docker-compose.*.yaml
+└── commands/
+```
+
+**DAMP:**
+```
+.devcontainer/          ← Standard DevContainer
+├── devcontainer.json
+├── Dockerfile
+├── php.ini
+└── xdebug.ini
+
+.vscode/                ← VS Code integration
+├── launch.json
+└── settings.json
+```
+
+### Command Comparison
+
+| Task | DDEV | DAMP |
+|------|------|------|
+| **Start** | `ddev start` | Automatic in DevContainer |
+| **Stop** | `ddev stop` | Close VS Code |
+| **SSH** | `ddev ssh` | Use VS Code terminal |
+| **Composer** | `ddev composer` | `composer` (direct) |
+| **Artisan** | `ddev artisan` | `php artisan` (direct) |
+| **npm** | `ddev npm` | `npm` (direct) |
+| **Database** | `ddev mysql` | `mysql -h damp-mysql` |
+
+<Callout type="tip">
+  **No Prefix Needed**
+  
+  DAMP runs commands directly in DevContainer - no `ddev` prefix needed!
+</Callout>
+
+### Service Hostnames
+
+**DDEV:**
+```
+DB_HOST=db
+REDIS_HOST=redis
+```
+
+**DAMP:**
+```
+DB_HOST=damp-mysql      # Prefixed with "damp-"
+REDIS_HOST=damp-redis
+```
+
+### Domain Access
+
+**DDEV:**
+```
+https://my-project.ddev.site
+```
+
+**DAMP:**
+```
+https://my-project.local
+```
+
+## Key Benefits
+
+### 🎯 Native DevContainers
+
+**DDEV:** Custom Docker Compose setup
+
+**DAMP:** Standard VS Code DevContainers (works with GitHub Codespaces!)
+
+### 🖥️ Visual Interface
+
+**DDEV:** CLI commands only
+
+**DAMP:** GUI for service installation, site management, logs
+
+### 🚀 Simpler Configuration
+
+**DDEV:** YAML configuration files
+
+**DAMP:** Visual service installation
+
+### 🔧 Laravel-Optimized
+
+**DDEV:** Generic PHP/framework support
+
+**DAMP:** Laravel starter kits, Tinker integration, Artisan helpers
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="DDEV Containers Still Running">
+    **Problem:** Port conflicts with DAMP
+
+    **Solution:**
+    ```bash
+    ddev poweroff  # Stop ALL DDEV projects
+    docker ps      # Verify no DDEV containers running
+    ```
+  </Accordion>
+  <Accordion title="Database Import Failed">
+    **Problem:** SQL import errors
+
+    **Solutions:**
+    1. Check if database exists in DDEV export
+    2. Try importing table by table
+    3. Use `--force` flag:
+      ```bash
+      mysql -h damp-mysql -u damp -pdamp damp --force < backup.sql
+      ```
+    
+    </Accordion>
+  <Accordion title="Missing PHP Extensions">
+  **Problem:** Extension from DDEV not available
+
+  **Solutions:**
+  1. Check `.ddev/config.yaml` for `webimage_extra_packages`
+  2. Add to `.devcontainer/Dockerfile`:
+    ```dockerfile
+    RUN apt-get update && apt-get install -y \
+        libmagickwand-dev \
+        && docker-php-ext-install imagick
+    ```
+  3. Rebuild container
+
+  </Accordion>
+  <Accordion title="Custom DDEV Commands">
+  **Problem:** Need DDEV custom commands
+
+  **Solution:**
+  Recreate as VS Code tasks in `.vscode/tasks.json`:
+
+  **DDEV:**
+  ```bash
+  # .ddev/commands/web/deploy
+  php artisan migrate --force
+  php artisan cache:clear
+  ```
+
+  **DAMP:**
+  ```json
+  // .vscode/tasks.json
+  {
+    "label": "Deploy",
+    "type": "shell",
+    "command": "php artisan migrate --force && php artisan cache:clear"
+  }
+  ```
+  </Accordion>
+  <Accordion title="DDEV Hooks">
+  **Problem:** Need equivalent of DDEV hooks
+
+  **Solutions:**
+
+  **post-start hook:**
+  Use DevContainer `postCreateCommand` in `devcontainer.json`:
+  ```json
+  "postCreateCommand": "composer install && npm install"
+  ```
+
+  **pre-import-db hook:**
+  Manual script or VS Code task
+  </Accordion>
+
+</Accordions>
+
+---
+
+<Callout type="info">
+  **Team Migration**
+  
+  DDEV and DAMP can coexist! Migrate gradually - some team members can use DDEV while others use DAMP.
+</Callout>
+
+## Advanced: Side-by-Side Comparison
+
+### Configuration Structure
+
+**DDEV config.yaml:**
+```yaml
+name: my-project
+type: php
+php_version: "8.3"
+webserver_type: nginx-fpm
+database:
+  type: mysql
+  version: "8.0"
+```
+
+**DAMP devcontainer.json:**
+```json
+{
+  "name": "my-project",
+  "image": "damp-php-8.3",
+  "forwardPorts": [80, 443],
+  "customizations": {
+    "vscode": {
+      "extensions": ["bmewburn.vscode-intelephense-client"]
+    }
+  }
+}
+```
