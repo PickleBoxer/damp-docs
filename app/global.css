@@ -1,5 +1,6 @@
 @import 'tailwindcss';
-@import 'fumadocs-ui/css/black.css';
+/*@import 'fumadocs-ui/css/black.css';*/
+@import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';
 @import "tw-animate-css";
 
@@ -119,4 +120,44 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+/* Fumadocs theme colors */
+@theme {
+  --color-fd-background: oklch(0.9900 0 0);
+  --color-fd-foreground: oklch(0 0 0);
+  --color-fd-muted: oklch(0.9700 0 0);
+  --color-fd-muted-foreground: oklch(0.4400 0 0);
+  --color-fd-popover: oklch(0.9900 0 0);
+  --color-fd-popover-foreground: oklch(0 0 0);
+  --color-fd-card: oklch(1 0 0);
+  --color-fd-card-foreground: oklch(1 0 0);
+  --color-fd-border: oklch(0.9200 0 0);
+  --color-fd-primary: oklch(0 0 0);
+  --color-fd-primary-foreground: oklch(1 0 0);
+  --color-fd-secondary: oklch(0.9400 0 0);
+  --color-fd-secondary-foreground: oklch(0 0 0);
+  --color-fd-accent: oklch(0.9400 0 0);
+  --color-fd-accent-foreground: oklch(0 0 0);
+  --color-fd-ring: oklch(0 0 0);
+}
+
+.dark {
+  --color-fd-background: oklch(0 0 0);
+  --color-fd-foreground: oklch(1 0 0);
+  --color-fd-muted: oklch(0.2300 0 0);
+  --color-fd-muted-foreground: oklch(0.7200 0 0);
+  --color-fd-popover: oklch(0.1800 0 0);
+  --color-fd-popover-foreground: oklch(1 0 0);
+  --color-fd-card: oklch(0.1400 0 0);
+  --color-fd-card-foreground: oklch(1 0 0);
+  --color-fd-border: oklch(0.2600 0 0);
+  --color-fd-primary: oklch(1 0 0);
+  --color-fd-primary-foreground: oklch(0 0 0);
+  --color-fd-secondary: oklch(0.2500 0 0);
+  --color-fd-secondary-foreground: oklch(1 0 0);
+  --color-fd-accent: oklch(0.3200 0 0);
+  --color-fd-accent-foreground: oklch(1 0 0);
+  --color-fd-ring: oklch(0.7200 0 0);
 }

@@ -15,19 +15,20 @@ import {
   RefreshCw,
   X,
 } from "lucide-react";
+import { SiRedis, SiSqlite } from "react-icons/si";
 
 export default function DampAppDashboard() {
   return (
     <div
-      className="flex w-full h-full select-none bg-background relative overflow-hidden"
+      className="flex w-full h-full select-none bg-fd-background relative overflow-hidden"
     >
       {/* Sidebar - Icon Only */}
-      <div className="group peer text-sidebar-foreground h-full">
+      <div className="group peer text-fd-foreground h-full">
         <div className="relative h-full w-12 flex border-r">
           <div className="bg-sidebar flex h-full w-full flex-col">
             {/* Sidebar Header - Icon Only */}
             <div className="flex flex-col gap-2 p-2">
-              <div className="flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-md">
+              <div className="flex items-center justify-center w-8 h-8 bg-fd-primary text-fd-primary-foreground rounded-md">
                 <Box className="size-4" />
               </div>
             </div>
@@ -36,23 +37,23 @@ export default function DampAppDashboard() {
             <div className="flex min-h-0 flex-1 flex-col gap-2 px-2">
               <nav className="space-y-2">
                 <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors bg-sidebar-accent"
+                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors bg-fd-accent"
                   title="Dashboard"
                 >
                   <Home className="size-4" />
                 </button>
                 <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
                   title="Services"
                 >
                   <Server className="size-4" />
                 </button>
                 <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative hover:bg-fd-accent hover:text-fd--accent-foreground"
                   title="Sites"
                 >
                   <Globe className="size-4" />
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-secondary text-secondary-foreground border-transparent inline-flex items-center justify-center">
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-fd-secondary text-fd-secondary-foreground border-transparent inline-flex items-center justify-center">
                     4
                   </Badge>
                 </button>
@@ -60,13 +61,13 @@ export default function DampAppDashboard() {
 
               <nav className="mt-auto space-y-2">
                 <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
                   title="Settings"
                 >
                   <Settings className="size-4" />
                 </button>
                 <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
                   title="About"
                 >
                   <Info className="size-4" />
@@ -76,7 +77,7 @@ export default function DampAppDashboard() {
 
             {/* Sidebar Footer - Icon Only */}
             <div className="p-2">
-              <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-accent/50 transition-colors">
+              <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
                 <div className="relative">
                   <Container className="size-4" />
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
@@ -88,17 +89,17 @@ export default function DampAppDashboard() {
       </div>
 
       {/* Main Content */}
-      <main className="bg-background relative flex w-full flex-1 flex-col overflow-y-hidden">
+      <main className="bg-fd-background relative flex w-full flex-1 flex-col overflow-y-hidden">
         {/* Header */}
-        <header className="flex h-16 shrink-0 items-center gap-2 top-0 z-30">
+        <header className="flex h-14 shrink-0 items-center gap-2 top-0 z-30">
           <div className="flex items-center gap-2 px-4">
             <button className="rounded-md">
               <div className="flex items-center gap-2">
                 <div className="grid flex-1 text-left leading-tight">
-                  <span className="truncate font-semibold">DAMP</span>
-                  <small className="truncate text-xs text-muted-foreground capitalize">
+                  <span className="truncate text-xs font-semibold">DAMP</span>
+                  <span className="truncate text-xs text-fd-muted-foreground capitalize">
                     dashboard
-                  </small>
+                  </span>
                 </div>
               </div>
             </button>
@@ -106,13 +107,13 @@ export default function DampAppDashboard() {
 
           <div className="ml-auto flex items-center gap-3 mr-2">
             <button
-              className="h-8 w-8 rounded-md hover:bg-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
+              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
               aria-label="Minimize window"
             >
               <Minus className="h-4 w-4" />
             </button>
             <button
-              className="h-8 w-8 rounded-md hover:bg-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
+              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
               aria-label="Maximize window"
             >
               <Square className="h-4 w-4" />
@@ -158,19 +159,19 @@ export default function DampAppDashboard() {
           </style>
 
           {/* Featured Banner */}
-          <div className="overflow-hidden rounded-md p-8 py-4 flex items-center justify-between bg-gradient-to-65 from-orange-400 via-purple-600 to-blue-500">
+          <div className="overflow-hidden rounded-md p-8 py-4 flex items-center justify-between bg-gradient-to-r from-orange-400 via-purple-600 to-blue-500">
             <div className="w-86 shrink-0">
-              <h2 className="text-lg font-bold text-white drop-shadow-lg">
+              <h2 className="text-md font-bold text-white drop-shadow-lg">
                 Local services
               </h2>
-              <p className=" text-white mb-4 drop-shadow-md">
+              <p className=" text-white mb-4 drop-shadow-md text-xs">
                 Run local databases and dev tools instantly.
               </p>
               <div className="flex gap-4">
-                <button className="h-7 rounded-md px-2.5 text-xs bg-white/20 hover:bg-white/30 text-secondary-foreground shadow-xs shadow-black/5 inline-flex items-center justify-center font-medium">
+                <button className="h-7 rounded-md px-2.5 text-xs bg-white/20 hover:bg-white/30 text-fd-secondary-foreground shadow-xs shadow-black/5 inline-flex items-center justify-center font-medium">
                   Browse services
                 </button>
-                <button className="h-7 rounded-md px-2.5 text-xs hover:bg-white/30 text-accent-foreground inline-flex items-center justify-center font-medium">
+                <button className="h-7 rounded-md px-2.5 text-xs hover:bg-white/30 text-fd-accent-foreground inline-flex items-center justify-center font-medium">
                   Learn more
                 </button>
               </div>
@@ -178,15 +179,11 @@ export default function DampAppDashboard() {
             <div className="flex shrink flex-nowrap gap-4 pr-0">
               <Card className="text-white w-70 bg-white/20 backdrop-blur-sm border-white/30 py-0 rounded-md">
                 <div className="flex flex-row items-center gap-4 p-4 rounded-t-md">
-                  <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <img
-                      alt="Redis"
-                      className="w-4 h-4"
-                      src="https://cdn.simpleicons.org/redis"
-                    />
+                  <div className="self-start mt-0.5 bg-fd-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
+                    <SiRedis className="w-4 h-4 text-[#FF4438]" />
                   </div>
                   <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base font-semibold text-white drop-shadow-lg">
+                    <div className="text-md font-semibold text-white drop-shadow-lg">
                       Redis Cache
                     </div>
                     <div className="text-white text-xs drop-shadow-md">
@@ -198,11 +195,7 @@ export default function DampAppDashboard() {
               <Card className="text-white w-70 bg-white/20 backdrop-blur-sm border-white/30 py-0 rounded-md">
                 <div className="flex flex-row items-center gap-4 p-4 rounded-t-md">
                   <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <img
-                      alt="SQLite"
-                      className="w-4 h-4"
-                      src="https://cdn.simpleicons.org/sqlite"
-                    />
+                    <SiSqlite className="w-4 h-4 text-[#003B57]" />
                   </div>
                   <div className="flex flex-col justify-center flex-1">
                     <div className="text-base font-semibold text-white drop-shadow-lg">
@@ -214,57 +207,38 @@ export default function DampAppDashboard() {
                   </div>
                 </div>
               </Card>
-              <Card className="text-white w-70 bg-white/20 backdrop-blur-sm border-white/30 py-0 rounded-md">
-                <div className="flex flex-row items-center gap-4 p-4 rounded-t-md">
-                  <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <img
-                      alt="Mailpit"
-                      className="w-4 h-4"
-                      src="https://cdn.simpleicons.org/maildotru"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base font-semibold text-white drop-shadow-lg">
-                      Mailpit
-                    </div>
-                    <div className="text-white text-xs drop-shadow-md">
-                      Local email capture for dev/testing.
-                    </div>
-                  </div>
-                </div>
-              </Card>
             </div>
           </div>
 
           {/* Stats Grid */}
           <div className="grid grid-cols-4 gap-4 w-full">
-            <div className="flex flex-col items-center justify-center p-4 bg-card border rounded-md">
-              <p className="font-medium">Installed Services</p>
+            <div className="flex flex-col items-center justify-center p-4 bg-fd-card border rounded-md">
+              <p className="font-medium text-xs">Installed Services</p>
               <p className="text-2xl font-bold">2</p>
             </div>
-            <div className="flex flex-col items-center justify-center p-4 bg-card border rounded-md">
-              <p className="font-medium">Running Services</p>
+            <div className="flex flex-col items-center justify-center p-4 bg-fd-card border rounded-md">
+              <p className="font-medium text-xs">Running Services</p>
               <p className="text-2xl font-bold">2</p>
             </div>
-            <div className="flex col-span-2 items-center justify-between p-4 bg-card border rounded-md">
+            <div className="flex col-span-2 items-center justify-between p-4 bg-fd-card border rounded-md">
               <div className="flex items-center space-x-3">
                 <div>
                   <p className="text-sm font-medium">Sites Status</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-fd-muted-foreground">
                     Local sites overview
                   </p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2.5">
-                <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-3 gap-1">
+                <div className="flex flex-col items-center justify-center bg-fd-muted rounded-lg p-3 gap-1">
                   <span className="text-2xl font-bold text-yellow-500">4</span>
-                  <span className="text-xs text-accent-foreground">
+                  <span className="text-xs text-fd-accent-foreground">
                     Created
                   </span>
                 </div>
-                <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-3 gap-1">
+                <div className="flex flex-col items-center justify-center bg-fd-muted rounded-lg p-3 gap-1">
                   <span className="text-2xl font-bold text-green-500">0</span>
-                  <span className="text-xs text-accent-foreground">
+                  <span className="text-xs text-fd-accent-foreground">
                     Running
                   </span>
                 </div>
@@ -277,13 +251,13 @@ export default function DampAppDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold">Your Local Services</h2>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-fd-muted-foreground">
                   Quickly view and manage installed services.
                 </p>
               </div>
               <div className="flex gap-2">
                 <button
-                  className="h-10 w-10 rounded-md inline-flex items-center justify-center bg-background text-accent-foreground border border-input shadow-xs shadow-black/5"
+                  className="h-10 w-10 rounded-md inline-flex items-center justify-center bg-fd-background text-fd-accent-foreground border border-fd-input shadow-xs shadow-black/5"
                   disabled
                 >
                   <svg
@@ -297,7 +271,7 @@ export default function DampAppDashboard() {
                     <path d="M19 12H5" />
                   </svg>
                 </button>
-                <button className="h-10 w-10 rounded-md inline-flex items-center justify-center bg-background text-accent-foreground border border-input hover:bg-accent shadow-xs shadow-black/5">
+                <button className="h-10 w-10 rounded-md inline-flex items-center justify-center bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5">
                   <svg
                     className="h-4 w-4"
                     fill="none"
@@ -314,7 +288,7 @@ export default function DampAppDashboard() {
 
             {/* Service Cards Carousel */}
             <div className="flex gap-4">
-              <Card className="text-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-background flex-1">
+              <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-fd-background flex-1">
                 <div className="flex flex-row items-center gap-4 p-4 rounded-t-md group">
                   <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
                     <img
@@ -327,26 +301,26 @@ export default function DampAppDashboard() {
                     <div className="text-base font-semibold">
                       MySQL Database
                     </div>
-                    <div className="text-muted-foreground text-xs">
+                    <div className="text-fd-muted-foreground text-xs">
                       MySQL database server for local development
                     </div>
                   </div>
-                  <Badge className="bg-primary text-primary-foreground text-xs">
+                  <Badge className="bg-fd-primary text-fd-primary-foreground text-xs">
                     Running
                   </Badge>
                 </div>
-                <div className="flex flex-row gap-2 items-center justify-between bg-card border-t rounded-b-md px-4 py-2">
-                  <button className="h-7 rounded-md px-2.5 text-xs bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-xs shadow-black/5 flex items-center gap-2">
+                <div className="flex flex-row gap-2 items-center justify-between bg-fd-card border-t rounded-b-md px-4 py-2">
+                  <button className="h-7 rounded-md px-2.5 text-xs bg-secondary text-fd-secondary-foreground hover:bg-fd-secondary/90 shadow-xs shadow-black/5 flex items-center gap-2">
                     <Square className="w-4 h-4 text-destructive" />
                     Stop
                   </button>
-                  <button className="h-7 rounded-md px-2.5 text-xs text-accent-foreground hover:bg-accent flex items-center gap-1 group">
+                  <button className="h-7 rounded-md px-2.5 text-xs text-fd-accent-foreground hover:bg-accent flex items-center gap-1 group">
                     <Settings className="w-4 h-4 group-hover:animate-spin" />
                   </button>
                 </div>
               </Card>
 
-              <Card className="text-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-background flex-1">
+              <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-fd-background flex-1">
                 <div className="flex flex-row items-center gap-4 p-4 rounded-t-md group">
                   <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
                     <svg
@@ -366,20 +340,20 @@ export default function DampAppDashboard() {
                   </div>
                   <div className="flex flex-col justify-center flex-1">
                     <div className="text-base font-semibold">Mail Testing</div>
-                    <div className="text-muted-foreground text-xs">
+                    <div className="text-fd-muted-foreground text-xs">
                       Email testing server for local development
                     </div>
                   </div>
-                  <Badge className="bg-primary text-primary-foreground text-xs">
+                  <Badge className="bg-fd-primary text-fd-primary-foreground text-xs">
                     Running
                   </Badge>
                 </div>
-                <div className="flex flex-row gap-2 items-center justify-between bg-card border-t rounded-b-md px-4 py-2">
-                  <button className="h-7 rounded-md px-2.5 text-xs bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-xs shadow-black/5 flex items-center gap-2">
+                <div className="flex flex-row gap-2 items-center justify-between bg-fd-card border-t rounded-b-md px-4 py-2">
+                  <button className="h-7 rounded-md px-2.5 text-xs bg-fd-secondary text-fd-secondary-foreground hover:bg-fd-secondary/90 shadow-xs shadow-black/5 flex items-center gap-2">
                     <Square className="w-4 h-4 text-destructive" />
                     Stop
                   </button>
-                  <button className="h-7 rounded-md px-2.5 text-xs text-accent-foreground hover:bg-accent flex items-center gap-1 group">
+                  <button className="h-7 rounded-md px-2.5 text-xs text-fd-accent-foreground hover:bg-fd-accent flex items-center gap-1 group">
                     <Settings className="w-4 h-4 group-hover:animate-spin" />
                   </button>
                 </div>
@@ -388,28 +362,28 @@ export default function DampAppDashboard() {
           </div>
 
           {/* Docker Status and Quick Actions */}
-          <Card className="text-card-foreground flex flex-col border shadow-sm rounded-md p-4 bg-background">
+          <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-4 bg-fd-background">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Docker Engine Status</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-4 bg-background/50 border rounded-md">
+                  <div className="flex items-center justify-between p-4 bg-fd-background/50 border rounded-md">
                     <div className="flex items-center space-x-3">
                       <div>
                         <p className="text-sm font-medium">Connection Status</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-fd-muted-foreground">
                           Docker daemon connectivity
                         </p>
                       </div>
                     </div>
-                    <Badge className="text-xs bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+                    <Badge className="text-xs bg-fd-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
                       Connected
                     </Badge>
                   </div>
-                  <div className="flex items-center justify-between p-4 bg-background/50 border rounded-md">
+                  <div className="flex items-center justify-between p-4 bg-fd-background/50 border rounded-md">
                     <div>
                       <p className="text-sm font-medium">Engine Version</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-fd-muted-foreground">
                         Docker runtime version
                       </p>
                     </div>
@@ -423,17 +397,17 @@ export default function DampAppDashboard() {
                 <h3 className="text-lg font-semibold">Quick Actions</h3>
                 <div className="space-y-3">
                   <button
-                    className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-background text-accent-foreground border border-input hover:bg-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5"
+                    className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5"
                     disabled
                   >
                     <Play className="w-4 h-4 mr-2 text-emerald-500" />
                     Start All Services
                   </button>
-                  <button className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-background text-accent-foreground border border-input hover:bg-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5">
+                  <button className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5">
                     <CircleStop className="w-4 h-4 mr-2 text-destructive" />
                     Stop All Services
                   </button>
-                  <button className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-background text-accent-foreground border border-input hover:bg-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5 group">
+                  <button className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5 group">
                     <RefreshCw className="h-4 w-4 mr-2 group-hover:animate-spin" />
                     Refresh Services
                   </button>

@@ -5,6 +5,8 @@ import { Box, Shield, Code, Terminal, Container, Lock, Bug, Package, Globe, Data
 import { useState } from "react";
 import Image from "next/image";
 import DampAppDashboard from "@/components/mockup/DampAppDashboard";
+import DampAppServices from "@/components/mockup/DampAppServices";
+import DampAppSites from "@/components/mockup/DampAppSites";
 
 export default function HomePage() {
   return (
@@ -66,6 +68,12 @@ export default function HomePage() {
             <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
               <DampAppDashboard />
             </div>
+            <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
+              <DampAppServices />
+            </div>
+            <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
+              <DampAppSites />
+            </div>
           </section>
 
           {/* Tagline Section */}
@@ -113,7 +121,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="border-l border-t px-6 py-12 md:py-16">
+            <div className="border-l border-t px-6 py-12 md:py-16 bg-gradient-to-b from-fd-secondary/30 to-fd-background">
               <div className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-fd-muted-foreground">
                 <Box className="size-4" />
                 <p>Interface</p>
