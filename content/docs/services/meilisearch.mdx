@@ -1,0 +1,149 @@
+---
+title: Meilisearch
+description: Full-text search engine
+icon: Search
+---
+
+Lightning-fast **full-text search** engine with typo tolerance and instant results. Modern search experience made easy.
+
+## Default Configuration
+
+```yaml
+Image: getmeili/meilisearch:latest
+Container: damp-meilisearch
+Port: 7700:7700
+Network: devnet
+Volume: damp-meilisearch:/meili_data
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MEILI_NO_ANALYTICS` | `false` | Anonymous analytics |
+| `MEILI_MASTER_KEY` | `masterkey` | Admin API key |
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# API endpoint
+http://damp-meilisearch:7700
+```
+
+### From Host Machine
+
+**Web UI:**
+
+```
+http://localhost:7700
+```
+
+**API:**
+
+```
+http://localhost:7700
+```
+
+## Laravel Scout Integration
+
+### Install Scout
+
+```bash
+composer require laravel/scout
+composer require meilisearch/meilisearch-php
+```
+
+### Configure .env
+
+```
+SCOUT_DRIVER=meilisearch
+MEILISEARCH_HOST=http://damp-meilisearch:7700
+MEILISEARCH_KEY=masterkey
+```
+
+### Make Model Searchable
+
+```php
+use Laravel\Scout\Searchable;
+
+class Post extends Model
+{
+    use Searchable;
+    
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'content' => $this->content,
+        ];
+    }
+}
+```
+
+### Search Usage
+
+```php
+// Search posts
+$posts = Post::search('laravel')->get();
+
+// Search with filters
+$posts = Post::search('laravel')
+    ->where('published', true)
+    ->get();
+```
+
+## Direct API Usage
+
+### Create Index
+
+```bash
+curl -X POST 'http://localhost:7700/indexes' \
+  -H 'Authorization: Bearer masterkey' \
+  -H 'Content-Type: application/json' \
+  --data '{ "uid": "movies", "primaryKey": "id" }'
+```
+
+### Add Documents
+
+```bash
+curl -X POST 'http://localhost:7700/indexes/movies/documents' \
+  -H 'Authorization: Bearer masterkey' \
+  -H 'Content-Type: application/json' \
+  --data '[
+    { "id": 1, "title": "Inception" },
+    { "id": 2, "title": "Interstellar" }
+  ]'
+```
+
+### Search
+
+```bash
+curl -X POST 'http://localhost:7700/indexes/movies/search' \
+  -H 'Authorization: Bearer masterkey' \
+  -H 'Content-Type: application/json' \
+  --data '{ "q": "inception" }'
+```
+
+## Features
+
+- ⚡ **Instant Search** - Sub-50ms response times
+- 🔤 **Typo Tolerance** - Finds results even with misspellings
+- 🎯 **Filters** - Combine search with filters
+- 📊 **Faceting** - Build search interfaces with facets
+- 🌍 **Multilingual** - Support for many languages
+
+<Callout type="info">
+  **Master Key Required**
+  
+  Always use the master key (`masterkey`) for API requests in development!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **Web UI**
+  
+  Visit `http://localhost:7700` to test searches, view indexes, and explore your data visually!
+</Callout>

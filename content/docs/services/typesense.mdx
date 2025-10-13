@@ -1,0 +1,130 @@
+---
+title: Typesense Search
+description: Open-source search engine
+icon: Search
+---
+
+**Open-source alternative** to Algolia with blazing-fast search. Typo tolerance and powerful ranking out of the box.
+
+## Default Configuration
+
+```yaml
+Image: typesense/typesense:27.1
+Container: damp-typesense
+Port: 8108:8108
+Network: devnet
+Volume: damp-typesense:/typesense-data
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `TYPESENSE_DATA_DIR` | `/typesense-data` | Data directory |
+| `TYPESENSE_API_KEY` | `xyz` | Admin API key |
+| `TYPESENSE_ENABLE_CORS` | `true` | Enable CORS |
+
+## Connection Information
+
+### From Docker Containers
+
+```
+http://damp-typesense:8108
+```
+
+### From Host Machine
+
+```
+http://localhost:8108
+```
+
+<Callout type="warning">
+  **API Key Required**
+  
+  All API requests require the API key: `xyz`
+</Callout>
+
+## Laravel Scout Integration
+
+### Install Typesense Scout Driver
+
+```bash
+composer require typesense/typesense-php
+composer require typesense/laravel-scout-typesense-driver
+```
+
+### Configure .env
+
+```
+SCOUT_DRIVER=typesense
+TYPESENSE_API_KEY=xyz
+TYPESENSE_HOST=damp-typesense
+TYPESENSE_PORT=8108
+TYPESENSE_PROTOCOL=http
+```
+
+### Usage
+
+```php
+use Laravel\Scout\Searchable;
+
+class Product extends Model
+{
+    use Searchable;
+}
+
+// Search
+$products = Product::search('laptop')->get();
+```
+
+## Direct API Usage
+
+### Create Collection
+
+```bash
+curl "http://localhost:8108/collections" \
+  -X POST \
+  -H "X-TYPESENSE-API-KEY: xyz" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "products",
+    "fields": [
+      {"name": "name", "type": "string"},
+      {"name": "price", "type": "float"}
+    ],
+    "default_sorting_field": "price"
+  }'
+```
+
+### Index Documents
+
+```bash
+curl "http://localhost:8108/collections/products/documents" \
+  -X POST \
+  -H "X-TYPESENSE-API-KEY: xyz" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Laptop", "price": 999.99}'
+```
+
+### Search
+
+```bash
+curl "http://localhost:8108/collections/products/documents/search?q=laptop&query_by=name" \
+  -H "X-TYPESENSE-API-KEY: xyz"
+```
+
+## Features
+
+- ⚡ **Fast** - Optimized for speed
+- 🔍 **Typo Tolerance** - Handles misspellings
+- 🎯 **Geo Search** - Location-based search
+- 📊 **Faceting** - Filter results by attributes
+- 🔒 **Secured** - Built-in API key authentication
+
+---
+
+<Callout type="tip">
+  **Production Ready**
+  
+  Typesense is battle-tested and used by thousands of applications in production!
+</Callout>

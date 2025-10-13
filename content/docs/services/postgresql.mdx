@@ -1,0 +1,94 @@
+---
+title: PostgreSQL Database
+description: Advanced open-source relational database
+icon: Database
+---
+
+Advanced relational database with **PostgreSQL 17 Alpine**. Perfect for modern applications needing robust features.
+
+## Default Configuration
+
+```yaml
+Image: postgres:17-alpine
+Container: damp-postgresql
+Port: 5432:5432
+Network: devnet
+Volume: damp-pgsql:/var/lib/postgresql/data
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `POSTGRES_PASSWORD` | `postgres` | Superuser password |
+| `POSTGRES_DB` | `development` | Default database |
+| `POSTGRES_USER` | `postgres` | Superuser account |
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# Using container name
+psql -h damp-postgresql -U postgres -d development
+```
+
+**Laravel .env:**
+
+```
+DB_CONNECTION=pgsql
+DB_HOST=damp-postgresql
+DB_PORT=5432
+DB_DATABASE=development
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+```
+
+### From Host Machine
+
+```bash
+# Using localhost
+psql -h localhost -p 5432 -U postgres -d development
+```
+
+**Connection String:**
+
+```
+postgresql://postgres:postgres@localhost:5432/development
+```
+
+## Quick Operations
+
+### Create New Database
+
+```sql
+psql -h damp-postgresql -U postgres
+
+CREATE DATABASE my_app;
+```
+
+### Import SQL Dump
+
+```bash
+psql -h localhost -U postgres development < dump.sql
+```
+
+### Backup Database
+
+```bash
+pg_dump -h localhost -U postgres development > backup.sql
+```
+
+<Callout type="info">
+  **Data Persists**
+  
+  All databases stored in `damp-pgsql` volume - safe across container restarts!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **JSON Support**
+  
+  PostgreSQL offers excellent JSON/JSONB support for semi-structured data without switching to NoSQL!
+</Callout>

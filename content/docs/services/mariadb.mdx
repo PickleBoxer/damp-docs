@@ -1,0 +1,78 @@
+---
+title: MariaDB Database
+description: MySQL-compatible database server
+icon: Database
+---
+
+MySQL-compatible database with **MariaDB 11**. Drop-in replacement for MySQL with enhanced performance.
+
+## Default Configuration
+
+```yaml
+Image: mariadb:11
+Container: damp-mariadb
+Port: 3306:3306
+Network: devnet
+Volume: damp-mariadb:/var/lib/mysql
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MYSQL_ROOT_PASSWORD` | `rootpassword` | Root password |
+| `MYSQL_DATABASE` | `development` | Default database |
+| `MYSQL_USER` | `developer` | Non-root user |
+| `MYSQL_PASSWORD` | `devpassword` | User password |
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+mysql -h damp-mariadb -u developer -pdevpassword development
+```
+
+**Laravel .env:**
+
+```
+DB_CONNECTION=mysql
+DB_HOST=damp-mariadb
+DB_PORT=3306
+DB_DATABASE=development
+DB_USERNAME=developer
+DB_PASSWORD=devpassword
+```
+
+<Callout type="info">
+  **MySQL Compatible**
+  
+  Use the same `mysql` connection driver - MariaDB is 100% compatible with MySQL clients!
+</Callout>
+
+### From Host Machine
+
+```bash
+mysql -h localhost -P 3306 -u developer -pdevpassword development
+```
+
+**Connection String:**
+
+```
+mysql://developer:devpassword@localhost:3306/development
+```
+
+## Why MariaDB?
+
+- ✅ **Faster** - Performance improvements over MySQL
+- ✅ **Compatible** - Drop-in MySQL replacement
+- ✅ **Open Source** - Truly community-driven
+- ✅ **Modern Features** - JSON, window functions, CTEs
+
+---
+
+<Callout type="tip">
+  **Migration Tip**
+  
+  Switching from MySQL to MariaDB? Just change the host - your existing code works as-is!
+</Callout>

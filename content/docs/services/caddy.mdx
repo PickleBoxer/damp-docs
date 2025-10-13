@@ -1,0 +1,131 @@
+---
+title: Caddy Web Server
+description: Required reverse proxy with automatic HTTPS
+icon: Server
+---
+
+**Required service** - Caddy is the reverse proxy that powers all DAMP sites with automatic HTTPS certificates.
+
+<Callout type="info">
+  **Always Required**
+  
+  Caddy is essential for routing traffic to your sites.
+</Callout>
+
+## Overview
+
+Caddy handles:
+- 🔒 **Automatic SSL** - Generates certificates for .local domains
+- 🌐 **Reverse Proxy** - Routes requests to your sites
+- ⚡ **HTTP/2 Support** - Modern protocol support
+- 🔄 **Auto Reload** - Configuration updates without downtime
+
+## Default Configuration
+
+```yaml
+Image: caddy:latest
+Container: damp-web
+Ports:
+  - 80:80   # HTTP
+  - 443:443 # HTTPS
+Network: devnet
+Volumes:
+  - damp_caddy_data:/data
+  - damp_caddy_config:/config
+```
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# Access Caddy API (if enabled)
+curl http://damp-web:2019/config/
+```
+
+### From Host Machine
+
+```bash
+# HTTP
+http://localhost
+
+# HTTPS (with valid cert for .local domains)
+https://mysite.local
+```
+
+## Certificate Management
+
+<Callout type="success">
+  **Automatic Certificates**
+  
+  Caddy automatically generates SSL certificates for all .local domains. View certificates in DAMP's Services page.
+</Callout>
+
+### View Installed Certificates
+
+DAMP displays:
+- Domain name
+- Expiration date
+- Certificate status
+
+### Trust Certificates
+
+To trust Caddy's CA certificate on your system:
+
+1. Click "Install Certificate" in DAMP
+2. Windows will prompt for UAC elevation
+3. Certificate installed to system trust store
+4. Browse to https://yoursite.local without warnings
+
+## How Sites Use Caddy
+
+When you create a site, DAMP automatically:
+
+1. Updates Caddy configuration
+2. Creates reverse proxy rules
+3. Generates SSL certificate for the domain
+4. Reloads Caddy (zero downtime)
+
+```
+┌─────────────────────────────────────────┐
+│   Browser: https://mysite.local         │
+└────────────┬────────────────────────────┘
+             │
+             ↓
+┌─────────────────────────────────────────┐
+│   Caddy (damp-web)                      │
+│   - Terminates SSL                      │
+│   - Reads Caddyfile config              │
+│   - Routes to correct container         │
+└────────────┬────────────────────────────┘
+             │
+             ↓
+┌─────────────────────────────────────────┐
+│   Site DevContainer                     │
+│   - Receives plain HTTP on port 80      │
+│   - PHP application responds            │
+└─────────────────────────────────────────┘
+```
+
+## Caddyfile Location
+
+Caddy configuration is stored in the `damp_caddy_config` volume:
+
+```
+/config/caddy/Caddyfile
+```
+
+DAMP automatically manages this file - manual edits are not necessary.
+
+---
+
+<Callout type="tip">
+  **Production Parity**
+  
+  Developing with HTTPS locally matches production environments, catching SSL-related bugs early!
+</Callout>
+
+## Learn More
+
+- [Automatic SSL Documentation](/docs/automatic-ssl)
+- [Custom Domains Guide](/docs/custom-domains)

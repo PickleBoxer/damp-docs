@@ -1,0 +1,85 @@
+---
+title: Valkey Cache
+description: Redis-compatible cache server
+icon: Zap
+---
+
+Open-source **Redis-compatible** key-value store. Drop-in replacement for Redis with the same commands and protocols.
+
+## Default Configuration
+
+```yaml
+Image: valkey/valkey:alpine
+Container: damp-valkey
+Port: 6379:6379
+Network: devnet
+Volume: damp-valkey:/data
+```
+
+<Callout type="info">
+  **Redis Compatible**
+  
+  Valkey uses the same protocol as Redis - existing Redis clients work without modification!
+</Callout>
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# Use redis-cli (fully compatible)
+redis-cli -h damp-valkey
+
+# Test connection
+redis-cli -h damp-valkey ping
+```
+
+**Laravel .env:**
+
+```
+REDIS_HOST=damp-valkey
+REDIS_PORT=6379
+REDIS_PASSWORD=null
+```
+
+### From Host Machine
+
+```bash
+redis-cli -h localhost -p 6379
+```
+
+**Connection String:**
+
+```
+redis://localhost:6379
+```
+
+## Why Valkey?
+
+- ✅ **Fully Open Source** - Linux Foundation project
+- ✅ **Redis Compatible** - Same commands, same clients
+- ✅ **Active Development** - Modern features and improvements
+- ✅ **Performance** - Optimized for speed
+
+## Usage Examples
+
+```bash
+# Same as Redis!
+SET key value
+GET key
+EXPIRE key 3600
+```
+
+```php
+// Laravel - works identically
+Cache::put('data', $value, 3600);
+$value = Cache::get('data');
+```
+
+---
+
+<Callout type="tip">
+  **Migration Tip**
+  
+  Switching from Redis? Just change the host to `damp-valkey` - everything else stays the same!
+</Callout>

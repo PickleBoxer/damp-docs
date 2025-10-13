@@ -1,0 +1,357 @@
+---
+title: Volume Sync
+description: Sync files from Docker volumes to your local machine
+icon: RefreshCw
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+Copy files **from Docker volume to your local folder**. Access container files on your host machine without sacrificing performance.
+
+## Why Named Volumes?
+
+DAMP uses Docker **named volumes** instead of bind mounts for better performance on Windows.
+
+### Performance Comparison
+
+| Method | Windows Performance | Use Case |
+|--------|---------------------|----------|
+| **Named Volume** | ⚡ **Fast** - Native Docker filesystem | Development inside container |
+| **Bind Mount** | 🐌 Slow - File system translation | Direct host file access |
+
+<Callout type="success">
+  **10x Faster**
+  
+  Named volumes provide up to **10x faster** file I/O on Windows compared to bind mounts!
+</Callout>
+
+## How It Works
+
+```
+┌─────────────────────────────────────────┐
+│   Docker Named Volume (Source)          │
+│   mysite_data                           │
+│   - Mounted at /workspace               │
+│   - Fast container access               │
+│   - Isolated from host filesystem       │
+└────────────┬────────────────────────────┘
+             │
+             │ Sync (One-Way: Volume → Local)
+             │
+┌────────────▼────────────────────────────┐
+│   Local Folder (Destination)            │
+│   C:\Users\You\Projects\mysite\         │
+│   - .devcontainer/                      │
+│   - public/index.php                    │
+│   - composer.json                       │
+│   - ✅ Can exclude node_modules/        │
+│   - ✅ Can exclude vendor/              │
+└─────────────────────────────────────────┘
+```
+
+<Callout type="info">
+  **One-Way Sync**
+  
+  Sync copies **from volume TO local only**. Edit files in VS Code DevContainer - sync pulls them to your local folder when needed!
+</Callout>
+
+## When to Sync
+
+Sync from volume to local when you need:
+
+- ✅ **Backup** - Copy container files to host for backup
+- ✅ **View Files** - Browse project files locally
+- ✅ **Git Operations** - Commit/push from local folder
+- ✅ **External Tools** - Use local tools on container files
+- ✅ **Code Review** - Share local files without container
+
+**Example Scenarios:**
+
+```bash
+# Generated files in container
+php artisan make:controller UserController
+php artisan make:migration create_posts
+
+# Want to commit to Git locally → Sync from volume
+```
+
+<Callout type="tip">
+  **Development Workflow**
+  
+  Work in VS Code DevContainer for speed → Sync to local when you need to commit, backup, or use external tools!
+</Callout>
+
+## Sync Process
+
+<Steps>
+
+<Step>
+**Select Site**
+
+Open DAMP and click on the site you want to sync.
+</Step>
+
+<Step>
+**Open Volume Sync Tab**
+
+Click the **"Volume Sync"** tab in site details.
+</Step>
+
+<Step>
+**Choose Exclusions (Optional)**
+
+Toggle folders to exclude from sync:
+
+- **node_modules/** - Node.js dependencies (can be large)
+- **vendor/** - PHP dependencies (can be large)
+
+<Callout type="tip">
+  **Skip Large Folders**
+  
+  Excluding `node_modules` and `vendor` makes sync much faster! These can be regenerated with `npm install` and `composer install`.
+</Callout>
+</Step>
+
+<Step>
+**Click "Sync From Volume"**
+
+Click the button and wait for completion.
+
+Progress shown in toast notification!
+</Step>
+
+<Step>
+**Verify**
+
+Check your local project folder has the updated files.
+</Step>
+
+</Steps>
+
+## What Gets Synced
+
+### Always Included
+
+Core project files:
+- ✅ PHP source files (`.php`)
+- ✅ Configuration files (`.json`, `.yaml`, `.env`)
+- ✅ Static assets (`.css`, `.js`, images)
+- ✅ Database migrations and seeds
+- ✅ Views and templates
+- ✅ Tests
+- ✅ Hidden files (`.gitignore`, `.editorconfig`)
+
+### Optional (Can Exclude)
+
+Large dependency folders:
+- 📦 **node_modules/** - Node.js packages (often 100MB+)
+- 📦 **vendor/** - Composer packages (often 50MB+)
+
+<Callout type="info">
+  **Regenerable Dependencies**
+  
+  Both folders can be recreated anytime:
+  ```bash
+  npm install     # Regenerate node_modules
+  composer install # Regenerate vendor
+  ```
+</Callout>
+
+## Common Sync Scenarios
+
+### Scenario 1: Generated Laravel Files
+
+```bash
+# Inside DevContainer
+php artisan make:controller UserController
+php artisan make:model Post -m
+
+# Files created in volume
+# Sync from volume → commit them to Git locally
+```
+
+### Scenario 2: Daily Backup
+
+```bash
+# End of coding session
+# Sync from volume → local folder backup
+# Files safe on host machine
+```
+
+### Scenario 3: Code Review
+
+```bash
+# Need to share code with team
+# Sync from volume → local folder
+# Push to Git from local machine
+```
+
+### Scenario 4: Fast Sync Without Dependencies
+
+```bash
+# Exclude node_modules and vendor
+# Sync only source code (fast!)
+# Run npm/composer install locally if needed
+```
+
+## Automatic Sync
+
+DAMP automatically syncs in these situations:
+
+1. **After Site Creation** - Initial sync from volume to local
+2. **After Laravel Install** - Laravel files synced from volume
+
+<Callout type="success">
+  **Smart Sync**
+  
+  DAMP syncs automatically after setup, then gives you manual control when needed!
+</Callout>
+
+## Troubleshooting
+
+### Sync Takes Too Long
+
+**Problem:** Sync operation hangs or takes several minutes
+
+**Solutions:**
+- **Exclude large folders** - Uncheck `node_modules` and `vendor`
+- Close DevContainer before syncing
+- Check Docker Desktop is responsive
+- First sync is slower (subsequent syncs are faster)
+
+### Files Not Appearing After Sync
+
+**Problem:** Synced but files missing in local folder
+
+**Solutions:**
+1. Verify files exist in container:
+   ```bash
+   docker run --rm -v mysite_data:/workspace alpine ls /workspace
+   ```
+2. Check exclusions - ensure you didn't exclude needed folders
+3. Try syncing again
+4. Check DAMP console for errors
+5. Restart Docker Desktop
+
+### "Volume Not Found" Error
+
+**Problem:** Sync fails with volume error
+
+**Solutions:**
+1. Verify DevContainer was created
+2. Check volume exists:
+   ```powershell
+   docker volume ls | Select-String "mysite"
+   ```
+3. Recreate site if volume missing
+4. Check Docker Desktop is running
+
+### Sync Excludes Too Much
+
+**Problem:** Needed files not syncing
+
+**Solution:**
+Check your exclusion settings - make sure only `node_modules` and `vendor` are excluded, not your source code!
+
+## Best Practices
+
+### Do's ✅
+
+- **Exclude large folders** when doing quick syncs
+- **Sync before committing** to ensure Git has latest files
+- **Close VS Code** before syncing (not required, but safer)
+- **Sync regularly** if working exclusively in container
+- **Backup first** before major experiments
+
+### Don'ts ❌
+
+- **Don't edit synced files locally** - Edit in DevContainer for fast I/O
+- **Don't sync unnecessarily** - Only sync when you need local access
+- **Don't forget exclusions** - Skip `node_modules` and `vendor` for speed
+- **Don't rely on sync for version control** - Use Git, not sync, for history
+
+## Alternative: Bind Mounts
+
+If you prefer direct host access over performance:
+
+### Convert to Bind Mount
+
+1. Stop and delete site in DAMP
+2. Edit `.devcontainer/devcontainer.json`:
+   ```json
+   {
+     "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+     "workspaceFolder": "/workspace"
+   }
+   ```
+3. Remove named volume:
+   ```powershell
+   docker volume rm mysite_data
+   ```
+4. Reopen in container
+
+<Callout type="warning">
+  **Performance Trade-off**
+  
+  Bind mounts eliminate sync need but are **significantly slower** on Windows. Test with your workflow first!
+</Callout>
+
+---
+
+## CLI Commands
+
+For advanced users, manually copy from volume to local:
+
+### Sync From Volume to Local
+
+```powershell
+# Copy all files
+docker run --rm -v mysite_data:/source -v "C:\Projects\mysite:/dest" alpine sh -c "cp -r /source/* /dest/"
+```
+
+### Sync Excluding Dependencies
+
+```powershell
+# Copy without node_modules and vendor
+docker run --rm -v mysite_data:/source -v "C:\Projects\mysite:/dest" alpine sh -c "
+  cd /source && 
+  find . -name node_modules -prune -o -name vendor -prune -o -print | 
+  cpio -pdm /dest
+"
+```
+
+### List Volume Contents
+
+```powershell
+docker run --rm -v mysite_data:/workspace alpine ls -la /workspace
+```
+
+### Check Volume Size
+
+```powershell
+docker run --rm -v mysite_data:/workspace alpine du -sh /workspace
+```
+
+---
+
+<Callout type="tip">
+  **Pro Tip**
+  
+  Always **exclude node_modules and vendor** for fast syncs - regenerate them locally with `npm install` and `composer install` if needed!
+</Callout>
+
+## Learn More
+
+<Cards>
+  <Card title="DevContainers" href="/docs/core-features/devcontainers">
+    Learn about named volumes and DevContainer architecture
+  </Card>
+  
+  <Card title="Managing Sites" href="/docs/managing-sites">
+    Other site management operations
+  </Card>
+  
+  <Card title="Zero System Impact" href="/docs/core-features/zero-system-impact">
+    Why DAMP uses Docker volumes
+  </Card>
+</Cards>

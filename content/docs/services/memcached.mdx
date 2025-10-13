@@ -1,0 +1,112 @@
+---
+title: Memcached
+description: Distributed memory caching system
+icon: Zap
+---
+
+High-performance **distributed memory caching** system. Simple, fast, and efficient for object caching.
+
+## Default Configuration
+
+```yaml
+Image: memcached:alpine
+Container: damp-memcached
+Port: 11211:11211
+Network: devnet
+```
+
+<Callout type="warning">
+  **No Persistence**
+  
+  Memcached stores data in memory only - restarting clears all cached data!
+</Callout>
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# Telnet test
+telnet damp-memcached 11211
+```
+
+**Laravel .env:**
+
+```
+CACHE_DRIVER=memcached
+MEMCACHED_HOST=damp-memcached
+MEMCACHED_PORT=11211
+```
+
+### From Host Machine
+
+```bash
+telnet localhost 11211
+```
+
+**Connection:**
+
+```
+Host: localhost
+Port: 11211
+```
+
+## Laravel Setup
+
+### Install PHP Extension
+
+```bash
+# In your devcontainer
+pecl install memcached
+```
+
+### Configuration
+
+```php
+// config/cache.php
+'memcached' => [
+    'driver' => 'memcached',
+    'servers' => [
+        [
+            'host' => env('MEMCACHED_HOST', '127.0.0.1'),
+            'port' => env('MEMCACHED_PORT', 11211),
+            'weight' => 100,
+        ],
+    ],
+],
+```
+
+## Usage Examples
+
+```php
+// Store cache
+Cache::put('key', 'value', 3600);
+
+// Retrieve cache
+$value = Cache::get('key');
+
+// Check if exists
+if (Cache::has('key')) {
+    //
+}
+```
+
+## When to Use Memcached
+
+✅ **Best For:**
+- Simple key-value caching
+- Distributed caching across multiple servers
+- Session storage (in multi-server setups)
+
+❌ **Use Redis Instead For:**
+- Data persistence requirements
+- Complex data structures (lists, sets, hashes)
+- Pub/Sub messaging
+
+---
+
+<Callout type="tip">
+  **Performance**
+  
+  Memcached is extremely fast for simple caching - perfect for storing rendered views and query results!
+</Callout>

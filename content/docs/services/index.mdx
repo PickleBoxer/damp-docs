@@ -1,0 +1,212 @@
+---
+title: Services
+description: Manage development services with one-click install
+---
+
+import { Card, Cards } from 'fumadocs-ui/components/card';
+
+**One-click installation** of development services. Install, start, stop, and remove services without leaving DAMP.
+
+## Overview
+
+DAMP provides **13 pre-configured services** for your development environment. All services run in Docker containers on the `devnet` network.
+
+<Callout type="success">
+  **Zero Configuration**
+  
+  Every service comes with sensible defaults. Just click "Install" and start using it immediately!
+</Callout>
+
+## Service Categories
+
+### Web Servers
+
+<Cards>
+  <Card title="Caddy" href="/docs/services/caddy" icon={<Server />}>
+    **Required** - Reverse proxy with automatic HTTPS
+  </Card>
+</Cards>
+
+### Databases
+
+<Cards>
+  <Card title="MySQL" href="/docs/services/mysql" icon={<Database />}>
+    Popular relational database
+  </Card>
+  
+  <Card title="PostgreSQL" href="/docs/services/postgresql" icon={<Database />}>
+    Advanced open-source database
+  </Card>
+  
+  <Card title="MariaDB" href="/docs/services/mariadb" icon={<Database />}>
+    MySQL-compatible database
+  </Card>
+  
+  <Card title="MongoDB" href="/docs/services/mongodb" icon={<Database />}>
+    NoSQL document database
+  </Card>
+</Cards>
+
+### Caching
+
+<Cards>
+  <Card title="Redis" href="/docs/services/redis" icon={<Zap />}>
+    In-memory data store
+  </Card>
+  
+  <Card title="Valkey" href="/docs/services/valkey" icon={<Zap />}>
+    Redis-compatible cache
+  </Card>
+  
+  <Card title="Memcached" href="/docs/services/memcached" icon={<Zap />}>
+    Distributed caching system
+  </Card>
+</Cards>
+
+### Search Engines
+
+<Cards>
+  <Card title="Meilisearch" href="/docs/services/meilisearch" icon={<Search />}>
+    Full-text search engine
+  </Card>
+  
+  <Card title="Typesense" href="/docs/services/typesense" icon={<Search />}>
+    Open-source search engine
+  </Card>
+</Cards>
+
+### Email & Storage
+
+<Cards>
+  <Card title="Mailpit" href="/docs/services/mailpit" icon={<Mail />}>
+    Email testing with web UI
+  </Card>
+  
+  <Card title="MinIO" href="/docs/services/minio" icon={<FolderOpen />}>
+    S3-compatible object storage
+  </Card>
+</Cards>
+
+### Message Queues
+
+<Cards>
+  <Card title="RabbitMQ" href="/docs/services/rabbitmq" icon={<MessageSquare />}>
+    Message broker for queues
+  </Card>
+</Cards>
+
+## How It Works
+
+Every service in DAMP provides:
+
+- ✅ **One-Click Install** - No manual Docker commands
+- ✅ **Start/Stop/Remove** - Full lifecycle management
+- ✅ **Connection Info** - Host & Docker network details
+- ✅ **Default Configuration** - Sensible environment variables and ports
+- ✅ **Data Persistence** - Named volumes for data storage
+
+```
+┌──────────────────────────────────────────┐
+│   DAMP Services Page                     │
+│   [Install Service Button]               │
+└─────────────┬────────────────────────────┘
+              │
+              ↓
+┌──────────────────────────────────────────┐
+│   Docker Container Created               │
+│   - Named volumes for data               │
+│   - Connected to devnet network          │
+│   - Ports exposed to host                │
+└─────────────┬────────────────────────────┘
+              │
+              ↓
+┌──────────────────────────────────────────┐
+│   Service Running                        │
+│   View connection details:               │
+│   - Container name (internal)            │
+│   - localhost:port (external)            │
+│   - Environment variables                │
+└──────────────────────────────────────────┘
+```
+
+## Connection Types
+
+When a service is running, you get **two connection methods**:
+
+### From Docker Containers (DevContainers)
+
+```bash
+# Use the container name
+mysql -h damp-mysql -u developer -p
+redis-cli -h damp-redis
+```
+
+<Callout type="info">
+  **DevNet Network**
+  
+  All containers communicate via the `devnet` Docker network using container names as hostnames.
+</Callout>
+
+### From Host Machine
+
+```bash
+# Use localhost
+mysql -h localhost -P 3306 -u developer -p
+redis-cli -h localhost -p 6379
+```
+
+## Managing Services
+
+### Install
+
+Click **"Install Service"** to:
+1. Pull the Docker image
+2. Create named volumes for data persistence
+3. Create and start the container
+4. Display connection information
+
+### Start/Stop
+
+Control running services without removing data:
+- **Start** - Starts a stopped service
+- **Stop** - Stops a running service (data persists)
+
+### Remove
+
+Completely remove a service:
+- Stops the container
+- Removes the container
+- **Keeps the data volume** (safe removal)
+
+<Callout type="warning">
+  **Data Volumes Preserved**
+  
+  Removing a service does NOT delete its data volume. Your data is safe and will be restored if you reinstall the service.
+</Callout>
+
+## Service Status
+
+Each service shows its current state:
+
+- 🟢 **Running** - Service is active and available
+- 🔴 **Stopped** - Service installed but not running
+- ⚪ **Not Installed** - Service not yet installed
+
+---
+
+<Callout type="tip">
+  **Quick Start**
+  
+  New to DAMP? Start with these services:
+  - **MySQL** for database
+  - **Mailpit** for email testing
+  - **Redis** for caching
+</Callout>
+
+## Learn More
+
+Visit individual service pages to see:
+- Default configuration
+- Connection strings
+- Environment variables
+- Port mappings

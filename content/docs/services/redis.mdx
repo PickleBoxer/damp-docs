@@ -1,0 +1,104 @@
+---
+title: Redis Cache
+description: In-memory data store and cache
+icon: Zap
+---
+
+In-memory key-value store for caching, sessions, and real-time applications. **Redis Alpine** - fast and lightweight.
+
+## Default Configuration
+
+```yaml
+Image: redis:alpine
+Container: damp-redis
+Port: 6379:6379
+Network: devnet
+Volume: damp-redis:/data
+```
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# Redis CLI
+redis-cli -h damp-redis
+
+# Test connection
+redis-cli -h damp-redis ping
+# Returns: PONG
+```
+
+**Laravel .env:**
+
+```
+REDIS_HOST=damp-redis
+REDIS_PORT=6379
+REDIS_PASSWORD=null
+```
+
+### From Host Machine
+
+```bash
+redis-cli -h localhost -p 6379
+```
+
+**Connection String:**
+
+```
+redis://localhost:6379
+```
+
+## Quick Operations
+
+### Set and Get Values
+
+```bash
+redis-cli -h damp-redis
+
+SET user:1:name "John Doe"
+GET user:1:name
+
+# With expiration (10 seconds)
+SETEX session:abc123 10 "user_data"
+```
+
+### Laravel Cache Example
+
+```php
+// Store cache for 1 hour
+Cache::put('users', $users, 3600);
+
+// Retrieve cached data
+$users = Cache::get('users');
+```
+
+### Session Storage
+
+```php
+// In config/session.php
+'driver' => 'redis',
+'connection' => 'default',
+```
+
+## Common Use Cases
+
+- 🚀 **Caching** - Store frequently accessed data
+- 🔐 **Sessions** - Fast session storage
+- 📊 **Counters** - Real-time analytics
+- 🔔 **Pub/Sub** - Real-time messaging
+- ⏱️ **Rate Limiting** - API throttling
+
+<Callout type="success">
+  **Persistence Enabled**
+  
+  Data is periodically saved to the `damp-redis` volume for durability!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **Performance Boost**
+  
+  Use Redis for database query caching to dramatically speed up your application!
+</Callout>

@@ -1,0 +1,136 @@
+---
+title: MySQL Database
+description: Popular relational database server
+icon: Database
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+Relational database server for local development. **Latest MySQL version** with sensible defaults.
+
+<Callout type="success">
+  **One-Click Install**
+  
+  Pre-configured with a development database and user account ready to use!
+</Callout>
+
+## Default Configuration
+
+```yaml
+Image: mysql:latest
+Container: damp-mysql
+Port: 3306:3306
+Network: devnet
+Volume: damp_mysql_data:/var/lib/mysql
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MYSQL_ROOT_PASSWORD` | `rootpassword` | Root account password |
+| `MYSQL_DATABASE` | `development` | Default database |
+| `MYSQL_USER` | `developer` | Non-root user |
+| `MYSQL_PASSWORD` | `devpassword` | User password |
+
+## Connection Information
+
+### From Docker Containers (DevContainers)
+
+```bash
+# Using container name
+mysql -h damp-mysql -u developer -pdevpassword development
+```
+
+**Laravel .env Configuration:**
+
+```
+DB_CONNECTION=mysql
+DB_HOST=damp-mysql
+DB_PORT=3306
+DB_DATABASE=development
+DB_USERNAME=developer
+DB_PASSWORD=devpassword
+```
+
+### From Host Machine
+
+```bash
+# Using localhost
+mysql -h localhost -P 3306 -u developer -pdevpassword development
+```
+
+**Connection String:**
+
+```
+mysql://developer:devpassword@localhost:3306/development
+```
+
+## Quick Start
+
+<Steps>
+
+<Step>
+**Install MySQL**
+
+Click "Install" on the MySQL service card in DAMP.
+</Step>
+
+<Step>
+**Connect from DevContainer**
+
+Open your project's `.env` file and use the connection details above.
+</Step>
+
+<Step>
+**Start Building**
+
+Run migrations and start developing!
+</Step>
+
+</Steps>
+
+## Common Operations
+
+### Create New Database
+
+```sql
+-- As root user
+mysql -h damp-mysql -u root -prootpassword
+
+CREATE DATABASE my_new_db;
+GRANT ALL ON my_new_db.* TO 'developer'@'%';
+FLUSH PRIVILEGES;
+```
+
+### Import SQL File
+
+```bash
+# From host
+mysql -h localhost -u developer -pdevpassword development < backup.sql
+
+# From devcontainer
+mysql -h damp-mysql -u developer -pdevpassword development < backup.sql
+```
+
+### Backup Database
+
+```bash
+mysqldump -h localhost -u developer -pdevpassword development > backup.sql
+```
+
+## Data Persistence
+
+<Callout type="info">
+  **Safe Storage**
+  
+  All data is stored in the `damp_mysql_data` Docker volume. Removing the service preserves your databases!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **Performance Tip**
+  
+  MySQL in Docker performs best on Windows with WSL 2 backend enabled in Docker Desktop.
+</Callout>

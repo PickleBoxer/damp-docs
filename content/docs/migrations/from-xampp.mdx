@@ -1,0 +1,363 @@
+---
+title: Migrate from XAMPP
+description: Switch from XAMPP to DAMP's modern stack
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+Switch from **XAMPP** to DAMP and get **DevContainers**, **modern PHP versions**, and **HTTPS by default**.
+
+## Why Migrate?
+
+| Feature | XAMPP | DAMP |
+|---------|-------|------|
+| **DevContainers** | ❌ No | ✅ Full VS Code integration |
+| **Web Server** | Apache | Caddy (modern, HTTPS) |
+| **PHP Versions** | ⚠️ One at a time | ✅ Multiple simultaneous |
+| **HTTPS** | ⚠️ Manual | ✅ Automatic |
+
+<Callout type="success">
+  **Keep Your Code**
+  
+  DAMP adds DevContainer files - your existing PHP/Laravel projects stay intact!
+</Callout>
+
+## Migration Process
+
+<Steps>
+
+<Step>
+**Stop XAMPP Services**
+
+Stop all services to free ports:
+
+1. Open XAMPP Control Panel
+2. Stop **Apache**
+3. Stop **MySQL**
+4. Stop any other running services
+5. Exit XAMPP Control Panel
+</Step>
+
+<Step>
+**Export XAMPP Database**
+
+Export your database data:
+
+1. Open browser: `http://localhost/phpmyadmin`
+2. Select your database
+3. Click **"Export"** tab
+4. Choose **"Quick"** method
+5. Click **"Go"** to download `.sql` file
+</Step>
+
+<Step>
+**Open DAMP**
+
+Launch DAMP and click **"Add Site"** button.
+</Step>
+
+<Step>
+**Select "Existing Project"**
+
+Choose the **Existing Project** option.
+</Step>
+
+<Step>
+**Configure Site**
+
+Fill in the details:
+
+| Field | Value | Example |
+|-------|-------|---------|
+| **Name** | Your site name | `my-xampp-site` |
+| **Path** | Your XAMPP project | `C:\xampp\htdocs\my-project` |
+| **PHP Version** | Upgrade recommended | `8.3` |
+
+<Callout type="info">
+  **PHP Version**
+  
+  Consider upgrading to PHP 8.3! DAMP supports PHP 7.4, 8.0, 8.1, 8.2, and 8.3.
+</Callout>
+
+<Callout type="warning">
+  **Is Laravel Project?**
+  
+  Toggle **"Is Laravel Project"** ON if using Laravel to enable Tinker and Artisan features!
+</Callout>
+</Step>
+
+<Step>
+**Install Services**
+
+Install services your project needs:
+
+| Service | Install? | XAMPP Equivalent |
+|---------|----------|------------------|
+| **MySQL** | ✅ Required | MySQL |
+| **PostgreSQL** | ✅ If needed | N/A |
+| **Redis** | ✅ Recommended | N/A |
+| **Mailpit** | ✅ Recommended | Mercury (mail) |
+
+Go to Services page → Click "Install" for each service.
+</Step>
+
+<Step>
+**Import Database**
+
+Import your exported data to DAMP:
+
+```bash
+# Inside VS Code DevContainer terminal
+mysql -h damp-mysql -u damp -pdamp damp < /path/to/backup.sql
+```
+
+Or use phpMyAdmin-like tools:
+1. Install DBeaver or TablePlus
+2. Connect to `localhost:<port>` (find port in DAMP)
+3. Import `.sql` file
+</Step>
+
+<Step>
+**Update Configuration**
+
+Open project in VS Code DevContainer and update database config:
+
+**Laravel .env:**
+```
+# Old XAMPP config
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=my_database
+DB_USERNAME=root
+DB_PASSWORD=
+
+# New DAMP config
+DB_CONNECTION=mysql
+DB_HOST=damp-mysql
+DB_PORT=3306
+DB_DATABASE=damp
+DB_USERNAME=damp
+DB_PASSWORD=damp
+```
+
+**Plain PHP:**
+```php
+// Old XAMPP
+$conn = new mysqli('localhost', 'root', '', 'my_database');
+
+// New DAMP
+$conn = new mysqli('damp-mysql', 'damp', 'damp', 'damp');
+```
+
+**WordPress wp-config.php:**
+```php
+// Old XAMPP
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+
+// New DAMP
+define('DB_HOST', 'damp-mysql');
+define('DB_USER', 'damp');
+define('DB_PASSWORD', 'damp');
+```
+</Step>
+
+<Step>
+**Update URLs (If Needed)**
+
+If your project has hardcoded URLs:
+
+**XAMPP:**
+```
+http://localhost/my-project
+```
+
+**DAMP:**
+```
+https://my-project.local
+```
+
+Update in database or config files.
+</Step>
+
+<Step>
+**Test Your Site**
+
+1. Open in VS Code: Click "Open in VS Code" in DAMP
+2. Reopen in Container when prompted
+3. Browse to `https://my-project.local`
+4. Install SSL certificate from DAMP
+</Step>
+
+</Steps>
+
+## What Changed
+
+### File Structure
+
+DAMP adds DevContainer files:
+
+```
+my-project/
+├── .devcontainer/          ← Added by DAMP
+│   ├── devcontainer.json
+│   ├── Dockerfile
+│   ├── php.ini             ← Like XAMPP's php.ini
+│   └── xdebug.ini          ← Built-in debugging!
+├── .vscode/                ← Added by DAMP
+│   ├── launch.json
+│   └── settings.json
+└── [Your existing XAMPP files remain]
+```
+
+### Web Server
+
+**XAMPP:** Apache with `.htaccess` files
+
+**DAMP:** Caddy with automatic HTTPS
+
+<Callout type="tip">
+  **Caddy vs Apache**
+  
+  Caddy automatically handles most Apache `.htaccess` rules. For Laravel, routing works out of the box!
+</Callout>
+
+### Service Access
+
+**XAMPP:**
+```php
+$host = 'localhost';  // or 127.0.0.1
+```
+
+**DAMP:**
+```php
+$host = 'damp-mysql';  // Container name
+```
+
+### Domain Names
+
+**XAMPP:**
+```
+http://localhost/my-project
+http://my-project.localhost  # With vhosts
+```
+
+**DAMP:**
+```
+https://my-project.local  # HTTPS by default!
+```
+
+## Common XAMPP → DAMP Changes
+
+### phpMyAdmin
+
+**XAMPP:** Built-in at `http://localhost/phpmyadmin`
+
+**DAMP:** Use external tools:
+- **DBeaver** (free, powerful)
+- **TablePlus** (fast, modern UI)
+- **phpMyAdmin** (can run in Docker)
+
+Connect using ports shown in DAMP Services page.
+
+### Mail Testing
+
+**XAMPP:** Mercury mail server (rarely used)
+
+**DAMP:** Mailpit (modern, web UI)
+
+Install Mailpit service and configure:
+```
+MAIL_HOST=damp-mailpit
+MAIL_PORT=1025
+```
+
+Access web UI at port shown in DAMP.
+
+### Multiple PHP Versions
+
+**XAMPP:** Switch PHP version for ALL projects
+
+**DAMP:** Each project has its own PHP version!
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Port 80 Already in Use">
+  
+    **Problem:** XAMPP Apache still running
+
+    **Solution:**
+    1. Open XAMPP Control Panel
+    2. Stop Apache service
+    3. Close XAMPP completely
+    4. Restart DAMP
+
+  </Accordion>
+
+  <Accordion title="Database Import Failed">
+  
+    **Problem:** Large `.sql` file timeout
+
+    **Solution:**
+    1. Split file into smaller parts
+    2. Use command line import (faster):
+       ```bash
+       mysql -h damp-mysql -u damp -pdamp damp < backup.sql
+       ```
+    3. Increase timeout in Dockerfile
+
+  </Accordion>
+
+  <Accordion title="Missing PHP Extensions">
+  
+    **Problem:** "Extension not found" error
+
+    **Solution:**
+    1. Edit `.devcontainer/Dockerfile`
+    2. Add extension installation:
+       ```dockerfile
+       RUN docker-php-ext-install mysqli pdo_mysql
+       ```
+    3. Rebuild container: `Ctrl+Shift+P` → "Rebuild Container"
+
+  </Accordion>
+
+  <Accordion title=".htaccess Not Working">
+  
+    **Problem:** Rewrite rules don't work
+
+    **Solution:**
+    
+    For Laravel/modern frameworks, Caddy handles routing automatically.
+
+    For custom `.htaccess`:
+    1. Most rules work automatically with Caddy
+    2. For complex rules, configure Caddyfile (advanced)
+    3. Or use Nginx sidecar container (rare)
+
+  </Accordion>
+
+  <Accordion title="Site Shows Directory Listing">
+  
+    **Problem:** No index.php/index.html loaded
+
+    **Solution:**
+    1. Verify `index.php` exists in project root
+    2. For Laravel: Use `public/` folder as document root
+    3. DAMP automatically uses `public/` for Laravel sites
+
+  </Accordion>
+</Accordions>
+
+---
+
+<Callout type="success">
+  **Modernization Benefits**
+  
+  XAMPP to DAMP is a great opportunity to modernize: upgrade PHP, add Redis caching, use proper Laravel tools!
+</Callout>
+
+## Next Steps

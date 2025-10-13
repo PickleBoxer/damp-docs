@@ -1,0 +1,147 @@
+---
+title: MinIO Storage
+description: S3-compatible object storage
+icon: FolderOpen
+---
+
+**S3-compatible** object storage server. Develop locally with the same APIs as Amazon S3.
+
+## Default Configuration
+
+```yaml
+Image: minio/minio:latest
+Container: damp-minio
+Ports:
+  - 9000:9000  # API
+  - 8900:8900  # Console
+Network: devnet
+Volume: damp-minio:/data
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MINIO_ROOT_USER` | `root` | Admin username |
+| `MINIO_ROOT_PASSWORD` | `password` | Admin password |
+
+## Connection Information
+
+### Console (Web UI)
+
+```
+http://localhost:8900
+```
+
+**Login:**
+- Username: `root`
+- Password: `password`
+
+### API Endpoint
+
+**From Docker Containers:**
+
+```
+http://damp-minio:9000
+```
+
+**From Host Machine:**
+
+```
+http://localhost:9000
+```
+
+## Laravel S3 Configuration
+
+### Install Flysystem
+
+```bash
+composer require league/flysystem-aws-s3-v3
+```
+
+### Configure .env
+
+```
+AWS_ACCESS_KEY_ID=root
+AWS_SECRET_ACCESS_KEY=password
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=my-bucket
+AWS_ENDPOINT=http://damp-minio:9000
+AWS_USE_PATH_STYLE_ENDPOINT=true
+```
+
+### Create Bucket
+
+1. Open `http://localhost:8900`
+2. Login with credentials above
+3. Click "Create Bucket"
+4. Name it `my-bucket`
+
+### Usage
+
+```php
+use Illuminate\Support\Facades\Storage;
+
+// Store file
+Storage::disk('s3')->put('file.txt', 'Contents');
+
+// Retrieve file
+$contents = Storage::disk('s3')->get('file.txt');
+
+// Get URL
+$url = Storage::disk('s3')->url('file.txt');
+```
+
+## Use Cases
+
+- 📦 **File Uploads** - User-generated content
+- 🖼️ **Image Storage** - Product photos, avatars
+- 📄 **Document Storage** - PDFs, reports
+- 💾 **Backups** - Database dumps, archives
+- 🎥 **Media Files** - Videos, audio files
+
+## MinIO Client (mc)
+
+### Install Client
+
+```bash
+# In devcontainer or host
+wget https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+```
+
+### Configure
+
+```bash
+mc alias set local http://localhost:9000 root password
+```
+
+### Common Commands
+
+```bash
+# List buckets
+mc ls local
+
+# Create bucket
+mc mb local/my-bucket
+
+# Upload file
+mc cp file.txt local/my-bucket/
+
+# Download file
+mc cp local/my-bucket/file.txt ./
+```
+
+<Callout type="success">
+  **S3 Compatible**
+  
+  Any S3 client or SDK works with MinIO - develop locally, deploy to AWS seamlessly!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **Web Console**
+  
+  The MinIO console at `http://localhost:8900` provides bucket management, file browser, and monitoring!
+</Callout>

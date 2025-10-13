@@ -1,0 +1,91 @@
+---
+title: MongoDB Database
+description: NoSQL document database
+icon: Database
+---
+
+Document-oriented NoSQL database using **MongoDB Atlas Local**. Perfect for flexible, schema-less data.
+
+## Default Configuration
+
+```yaml
+Image: mongodb/mongodb-atlas-local:latest
+Container: damp-mongodb
+Port: 27017:27017
+Network: devnet
+Volume: damp-mongodb:/data/db
+```
+
+### Environment Variables
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MONGODB_INITDB_ROOT_USERNAME` | `root` | Root username |
+| `MONGODB_INITDB_ROOT_PASSWORD` | `rootpassword` | Root password |
+
+## Connection Information
+
+### From Docker Containers
+
+```bash
+# MongoDB shell
+mongosh "mongodb://root:rootpassword@damp-mongodb:27017"
+```
+
+**Laravel .env (with MongoDB package):**
+
+```
+MONGODB_HOST=damp-mongodb
+MONGODB_PORT=27017
+MONGODB_DATABASE=development
+MONGODB_USERNAME=root
+MONGODB_PASSWORD=rootpassword
+```
+
+### From Host Machine
+
+```bash
+mongosh "mongodb://root:rootpassword@localhost:27017"
+```
+
+**Connection String:**
+
+```
+mongodb://root:rootpassword@localhost:27017/development?authSource=admin
+```
+
+## Quick Operations
+
+### Create Database & Collection
+
+```javascript
+use my_app;
+db.users.insertOne({ name: "John", email: "john@example.com" });
+```
+
+### List Databases
+
+```javascript
+show dbs
+```
+
+### Export Collection
+
+```bash
+mongoexport --host=localhost --username=root --password=rootpassword \
+  --db=development --collection=users --out=users.json
+```
+
+<Callout type="info">
+  **Atlas Local Edition**
+  
+  Uses the same engine as MongoDB Atlas cloud - develop locally, deploy to cloud seamlessly!
+</Callout>
+
+---
+
+<Callout type="tip">
+  **GUI Tools**
+  
+  Use MongoDB Compass to connect to `localhost:27017` with credentials above for a visual interface!
+</Callout>
