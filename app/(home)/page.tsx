@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Box, Shield, Code, Terminal, Container, Lock, Bug, Package, Globe, Database, Zap, Sparkles } from "lucide-react";
 import { useState } from "react";
-import Image from "next/image";
 import DampAppDashboard from "@/components/mockup/DampAppDashboard";
 import DampAppServices from "@/components/mockup/DampAppServices";
 import DampAppSites from "@/components/mockup/DampAppSites";
@@ -60,20 +59,6 @@ export default function HomePage() {
 
             {/* Interactive Preview */}
             <PreviewSection />
-          </section>
-
-          {/* App Dashboard Mockup */}
-          <section className="border-x border-t px-4 py-12 md:px-8 md:py-16 bg-gradient-to-b from-fd-secondary/30 to-fd-background">
-            {/* Mockup Content with Constrained Height */}
-            <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
-              <DampAppDashboard />
-            </div>
-            <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
-              <DampAppServices />
-            </div>
-            <div className="w-[790px] h-[600px] border rounded-lg overflow-hidden">
-              <DampAppSites />
-            </div>
           </section>
 
           {/* Tagline Section */}
@@ -419,26 +404,6 @@ export default function HomePage() {
   );
 }
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  readonly icon: React.ReactNode;
-  readonly title: string;
-  readonly description: string;
-}) {
-  return (
-    <div className="border-l border-t px-6 py-12">
-      <div className="mb-4 flex flex-row items-center gap-2 text-fd-muted-foreground">
-        {icon}
-        <h2 className="text-sm font-medium">{title}</h2>
-      </div>
-      <span className="font-medium">{description}</span>
-    </div>
-  );
-}
-
 function HighlightCard({
   icon: Icon,
   title,
@@ -476,23 +441,17 @@ function PreviewSection() {
     { 
       id: 'dashboard' as const, 
       label: 'Dashboard', 
-      image: '/screenshots/dash.webp',
-      fallback: '/screenshots/dash.png',
-      alt: 'DAMP Dashboard showing local services, running services count, and sites status overview'
+      component: DampAppDashboard
     },
     { 
       id: 'sites' as const, 
       label: 'Sites', 
-      image: '/screenshots/projects.webp',
-      fallback: '/screenshots/projects.png',
-      alt: 'DAMP Sites management showing Laravel projects with PHP versions and devcontainer status'
+      component: DampAppSites
     },
     { 
       id: 'services' as const, 
       label: 'Services', 
-      image: '/screenshots/services.webp',
-      fallback: '/screenshots/services.png',
-      alt: 'DAMP Services page showing available databases, caching systems, and development tools'
+      component: DampAppServices
     },
   ];
 
@@ -503,29 +462,37 @@ function PreviewSection() {
   };
 
   return (
-    <div className="relative mt-12 min-w-full overflow-hidden xl:-mx-12 dark:[mask-image:linear-gradient(to_top,transparent,white_40px)]">
-      {/* Images Container with Fixed Aspect Ratio */}
-      <div className="relative w-full overflow-hidden aspect-[2/1]">
-        {tabs.map((tab) => (
-          <div
-            key={tab.id}
-            className={`absolute inset-0 flex items-start justify-start lg:justify-center transition-opacity duration-500 ${
-              activeTab === tab.id ? 'opacity-100 z-10' : 'opacity-0 z-0'
-            }`}
-          >
-            <Image
-              alt={tab.alt}
-              width={790}
-              height={593}
-              src={tab.image}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 790px"
-              className="h-auto w-full max-w-[790px] object-contain select-none px-4 -mb-32"
-              priority={tab.id === 'dashboard'}
-              loading={tab.id === 'dashboard' ? 'eager' : 'lazy'}
-              quality={95}
-            />
-          </div>
-        ))}
+    <div className="relative mt-12 min-w-full xl:-mx-12">
+      {/* Components Container with horizontal scroll */}
+      <div 
+        className="relative w-full overflow-x-auto overflow-y-visible flex items-center justify-start lg:justify-center px-4 lg:px-0" 
+        style={{ 
+          minHeight: '600px',
+          maskImage: 'linear-gradient(to top, transparent, black 100px, black)',
+          WebkitMaskImage: 'linear-gradient(to top, transparent, black 100px, black)',
+        }}
+      >
+        {tabs.map((tab) => {
+          const Component = tab.component;
+          return (
+            <div
+              key={tab.id}
+              className={`transition-opacity duration-500 ${
+                activeTab === tab.id ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+              style={{
+                position: activeTab === tab.id ? 'relative' : 'absolute',
+              }}
+            >
+              {/* Fixed size wrapper - no scaling */}
+              <div 
+                className="border rounded-lg overflow-hidden shadow-2xl w-[790px] h-[600px]"
+              >
+                <Component />
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Tab Buttons */}

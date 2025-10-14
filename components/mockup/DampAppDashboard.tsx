@@ -129,7 +129,7 @@ export default function DampAppDashboard() {
 
         {/* Dashboard Content */}
         <div className="p-6 space-y-4">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold text-left">
             Hi, Welcome back{" "}
             <span
               className="inline-block"
@@ -160,7 +160,7 @@ export default function DampAppDashboard() {
 
           {/* Featured Banner */}
           <div className="overflow-hidden rounded-md p-8 py-4 flex items-center justify-between bg-gradient-to-r from-orange-400 via-purple-600 to-blue-500">
-            <div className="w-86 shrink-0">
+            <div className="w-86 shrink-0 text-left">
               <h2 className="text-md font-bold text-white drop-shadow-lg">
                 Local services
               </h2>
@@ -168,10 +168,10 @@ export default function DampAppDashboard() {
                 Run local databases and dev tools instantly.
               </p>
               <div className="flex gap-4">
-                <button className="h-7 rounded-md px-2.5 text-xs bg-white/20 hover:bg-white/30 text-fd-secondary-foreground shadow-xs shadow-black/5 inline-flex items-center justify-center font-medium">
+                <button className="h-7 text-white rounded-md px-2.5 text-xs bg-white/20 hover:bg-white/30 shadow-xs shadow-black/5 inline-flex items-center justify-center font-medium">
                   Browse services
                 </button>
-                <button className="h-7 rounded-md px-2.5 text-xs hover:bg-white/30 text-fd-accent-foreground inline-flex items-center justify-center font-medium">
+                <button className="h-7 text-white rounded-md px-2.5 text-xs hover:bg-white/30 inline-flex items-center justify-center font-medium">
                   Learn more
                 </button>
               </div>
