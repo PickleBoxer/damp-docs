@@ -1,17 +1,13 @@
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import {
   Box,
-  Container,
   Globe,
   Home,
   Info,
   Minus,
-  Play,
   Server,
   Settings,
   Square,
-  CircleStop,
   RefreshCw,
   X,
   Search,
@@ -19,6 +15,7 @@ import {
   ChevronRight,
   CircleCheckBig,
 } from "lucide-react";
+import { SiDocker, SiMariadb, SiMysql, SiRabbitmq, SiMinio, SiPostgresql } from "react-icons/si";
 
 export default function DampAppServices() {
   return (
@@ -82,7 +79,7 @@ export default function DampAppServices() {
             <div className="p-2">
               <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
                 <div className="relative">
-                  <Container className="size-4" />
+                  <SiDocker className="size-4" />
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
                 </div>
               </button>
@@ -131,7 +128,7 @@ export default function DampAppServices() {
         </header>
 
         {/* Services Content */}
-        <div className="flex flex-col h-[calc(100vh-4rem)]">
+        <div className="flex flex-col h-full">
           {/* Search Bar */}
           <div className="relative border-y">
             <input 
@@ -211,7 +208,7 @@ export default function DampAppServices() {
                             <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                               <div className="flex items-center gap-3 flex-1">
                                 <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="mariadb" className="w-8 h-8" src="https://cdn.simpleicons.org/mariadb" />
+                                  <SiMariadb className="w-8 h-8 text-[#3A6E9D]" />
                                 </div>
                                 <div>
                                   <div className="flex items-center gap-2">
@@ -269,7 +266,7 @@ export default function DampAppServices() {
                             <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                               <div className="flex items-center gap-3 flex-1">
                                 <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="mysql" className="w-8 h-8" src="https://cdn.simpleicons.org/mysql" />
+                                  <SiMysql className="w-8 h-8 text-[#4479A1]" />
                                 </div>
                                 <div>
                                   <div className="flex items-center gap-2">
@@ -290,7 +287,7 @@ export default function DampAppServices() {
                             <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
                               <div className="flex items-center gap-3 flex-1">
                                 <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="rabbitmq" className="w-8 h-8" src="https://cdn.simpleicons.org/rabbitmq" />
+                                  <SiRabbitmq className="w-8 h-8 text-[#FF6600]" />
                                 </div>
                                 <div>
                                   <div className="flex items-center gap-2">
@@ -308,7 +305,7 @@ export default function DampAppServices() {
                             <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
                               <div className="flex items-center gap-3 flex-1">
                                 <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="minio" className="w-8 h-8" src="https://cdn.simpleicons.org/minio" />
+                                  <SiMinio className="w-8 h-8 text-[#7B3F00]" />
                                 </div>
                                 <div>
                                   <div className="flex items-center gap-2">
@@ -368,7 +365,7 @@ export default function DampAppServices() {
                             <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                               <div className="flex items-center gap-3 flex-1">
                                 <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="postgresql" className="w-8 h-8" src="https://cdn.simpleicons.org/postgresql" />
+                                  <SiPostgresql className="w-8 h-8 text-[#336791]" />
                                 </div>
                                 <div>
                                   <div className="flex items-center gap-2">
@@ -385,109 +382,6 @@ export default function DampAppServices() {
                               <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
                             </button>
 
-                            {/* Meilisearch - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="meilisearch" className="w-8 h-8" src="https://cdn.simpleicons.org/meilisearch" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Meilisearch</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Meilisearch full-text search engine
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* MongoDB - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="mongodb" className="w-8 h-8" src="https://cdn.simpleicons.org/mongodb" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">MongoDB Database</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    MongoDB document database for local development
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* Redis - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="redis" className="w-8 h-8" src="https://cdn.simpleicons.org/redis" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Redis Cache</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Redis key-value store for caching and sessions
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* Caddy - Running + Required */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <img alt="caddy" className="w-8 h-8" src="https://cdn.simpleicons.org/caddy" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Web Server</span>
-                                    <Badge className="text-xs bg-secondary text-secondary-foreground">
-                                      Required
-                                    </Badge>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Caddy reverse proxy server for local development
-                                  </p>
-                                </div>
-                              </div>
-                              <Badge className="text-xs bg-primary text-primary-foreground">
-                                <CircleCheckBig className="inline-block h-4 w-4 text-green-500 mr-1 align-middle" />
-                                running
-                              </Badge>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* Mailpit - Running */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 132.292 121.708" className="w-8 h-8 text-black dark:text-white">
-                                    <path d="M12.321 0l53.861 53.918L120.365 0zM5.155 9.025l60.842 59.673 61.211-59.489-.185 36.835L66.921 70.54l15.164 12.616-8.137 5.986-41.609.184c-4.838-.022-25.877-18.34-27.185-41.255z" fill="currentColor" fillOpacity=".941"></path>
-                                    <path d="M78.385 72.049l53.907-21.679-8.031 57.318-11.845-9.132c-21.727 23.171-45.255 26.289-67.997 20.837S12.281 98.39 5.155 83.8-.67 53.116 2.843 38.769c1.13 10.511-1.313 16.316 6.38 33.612 6.31 11.399 14.413 20.417 25.89 24.956 13.9 6.195 32.247 3.357 41.701-3.039l14.24-12.156z" fill="#00b786"></path>
-                                  </svg>
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Mail Testing</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Email testing server for local development
-                                  </p>
-                                </div>
-                              </div>
-                              <Badge className="text-xs bg-primary text-primary-foreground">
-                                <CircleCheckBig className="inline-block h-4 w-4 text-green-500 mr-1 align-middle" />
-                                running
-                              </Badge>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
                           </div>
                         </div>
                       </div>

@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
   Box,
-  Container,
   Globe,
   Home,
   Info,
@@ -15,7 +14,7 @@ import {
   RefreshCw,
   X,
 } from "lucide-react";
-import { SiRedis, SiSqlite } from "react-icons/si";
+import { SiRedis, SiSqlite, SiMysql, SiDocker } from "react-icons/si";
 
 export default function DampAppDashboard() {
   return (
@@ -79,7 +78,7 @@ export default function DampAppDashboard() {
             <div className="p-2">
               <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
                 <div className="relative">
-                  <Container className="size-4" />
+                  <SiDocker className="size-4" />
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
                 </div>
               </button>
@@ -291,14 +290,10 @@ export default function DampAppDashboard() {
               <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-fd-background flex-1">
                 <div className="flex flex-row items-center gap-4 p-4 rounded-t-md group">
                   <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <img
-                      alt="mysql"
-                      className="w-4 h-4"
-                      src="https://cdn.simpleicons.org/mysql"
-                    />
+                    <SiMysql className="w-4 h-4 text-[#4479A1]" />
                   </div>
                   <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base font-semibold">
+                    <div className="text-base font-semibold text-primary">
                       MySQL Database
                     </div>
                     <div className="text-fd-muted-foreground text-xs">
@@ -339,7 +334,7 @@ export default function DampAppDashboard() {
                     </svg>
                   </div>
                   <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base font-semibold">Mail Testing</div>
+                    <div className="text-base text-primary font-semibold">Mail Testing</div>
                     <div className="text-fd-muted-foreground text-xs">
                       Email testing server for local development
                     </div>

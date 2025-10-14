@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import {
   Box,
-  Container,
   Globe,
   Home,
   Info,
@@ -19,6 +18,7 @@ import {
   Trash2,
   FolderOpen,
 } from "lucide-react";
+import { SiLaravel, SiPhp, SiDocker } from "react-icons/si";
 
 export default function DampAppSites() {
   return (
@@ -80,7 +80,7 @@ export default function DampAppSites() {
             <div className="p-2">
               <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
                 <div className="relative">
-                  <Container className="size-4" />
+                  <SiDocker className="size-4" />
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
                 </div>
               </button>
@@ -173,21 +173,17 @@ export default function DampAppSites() {
                         </button>
 
                         {/* test-newtype Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                        <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
-                              <img
-                                alt="Laravel"
-                                className="w-8 h-8"
-                                src="https://cdn.simpleicons.org/laravel"
-                              />
+                              <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm capitalize">
                                   test-newtype
                                 </span>
-                                <Badge className="text-xs bg-secondary text-fd-secondary-foreground">
+                                <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
                                   PHP 8.4
                                 </Badge>
                               </div>
@@ -206,14 +202,10 @@ export default function DampAppSites() {
                         </button>
 
                         {/* new-typwsite Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                        <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
-                              <img
-                                alt="Laravel"
-                                className="w-8 h-8"
-                                src="https://cdn.simpleicons.org/laravel"
-                              />
+                              <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
@@ -239,21 +231,17 @@ export default function DampAppSites() {
                         </button>
 
                         {/* laravel-test12 Site - Active/Selected */}
-                        <button className="flex items-center gap-4 p-3 border bg-muted rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                        <button className="flex items-center gap-4 p-3 border bg-fd-muted rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
-                              <img
-                                alt="Laravel"
-                                className="w-8 h-8"
-                                src="https://cdn.simpleicons.org/laravel"
-                              />
+                              <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm capitalize">
                                   laravel-test12
                                 </span>
-                                <Badge className="text-xs bg-secondary text-fd-secondary-foreground">
+                                <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
                                   PHP 8.4
                                 </Badge>
                               </div>
@@ -272,14 +260,10 @@ export default function DampAppSites() {
                         </button>
 
                         {/* prestashop16 Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                        <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
-                              <img
-                                alt="PHP"
-                                className="w-8 h-8"
-                                src="https://cdn.simpleicons.org/php"
-                              />
+                              <SiPhp className="w-8 h-8 text-[#777BB4]" />
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
@@ -304,38 +288,6 @@ export default function DampAppSites() {
                           </div>
                         </button>
 
-                        {/* testsitesquery Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="p-2 bg-primary/10 rounded-md">
-                              <img
-                                alt="PHP"
-                                className="w-8 h-8"
-                                src="https://cdn.simpleicons.org/php"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold capitalize">
-                                  testsitesquery
-                                </span>
-                                <Badge className="text-xs bg-secondary text-secondary-foreground">
-                                  PHP 8.4
-                                </Badge>
-                              </div>
-                              <p className="text-sm text-muted-foreground truncate flex items-center gap-1">
-                                <Globe className="w-3 h-3" />
-                                testsitesquery.local
-                              </p>
-                              <div className="flex items-center gap-1 mt-1">
-                                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-blue-600 dark:text-blue-400">
-                                  Ready to start
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -1200,11 +1152,7 @@ export default function DampAppSites() {
                         {/* Header with Logo and Actions */}
                         <div className="flex items-baseline justify-between mb-0 -mt-7 z-10">
                           <div className="z-10 bg-fd-background p-2 rounded-md flex items-center">
-                            <img
-                              alt="Laravel"
-                              className="h-11 w-11"
-                              src="https://cdn.simpleicons.org/laravel"
-                            />
+                            <SiLaravel className="w-11 h-11 text-[#FF2D20]" />
                           </div>
                           <div className="flex gap-2 items-center">
                             <button
@@ -1236,7 +1184,7 @@ export default function DampAppSites() {
                           <div className="text-fd-muted-foreground inline-flex items-center justify-center rounded-lg p-[3px] bg-fd-muted w-full h-8">
                             <button
                               data-state="active"
-                              className="dark:data-[state=active]:text-foreground text-foreground dark:text-muted-foreground flex-1 gap-1.5 data-[state=active]:bg-fd-background dark:data-[state=active]:bg-fd-background data-[state=active]:text-secondary-foreground hover:text-muted-foreground/70 dark:hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-xs font-medium whitespace-nowrap transition-all"
+                              className="dark:data-[state=active]:text-fd-foreground text-foreground dark:text-muted-foreground flex-1 gap-1.5 data-[state=active]:bg-fd-background dark:data-[state=active]:bg-fd-background data-[state=active]:text-secondary-foreground hover:text-muted-foreground/70 dark:hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-xs font-medium whitespace-nowrap transition-all"
                             >
                               Actions
                             </button>
@@ -1264,7 +1212,7 @@ export default function DampAppSites() {
                                 Open in VS Code
                               </button>
                               <button
-                                className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-destructive text-destructive-foreground hover:bg-destructive/90 h-8.5 rounded-md px-3 gap-1.5 text-[0.8125rem] col-span-1"
+                                className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-destructive text-fd-destructive-foreground hover:bg-destructive/90 h-8.5 rounded-md px-3 gap-1.5 text-[0.8125rem] col-span-1"
                                 aria-label="Remove Site"
                               >
                                 <Trash2 className="h-4 w-4 text-primary-foreground" />
