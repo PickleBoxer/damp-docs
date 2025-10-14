@@ -49,7 +49,7 @@ export default function DampAppDashboard() {
                   <Server className="size-4" />
                 </button>
                 <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative hover:bg-fd-accent hover:text-fd--accent-foreground"
+                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative hover:bg-fd-accent hover:text-fd-accent-foreground"
                   title="Sites"
                 >
                   <Globe className="size-4" />
