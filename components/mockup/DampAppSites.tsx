@@ -172,7 +172,7 @@ export default function DampAppSites() {
                           </div>
                         </button>
 
-                        {/* test-newtype Site */}
+                        {/* apihub Site */}
                         <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
@@ -181,7 +181,7 @@ export default function DampAppSites() {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm capitalize">
-                                  test-newtype
+                                  apihub
                                 </span>
                                 <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
                                   PHP 8.4
@@ -189,7 +189,7 @@ export default function DampAppSites() {
                               </div>
                               <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
                                 <Globe className="w-3 h-3" />
-                                test-newtype.local
+                                apihub.local
                               </p>
                               <div className="flex items-center gap-1 mt-1">
                                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
@@ -201,7 +201,7 @@ export default function DampAppSites() {
                           </div>
                         </button>
 
-                        {/* new-typwsite Site */}
+                        {/* blogdemo Site */}
                         <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
@@ -210,7 +210,7 @@ export default function DampAppSites() {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm capitalize">
-                                  new-typwsite
+                                  blogdemo
                                 </span>
                                 <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
                                   PHP 8.4
@@ -218,7 +218,7 @@ export default function DampAppSites() {
                               </div>
                               <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
                                 <Globe className="w-3 h-3" />
-                                new-typwsite.local
+                                blogdemo.local
                               </p>
                               <div className="flex items-center gap-1 mt-1">
                                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
@@ -230,7 +230,7 @@ export default function DampAppSites() {
                           </div>
                         </button>
 
-                        {/* laravel-test12 Site - Active/Selected */}
+                        {/* laravel Site - Active/Selected */}
                         <button className="flex items-center gap-4 p-3 border bg-fd-muted rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
@@ -239,7 +239,7 @@ export default function DampAppSites() {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm capitalize">
-                                  laravel-test12
+                                  laravel
                                 </span>
                                 <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
                                   PHP 8.4
@@ -247,7 +247,7 @@ export default function DampAppSites() {
                               </div>
                               <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
                                 <Globe className="w-3 h-3" />
-                                laravel-test12.local
+                                laravel.local
                               </p>
                               <div className="flex items-center gap-1 mt-1">
                                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
@@ -259,7 +259,7 @@ export default function DampAppSites() {
                           </div>
                         </button>
 
-                        {/* prestashop16 Site */}
+                        {/* checkoutdemo Site */}
                         <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
                           <div className="flex items-center gap-3 flex-1">
                             <div className="p-2 bg-primary/10 rounded-md">
@@ -268,7 +268,7 @@ export default function DampAppSites() {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-sm capitalize">
-                                  prestashop16
+                                  checkoutdemo
                                 </span>
                                 <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
                                   PHP 8.4
@@ -276,7 +276,7 @@ export default function DampAppSites() {
                               </div>
                               <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
                                 <Globe className="w-3 h-3" />
-                                prestashop16.local
+                                checkoutdemo.local
                               </p>
                               <div className="flex items-center gap-1 mt-1">
                                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
@@ -365,7 +365,7 @@ export default function DampAppSites() {
                                   fontSize="12"
                                   fontFamily="Arial, sans-serif"
                                 >
-                                  laravel-test12.local
+                                  laravel.local
                                 </text>
                               </g>
                             </g>
@@ -1171,7 +1171,7 @@ export default function DampAppSites() {
                         <div className="flex items-start justify-between px-2">
                           <div className="flex-1">
                             <h2 className="text-2xl font-bold capitalize">
-                              laravel-test12
+                              laravel
                             </h2>
                           </div>
                         </div>
