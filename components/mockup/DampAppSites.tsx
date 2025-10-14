@@ -287,7 +287,6 @@ export default function DampAppSites() {
                             </div>
                           </div>
                         </button>
-
                       </div>
                     </div>
                   </div>
@@ -388,7 +387,7 @@ export default function DampAppSites() {
                                   <div className="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                                     <div className="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
                                       <h1 className="mb-1 font-medium">
-                                        Let&apos;s get started
+                                        Let&rsquo;s get started
                                       </h1>
                                       <p className="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
                                         Laravel has an incredibly rich
@@ -575,9 +574,7 @@ export default function DampAppSites() {
                                             strokeWidth="1"
                                           ></path>
                                         </g>
-                                        <g
-                                          className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
-                                        >
+                                        <g className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
                                           <path
                                             d="M230.951 281.792L231.282 281.793C238.128 274.907 248.453 265.823 262.256 254.539C275.617 243.256 285.666 234.267 292.402 227.573C299.027 220.688 303.554 213.421 305.983 205.771C308.412 198.12 307.253 190.183 302.504 181.959C297.203 172.778 289.749 165.415 280.142 159.868C270.645 154.13 260.596 151.26 249.995 151.26C239.615 151.26 232.823 154.033 229.621 159.579C226.309 164.934 227.413 172.393 232.935 181.956L168.335 181.954C159.058 165.888 155.082 151.543 156.407 138.92C157.953 126.298 164.247 116.544 175.289 109.659C186.442 102.583 201.294 99.045 219.846 99.0457C239.281 99.0464 258.551 102.585 277.655 109.663C296.649 116.549 313.986 126.303 329.667 138.927C345.349 151.551 357.827 165.895 367.104 181.961C375.718 196.88 379.528 209.981 378.535 221.265C377.762 232.549 374.063 242.399 367.438 250.814C361.033 259.229 351.095 269.557 337.624 281.796L419.782 281.8L448.605 331.719L259.774 331.712L230.951 281.792Z"
                                             fill="#F3BEC7"
