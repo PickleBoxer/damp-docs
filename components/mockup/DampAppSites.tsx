@@ -11,12 +11,12 @@ import {
   X,
   Search,
   Plus,
-  RefreshCw,
   Terminal,
   Sparkles,
   Code,
   Trash2,
   FolderOpen,
+  GripVertical,
 } from "lucide-react";
 import { SiLaravel, SiPhp, SiDocker } from "react-icons/si";
 
@@ -144,26 +144,14 @@ export default function DampAppSites() {
           {/* Main Content - Sidebar and Detail */}
           <div className="flex h-full">
             {/* Left Sidebar - Sites List */}
-            <div className="w-80 bg-fd-background border-r flex flex-col gap-4 pl-6 p-4">
-              <div className="flex flex-col w-full gap-2">
-                <div className="flex items-center justify-end gap-4">
-                  <button
-                    className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-fd-background text-accent-foreground border hover:bg-accent rounded-md px-2.5 gap-1.25 text-xs h-8"
-                    title="Refresh sites"
-                  >
-                    <RefreshCw className="h-4 w-4 mr-2 group-hover:animate-spin" />
-                    Refresh
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 flex-1 overflow-hidden">
+            <div className="flex w-80 flex-col gap-4 border-r">
+              <div className="flex flex-col flex-1 overflow-hidden">
                 <div className="relative h-full">
                   <div className="size-full rounded-[inherit] overflow-y-auto">
                     <div style={{ minWidth: "100%", display: "table" }}>
-                      <div className="flex flex-col gap-2 pr-3">
+                      <div className="flex flex-col">
                         {/* Add Site Button */}
-                        <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full focus-visible:translate-x-2">
+                        <button className="flex items-center gap-4 p-3 border-b hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full focus-visible:translate-x-2">
                           <div className="flex items-center justify-center gap-3 flex-1">
                             <div className="flex flex-col items-center gap-2 text-muted-foreground">
                               <Plus className="h-8 w-8" />
@@ -173,120 +161,148 @@ export default function DampAppSites() {
                         </button>
 
                         {/* apihub Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="p-2 bg-primary/10 rounded-md">
-                              <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm capitalize">
-                                  apihub
-                                </span>
-                                <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                  PHP 8.4
-                                </Badge>
-                              </div>
-                              <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                <Globe className="w-3 h-3" />
-                                apihub.local
-                              </p>
-                              <div className="flex items-center gap-1 mt-1">
-                                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-blue-600 dark:text-blue-400">
-                                  Ready to start
-                                </span>
-                              </div>
-                            </div>
+                        <div className="relative border-b">
+                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
+                            <GripVertical className="text-muted-foreground h-4 w-4" />
                           </div>
-                        </button>
+                          <div className="pl-6">
+                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="p-2 bg-primary/10 rounded-md">
+                                  <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm capitalize">
+                                      apihub
+                                    </span>
+                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
+                                      PHP 8.4
+                                    </Badge>
+                                  </div>
+                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
+                                    <Globe className="w-3 h-3" />
+                                    apihub.local
+                                  </p>
+                                  <div className="flex items-center gap-1 mt-1">
+                                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <span className="text-xs text-blue-600 dark:text-blue-400">
+                                      Ready to start
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
 
                         {/* blogdemo Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="p-2 bg-primary/10 rounded-md">
-                              <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm capitalize">
-                                  blogdemo
-                                </span>
-                                <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                  PHP 8.4
-                                </Badge>
-                              </div>
-                              <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                <Globe className="w-3 h-3" />
-                                blogdemo.local
-                              </p>
-                              <div className="flex items-center gap-1 mt-1">
-                                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-blue-600 dark:text-blue-400">
-                                  Ready to start
-                                </span>
-                              </div>
-                            </div>
+                        <div className="relative border-b">
+                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
+                            <GripVertical className="text-muted-foreground h-4 w-4" />
                           </div>
-                        </button>
+                          <div className="pl-6">
+                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="p-2 bg-primary/10 rounded-md">
+                                  <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm capitalize">
+                                      blogdemo
+                                    </span>
+                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
+                                      PHP 8.4
+                                    </Badge>
+                                  </div>
+                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
+                                    <Globe className="w-3 h-3" />
+                                    blogdemo.local
+                                  </p>
+                                  <div className="flex items-center gap-1 mt-1">
+                                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <span className="text-xs text-blue-600 dark:text-blue-400">
+                                      Ready to start
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
 
                         {/* laravel Site - Active/Selected */}
-                        <button className="flex items-center gap-4 p-3 border bg-fd-muted rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="p-2 bg-primary/10 rounded-md">
-                              <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm capitalize">
-                                  laravel
-                                </span>
-                                <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                  PHP 8.4
-                                </Badge>
-                              </div>
-                              <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                <Globe className="w-3 h-3" />
-                                laravel.local
-                              </p>
-                              <div className="flex items-center gap-1 mt-1">
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                <span className="text-xs text-green-600 dark:text-green-400">
-                                  Running
-                                </span>
-                              </div>
-                            </div>
+                        <div className="relative border-b border-r-2 border-r-primary">
+                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
+                            <GripVertical className="text-muted-foreground h-4 w-4" />
                           </div>
-                        </button>
+                          <div className="pl-6">
+                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="p-2 bg-primary/10 rounded-md">
+                                  <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm capitalize">
+                                      laravel
+                                    </span>
+                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
+                                      PHP 8.4
+                                    </Badge>
+                                  </div>
+                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
+                                    <Globe className="w-3 h-3" />
+                                    laravel.local
+                                  </p>
+                                  <div className="flex items-center gap-1 mt-1">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                    <span className="text-xs text-green-600 dark:text-green-400">
+                                      Running
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
 
                         {/* checkoutdemo Site */}
-                        <button className="flex items-center gap-4 p-3 border bg-fd-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="p-2 bg-primary/10 rounded-md">
-                              <SiPhp className="w-8 h-8 text-[#777BB4]" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm capitalize">
-                                  checkoutdemo
-                                </span>
-                                <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                  PHP 8.4
-                                </Badge>
-                              </div>
-                              <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                <Globe className="w-3 h-3" />
-                                checkoutdemo.local
-                              </p>
-                              <div className="flex items-center gap-1 mt-1">
-                                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-blue-600 dark:text-blue-400">
-                                  Ready to start
-                                </span>
-                              </div>
-                            </div>
+                        <div className="relative border-b">
+                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
+                            <GripVertical className="text-muted-foreground h-4 w-4" />
                           </div>
-                        </button>
+                          <div className="pl-6">
+                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="p-2 bg-primary/10 rounded-md">
+                                  <SiPhp className="w-8 h-8 text-[#777BB4]" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-sm capitalize">
+                                      checkoutdemo
+                                    </span>
+                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
+                                      PHP 8.4
+                                    </Badge>
+                                  </div>
+                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
+                                    <Globe className="w-3 h-3" />
+                                    checkoutdemo.local
+                                  </p>
+                                  <div className="flex items-center gap-1 mt-1">
+                                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <span className="text-xs text-blue-600 dark:text-blue-400">
+                                      Ready to start
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
