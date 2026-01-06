@@ -14,385 +14,588 @@ import {
   Plus,
   ChevronRight,
   CircleCheckBig,
+  GripVertical,
+  CheckCircle2,
+  Container,
+  MonitorSmartphone,
+  Loader2,
+  Copy,
 } from "lucide-react";
-import { SiDocker, SiMariadb, SiMysql, SiRabbitmq, SiMinio, SiPostgresql } from "react-icons/si";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemHeader,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { HiOutlineStatusOnline } from "react-icons/hi";
+import {
+  SiDocker,
+  SiMariadb,
+  SiMysql,
+  SiRabbitmq,
+  SiMinio,
+  SiPostgresql,
+  SiMeilisearch,
+  SiRedis,
+  SiSqlite,
+  SiMongodb,
+  SiCaddy,
+} from "react-icons/si";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+
+const allServices = [
+  {
+    icon: SiCaddy,
+    name: "Web Server",
+    description: "Caddy reverse proxy",
+    status: "active",
+    color: "#0f7c8e",
+  },
+  {
+    icon: SiMysql,
+    name: "MySQL Database",
+    description: "MySQL database server",
+    status: "active",
+    selected: true,
+    color: "#4479a1",
+  },
+  {
+    icon: SiPostgresql,
+    name: "PostgreSQL Database",
+    description: "PostgreSQL database server",
+    status: "inactive",
+    color: "#336791",
+  },
+  {
+    icon: SiMariadb,
+    name: "MariaDB Database",
+    description: "MariaDB database server",
+    status: "inactive",
+    color: "#003545",
+  },
+  {
+    icon: SiMongodb,
+    name: "MongoDB Database",
+    description: "MongoDB document database",
+    status: "inactive",
+    color: "#47a248",
+  },
+  {
+    icon: SiRedis,
+    name: "Redis Cache",
+    description: "Redis key-value store for caching and sessions",
+    status: "inactive",
+    color: "#dc382d",
+  },
+  {
+    icon: SiMeilisearch,
+    name: "Meilisearch",
+    description: "Meilisearch full-text search engine",
+    status: "inactive",
+    color: "#ff5a5f",
+  },
+  {
+    icon: SiMinio,
+    name: "MinIO Storage",
+    description: "MinIO S3-compatible object storage",
+    status: "inactive",
+    color: "#c72e2f",
+  },
+  {
+    icon: SiRabbitmq,
+    name: "RabbitMQ",
+    description: "RabbitMQ message broker for queues and messaging",
+    status: "inactive",
+    color: "#ff6600",
+  },
+];
+
+const navItems = [
+  {
+    to: "/",
+    icon: Home,
+    label: "Dashboard",
+  },
+  {
+    to: "/services",
+    icon: Server,
+    label: "Services",
+  },
+  {
+    to: "/projects",
+    icon: Globe,
+    label: "Projects",
+  },
+];
 
 export default function DampAppServices() {
   return (
-    <div
-      className="flex w-full h-full select-none bg-fd-background relative overflow-hidden"
-    >
-      {/* Sidebar - Icon Only */}
-      <div className="group peer text-fd-foreground h-full">
-        <div className="relative h-full w-12 flex border-r">
-          <div className="bg-sidebar flex h-full w-full flex-col">
-            {/* Sidebar Header - Icon Only */}
-            <div className="flex flex-col gap-2 p-2">
-              <div className="flex items-center justify-center w-8 h-8 bg-fd-primary text-fd-primary-foreground rounded-md">
-                <Box className="size-4" />
+    <div className="flex h-screen flex-col overflow-hidden select-none">
+      {/* Header */}
+      <div className="dark:bg-black bg-background relative h-[35px] w-full shrink-0 border-b">
+        {/* Draggable layer for empty spaces */}
+        <div className="absolute inset-0" />
+
+        <div className="relative z-10 flex h-full items-center justify-center">
+          {/* Left section - App icon (draggable) */}
+          <div className="bg-primary text-primary-foreground absolute left-0 ml-2 flex aspect-square items-center justify-center rounded-[5px] p-1">
+            <Box className="h-4 w-4" />
+          </div>
+
+          {/* Center section - Search on Windows/Linux, Title on macOS */}
+          <div>
+            {/* Search trigger button in title bar */}
+            <button className="bg-primary/5 border-border hover:bg-muted hover:border-ring/20 relative flex h-6.5 w-[320px] items-center justify-center gap-2 border px-3 font-mono text-sm transition-all duration-100">
+              <Search className="text-muted-foreground h-4 w-4" />
+              <span className="text-muted-foreground text-xs">DAMP</span>
+              <div className="absolute right-3 flex items-center gap-0.5">
+                <kbd
+                  data-slot="kbd"
+                  className="text-muted-foreground [[data-slot=tooltip-content]_&amp;]:bg-black/20 [[data-slot=tooltip-content]_&amp;]:text-background dark:[[data-slot=tooltip-content]_&amp;]:bg-black/10 h-5 w-fit min-w-5 gap-1 rounded-xs px-1 font-sans text-[0.625rem] font-medium [&amp;_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none dark:bg-black bg-background"
+                >
+                  Ctrl
+                </kbd>
+                <kbd
+                  data-slot="kbd"
+                  className="text-muted-foreground [[data-slot=tooltip-content]_&amp;]:bg-black/20 [[data-slot=tooltip-content]_&amp;]:text-background dark:[[data-slot=tooltip-content]_&amp;]:bg-black/10 h-5 w-fit min-w-5 gap-1 rounded-xs px-1 font-sans text-[0.625rem] font-medium [&amp;_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none dark:bg-black bg-background"
+                >
+                  P
+                </kbd>
               </div>
-            </div>
+            </button>
+          </div>
 
-            {/* Sidebar Content - Icons Only */}
-            <div className="flex min-h-0 flex-1 flex-col gap-2 px-2">
-              <nav className="space-y-2">
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Dashboard"
-                >
-                  <Home className="size-4" />
-                </button>
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors bg-fd-accent"
-                  title="Services"
-                >
-                  <Server className="size-4" />
-                </button>
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Sites"
-                >
-                  <Globe className="size-4" />
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-fd-secondary text-fd-secondary-foreground border-transparent inline-flex items-center justify-center">
-                    4
-                  </Badge>
-                </button>
-              </nav>
-
-              <nav className="mt-auto space-y-2">
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Settings"
-                >
-                  <Settings className="size-4" />
-                </button>
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="About"
-                >
-                  <Info className="size-4" />
-                </button>
-              </nav>
-            </div>
-
-            {/* Sidebar Footer - Icon Only */}
-            <div className="p-2">
-              <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
-                <div className="relative">
-                  <SiDocker className="size-4" />
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
-                </div>
+          {/* Right section - Window controls (Windows/Linux only) */}
+          <div className="absolute right-0">
+            <div className="ml-auto flex">
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-white/10 dark:hover:bg-white/10"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect fill="currentColor" width="10" height="1" y="5" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-white/10 dark:hover:bg-white/10"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect
+                    width="9"
+                    height="9"
+                    x="0.5"
+                    y="0.5"
+                    fill="none"
+                    stroke="currentColor"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-[#E81123] hover:text-white"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <path
+                    fill="currentColor"
+                    d="M 0.7,0 L 10,9.3 M 10,0.7 L 0.7,10"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                  />
+                </svg>
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="bg-fd-background relative flex w-full flex-1 flex-col overflow-y-hidden">
-        {/* Header */}
-        <header className="flex h-14 shrink-0 items-center gap-2 top-0 z-30">
-          <div className="flex items-center gap-2 px-4">
-            <button className="rounded-md">
-              <div className="flex items-center gap-2">
-                <div className="grid flex-1 text-left leading-tight">
-                  <span className="truncate text-xs font-semibold">DAMP</span>
-                  <span className="truncate text-xs text-fd-muted-foreground capitalize">
-                    services
-                  </span>
+      {/* Main */}
+      <div className="flex flex-1 overflow-hidden">
+        <nav className="dark:bg-black bg-background flex h-full w-[35px] flex-col items-center border-r">
+          {/* Navigation Items */}
+          <div className="flex flex-1 flex-col">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.label}
+                  className={`flex h-[35px] w-[35px] items-center justify-center transition-colors hover:text-foreground ${
+                    item.label === "Services"
+                      ? "text-foreground border-foreground border-r-2"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <Icon className="size-4" />
+                  <span className="sr-only">{item.label}</span>
                 </div>
-              </div>
-            </button>
+              );
+            })}
           </div>
-
-          <div className="ml-auto flex items-center gap-3 mr-2">
-            <button
-              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Minimize window"
-            >
-              <Minus className="h-4 w-4" />
-            </button>
-            <button
-              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Maximize window"
-            >
-              <Square className="h-4 w-4" />
-            </button>
-            <button
-              className="h-8 w-8 rounded-md hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Close window"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </header>
-
-        {/* Services Content */}
-        <div className="flex flex-col h-full">
-          {/* Search Bar */}
-          <div className="relative border-y">
-            <input 
-              className="flex w-full min-w-0 px-3 py-1 text-xs shadow-xs outline-none pt-4 pb-4 pl-12 pr-2 h-10 focus-visible:ring-0 border-0"
-              placeholder="Search services..."
-              value=""
-              readOnly
-            />
-            <Search className="pointer-events-none absolute top-1/2 left-6 size-4 -translate-y-1/2 opacity-50 select-none" />
-          </div>
-
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-3 h-full max-h-full pt-4 p-6">
-            <div className="col-span-3 flex flex-col gap-4 overflow-hidden">
-              <div>
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h1 className="text-2xl font-bold">Manage Services</h1>
-                    <p className="text-muted-foreground mt-1 text-xs">
-                      View, install, and control services for your local development environment.
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <button className="cursor-pointer inline-flex items-center font-medium text-fd-accent-foreground border hover:bg-accent rounded-md px-2.5 gap-1.25 text-xs h-8">
-                      <RefreshCw className="h-4 w-4 mr-2 group-hover:animate-spin" />
-                      Refresh
-                    </button>
-                    <button className="cursor-pointer inline-flex items-center font-medium text-fd-accent-foreground border hover:bg-accent rounded-md px-2.5 gap-1.25 text-xs h-8">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Service
-                    </button>
-                  </div>
+        </nav>
+        <main className="relative flex flex-1 flex-col dark:bg-black bg-background">
+          <ResizablePanelGroup direction="horizontal" className="h-full">
+            {/* Left side - Services List */}
+            <ResizablePanel defaultSize={40}>
+              <div className="flex h-full flex-col">
+                {/* Header Bar */}
+                <div className="flex h-12 shrink-0 items-center justify-between border-b px-4">
+                  <h2 className="text-sm font-semibold tracking-wide">
+                    Services
+                  </h2>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 rounded-none"
+                  >
+                    Type: All
+                    <Plus className="h-4 w-4" />
+                  </Button>
                 </div>
-              </div>
 
-              {/* Tabs and Content */}
-              <div className="flex-1 flex flex-col min-h-0">
-                <div className="w-full h-full flex flex-col gap-4">
-                  {/* Tab List */}
-                  <div className="bg-fd-muted text-fd-muted-foreground inline-flex w-fit items-center justify-center rounded-lg p-[3px] h-8 flex-shrink-0">
-                    <button data-state="active" className="dark:data-[state=active]:text-fd-foreground  flex-1 gap-1.5 data-[state=active]:bg-fd-background data-[state=active]:text-fd-secondary-foreground hover:text-fd-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      All
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Web Servers
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Databases
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Email
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Cache
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Search
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Storage
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Queue
-                    </button>
-                    <button className="flex-1 gap-1.5 hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap">
-                      Other
-                    </button>
-                  </div>
-
-                  {/* Services List */}
-                  <div className="flex-1 overflow-y-auto min-h-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="relative h-full">
-                      <div className="size-full rounded-[inherit]">
-                        <div style={{ minWidth: "100%", display: "table" }}>
-                          <div className="space-y-2 pr-3">
-                            {/* MariaDB - Running */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiMariadb className="w-8 h-8 text-[#3A6E9D]" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">MariaDB Database</span>
+                <ScrollArea className="h-0 flex-1 [&_[data-radix-scroll-area-viewport]>:first-child]:block!">
+                  <div className="flex w-full flex-1 flex-col">
+                    {allServices.map((service, index) => {
+                      const ServiceIcon = service.icon;
+                      const isActive = service.status === "active";
+                      const isSelected = service.selected;
+                      return (
+                        <div
+                          key={index}
+                          className={`group/services relative ${isSelected ? "bg-primary/5" : "hover:bg-primary/5"} ${!isActive ? "opacity-50" : ""}`}
+                        >
+                          <div className="transition-all duration-200">
+                            <div className="hover:bg-primary/5 flex w-full cursor-pointer items-center gap-4 p-3 text-left transition-colors duration-200">
+                              <div className="flex w-full flex-1 items-center gap-3">
+                                <ServiceIcon
+                                  className="w-8 h-8"
+                                  style={
+                                    service.color
+                                      ? { color: service.color }
+                                      : undefined
+                                  }
+                                />
+                                <div className="w-full truncate">
+                                  <div className="flex items-center justify-between gap-2">
+                                    <span className="truncate text-sm font-semibold">
+                                      {service.name}
+                                    </span>
+                                    <div className="flex items-center gap-1.5">
+                                      <HiOutlineStatusOnline
+                                        className={`h-3.5 w-3.5 shrink-0 ${isActive ? "text-emerald-500" : "text-muted-foreground/40"}`}
+                                      />
+                                    </div>
                                   </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    MariaDB database server for local development
+                                  <p className="text-muted-foreground flex items-center gap-1 text-xs">
+                                    <span className="truncate">
+                                      {service.description}
+                                    </span>
                                   </p>
                                 </div>
                               </div>
-                              <Badge className="text-xs bg-primary text-primary-foreground">
-                                <CircleCheckBig className="inline-block h-4 w-4 text-green-500 mr-1 align-middle" />
-                                running
-                              </Badge>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* Memcached - Stopped */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 254 254" className="w-8 h-8 text-black dark:text-white">
-                                    <defs>
-                                      <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="a">
-                                        <stop stopColor="#574C4A" offset="0%"></stop>
-                                        <stop stopColor="#80716D" offset="100%"></stop>
-                                      </linearGradient>
-                                      <linearGradient x1="88.778%" y1="98.342%" x2="30.149%" y2="-8.68%" id="b">
-                                        <stop stopColor="#268D83" offset="0%"></stop>
-                                        <stop stopColor="#2EA19E" offset="100%"></stop>
-                                      </linearGradient>
-                                    </defs>
-                                    <path d="M0 171.19V82.17C0 10.271 10.26 0 82.086 0h89.189C243.1 0 253.36 10.271 253.36 82.171v89.019c0 71.9-10.26 82.17-82.086 82.17H82.086C10.261 253.36 0 243.09 0 171.19z" fill="url(#a)"></path>
-                                    <g>
-                                      <path d="M8.891.655C-3.562 79.583 2.953 153.48 2.953 153.48h38.928c-3.704-19.704-16.992-109.724-5.938-110.021 5.924.94 32.99 76.371 32.99 76.371s5.96-.742 11.958-.742 11.959.742 11.959.742 27.066-75.43 32.99-76.371c11.053.297-2.235 90.317-5.938 110.02h38.927s6.516-73.896-5.938-152.824H116.85C109.99.736 83.89 46.51 80.891 46.51 77.892 46.51 51.792.736 44.932.655H8.892z" fill="url(#b)" transform="translate(45.79 47.098)"></path>
-                                    </g>
-                                  </svg>
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Memcached</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Memcached distributed memory caching system
-                                  </p>
-                                </div>
-                              </div>
-                              <Badge className="text-xs bg-secondary text-secondary-foreground">
-                                stopped
-                              </Badge>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* MySQL - Stopped */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiMysql className="w-8 h-8 text-[#4479A1]" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">MySQL Database</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    MySQL database server for local development
-                                  </p>
-                                </div>
-                              </div>
-                              <Badge className="text-xs bg-secondary text-secondary-foreground">
-                                stopped
-                              </Badge>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* RabbitMQ - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiRabbitmq className="w-8 h-8 text-[#FF6600]" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">RabbitMQ</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    RabbitMQ message broker for queues and messaging
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* MinIO - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiMinio className="w-8 h-8 text-[#7B3F00]" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">MinIO Storage</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    MinIO S3-compatible object storage
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* Valkey - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="8 6 40 52" className="w-8 h-8 text-black dark:text-white">
-                                    <g>
-                                      <path d="M15.2,50l-9.4-5.9v-25L28.8,6l22.3,13.1v26.3l-22.7,12.8-7.9-4.9v-12l-4.3-2.7v-13.6l12.4-7.1,12.1,7.1v14.2l-9.6,5.4v-5.7c2.9-1.1,4.9-3.9,4.9-7.3s-3.4-7.8-7.6-7.8-7.6,3.5-7.6,7.8,2.1,6.2,4.9,7.3v10.9l2.7,1.7,16.8-9.5v-19.7l-16.6-9.8-17.1,9.8v18.5l3.6,2.3v6.8ZM28.5,28.1c1.9,0,3.4,1.6,3.4,3.6s-1.5,3.6-3.4,3.6-3.4-1.6-3.4-3.6,1.5-3.6,3.4-3.6Z" fill="currentColor"></path>
-                                    </g>
-                                  </svg>
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Valkey Cache</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Valkey key-value store for caching and sessions
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* Typesense - Not Installed */}
-                            <button className="flex items-center gap-4 p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2 opacity-70 bg-transparent">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 255" className="w-8 h-8 text-black dark:text-white">
-                                    <path fill="#1035BC" d="M75.104 80.303c.551 2.751.826 5.41.826 7.979c0 2.384-.275 4.951-.826 7.702l-34.938-.275v92.437c0 7.703 3.576 11.554 10.729 11.554h20.908c1.284 3.118 1.926 6.236 1.926 9.354c0 3.118-.184 5.044-.55 5.777c-8.437 1.1-17.149 1.65-26.135 1.65c-17.79 0-26.686-7.61-26.686-22.833V95.709l-19.533.275C.275 93.234 0 90.666 0 88.282c0-2.568.275-5.228.825-7.979l19.533.275V51.692c0-4.952.734-8.437 2.2-10.454c1.468-2.201 4.31-3.302 8.53-3.302h7.427l1.65 1.651v41.267l34.94-.551Zm10.477 125.255c.178-4.02 1.275-8.405 3.286-13.156c2.194-4.934 4.661-8.771 7.401-11.512c14.436 7.857 27.134 11.786 38.1 11.786c6.026 0 10.87-1.188 14.524-3.563c3.837-2.376 5.759-5.573 5.759-9.594c0-6.395-4.935-11.511-14.803-15.349l-15.35-5.755c-23.022-8.406-34.534-21.836-34.534-40.292c0-6.578 1.186-12.425 3.564-17.541c2.557-5.3 6.026-9.776 10.415-13.43c4.567-3.838 9.958-6.761 16.173-8.771c6.21-2.01 13.154-3.016 20.829-3.016c3.47 0 7.307.275 11.511.823c4.384.548 8.772 1.37 13.155 2.467c4.388.913 8.588 2.01 12.609 3.289c4.02 1.279 7.49 2.65 10.415 4.111c0 4.568-.914 9.319-2.74 14.253c-1.827 4.934-4.295 8.588-7.402 10.963c-14.436-6.395-26.95-9.593-37.548-9.593c-4.75 0-8.499 1.188-11.239 3.564c-2.74 2.192-4.11 5.116-4.11 8.77c0 5.665 4.567 10.142 13.706 13.43l16.719 6.03c12.057 4.203 21.013 9.96 26.86 17.268c5.848 7.31 8.772 15.806 8.772 25.49c0 12.974-4.845 23.39-14.53 31.246c-9.685 7.675-23.57 11.513-41.659 11.513c-17.726 0-34.356-4.478-49.883-13.431Zm150.807 48.031V.83c2.762-.554 5.894-.83 9.396-.83c3.682 0 7.09.276 10.216.829v252.76c-3.127.552-6.534.83-10.216.83c-3.502 0-6.634-.278-9.396-.83Z"></path>
-                                  </svg>
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">Typesense Search</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    Typesense open source search engine
-                                  </p>
-                                </div>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
-                            {/* PostgreSQL - Stopped */}
-                            <button className="flex items-center gap-4 p-3 border bg-muted/30 rounded-md hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiPostgresql className="w-8 h-8 text-[#336791]" />
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold">PostgreSQL Database</span>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">
-                                    PostgreSQL database server for local development
-                                  </p>
-                                </div>
-                              </div>
-                              <Badge className="text-xs bg-secondary text-secondary-foreground">
-                                stopped
-                              </Badge>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
-                            </button>
-
+                            </div>
                           </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              </div>
+            </ResizablePanel>
+
+            <ResizableHandle />
+
+            {/* Right side - Services Detail */}
+            <ResizablePanel defaultSize={60}>
+              <div className="h-full overflow-hidden">
+                {/* Right Side - service Detail */}
+                <div className="flex h-full flex-col">
+                  {/* Service Header */}
+                  <div className="bg-background dark:bg-black border-border border-b px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <SiMysql
+                        className="h-9 w-9"
+                        style={{ color: "#4479a1" }}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <h1 className="text-foreground text-md font-semibold">
+                          MySQL Database
+                        </h1>
+                        <p className="text-muted-foreground text-xs">
+                          MySQL database server
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Service Info Card */}
+                  <div className="bg-muted/30 dark:bg-muted/10 border-border border-b px-4 py-3">
+                    <div className="flex items-center justify-between gap-4">
+                      {/* Status Section */}
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400`}
+                          />
+                          <span className="text-foreground text-sm font-medium">
+                            Running
+                          </span>
+                        </div>
+
+                        {/* Port Info */}
+
+                        <div className="bg-border h-4 w-px" />
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-muted-foreground text-xs">
+                            Port:
+                          </span>
+                          <span className="text-foreground font-mono text-xs font-medium">
+                            3306
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Health Badge */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                          <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                            Healthy
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <ScrollArea className="h-0 flex-1">
+                    <div className="flex-1 space-y-4">
+                      {/* Connection Information */}
+                      <div className="p-4">
+                        <Card className="mx-auto w-full rounded-none py-3 gap-3 dark:bg-[#090909]">
+                          <CardContent className="px-3">
+                            <Tabs
+                              defaultValue="devcontainer"
+                              className="w-full"
+                            >
+                              <TabsList className="w-full rounded-none">
+                                <TabsTrigger
+                                  value="devcontainer"
+                                  className="flex-1 rounded-none dark:data-[state=active]:bg-black"
+                                >
+                                  <Container className="mr-2 h-4 w-4" />
+                                  Inside Devcontainer
+                                </TabsTrigger>
+                                <TabsTrigger
+                                  value="local"
+                                  className="flex-1 rounded-none dark:data-[state=active]:bg-black"
+                                >
+                                  <MonitorSmartphone className="mr-2 h-4 w-4" />
+                                  Local Machine
+                                </TabsTrigger>
+                              </TabsList>
+
+                              {/* Inside Devcontainer Tab */}
+                              <TabsContent
+                                value="devcontainer"
+                                className="mt-4 space-y-4"
+                              >
+                                <Item variant="default" size="sm">
+                                  <ItemContent>
+                                    <ItemTitle>
+                                      Docker Network Connection
+                                    </ItemTitle>
+                                    <p className="text-muted-foreground text-xs">
+                                      Use this connection when connecting from
+                                      within your devcontainer
+                                    </p>
+                                  </ItemContent>
+                                </Item>
+
+                                <Separator />
+
+                                <div className="space-y-2 px-1.5">
+                                  <p className="text-muted-foreground text-xs font-medium">
+                                    Connection String
+                                  </p>
+                                  <div className="bg-background dark:bg-black border-border flex items-center justify-between overflow-hidden border">
+                                    <code className="text-foreground flex-1 truncate p-2 font-mono text-xs outline-none select-text">
+                                      adoring_proskuriakova:3306
+                                    </code>
+                                    <div className="px-2">
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0"
+                                      >
+                                        <Copy className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2 px-1.5">
+                                  <p className="text-muted-foreground text-xs font-medium">
+                                    Environment Configuration
+                                  </p>
+                                  <div className="bg-background border-border relative overflow-hidden border">
+                                    <div className="absolute top-2 right-2 z-10">
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0"
+                                      >
+                                        <Copy className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                    <pre className="text-foreground dark:bg-black flex-1 p-2 pr-12 font-mono text-xs leading-relaxed whitespace-pre-wrap outline-none select-text">
+                                      DB_CONNECTION=mysql <br />
+                                      DB_HOST=adoring_proskuriakova <br />
+                                      DB_PORT=3306 <br />
+                                      DB_DATABASE=development <br />
+                                      DB_USERNAME=developer <br />
+                                      DB_PASSWORD=devpassword
+                                    </pre>
+                                  </div>
+                                </div>
+
+                                <Separator />
+
+                                <div className="bg-primary/5 space-y-1 p-3 text-xs">
+                                  <p className="text-muted-foreground">
+                                    <strong className="text-foreground">
+                                      Inside Devcontainer:
+                                    </strong>{" "}
+                                    Services communicate via Docker&apos;s
+                                    internal network using container names. This
+                                    is the recommended way to connect from your
+                                    application running in a devcontainer.
+                                  </p>
+                                </div>
+                              </TabsContent>
+
+                              {/* Local Machine Tab */}
+                              <TabsContent
+                                value="local"
+                                className="mt-4 space-y-4"
+                              >
+                                <Item variant="default" size="sm">
+                                  <ItemContent>
+                                    <ItemTitle>
+                                      Local Machine Connection
+                                    </ItemTitle>
+                                    <p className="text-muted-foreground text-xs">
+                                      Use this connection when developing
+                                      directly on your host machine
+                                    </p>
+                                  </ItemContent>
+                                </Item>
+
+                                <Separator />
+
+                                <div className="space-y-2 px-1.5">
+                                  <p className="text-muted-foreground text-xs font-medium">
+                                    Connection String
+                                  </p>
+                                  <div className="bg-background dark:bg-black border-border flex items-center justify-between overflow-hidden border">
+                                    <code className="text-foreground flex-1 truncate p-2 font-mono text-xs outline-none select-text">
+                                      localhost:3306
+                                    </code>
+                                    <div className="px-2">
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0"
+                                      >
+                                        <Copy className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2 px-1.5">
+                                  <p className="text-muted-foreground text-xs font-medium">
+                                    Environment Configuration
+                                  </p>
+                                  <div className="bg-background dark:bg-black border-border relative overflow-hidden border">
+                                    <div className="absolute top-2 right-2 z-10">
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0"
+                                      >
+                                        <Copy className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                    <pre className="text-foreground dark:bg-black flex-1 p-2 pr-12 font-mono text-xs leading-relaxed whitespace-pre-wrap outline-none select-text">
+                                      DB_CONNECTION=mysql <br />
+                                      DB_HOST=localhost <br />
+                                      DB_PORT=3306 <br />
+                                      DB_DATABASE=development <br />
+                                      DB_USERNAME=developer <br />
+                                      DB_PASSWORD=devpassword
+                                    </pre>
+                                  </div>
+                                </div>
+
+                                <Separator />
+
+                                <div className="bg-primary/5 space-y-1 p-3 text-xs">
+                                  <p className="text-muted-foreground">
+                                    <strong className="text-foreground">
+                                      Local Machine:
+                                    </strong>{" "}
+                                    Services are exposed on localhost through
+                                    port mapping. Use this when running your
+                                    application directly on your host machine
+                                    outside of a container.
+                                  </p>
+                                </div>
+                              </TabsContent>
+                            </Tabs>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  </ScrollArea>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col gap-2 p-4">
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="secondary"
+                        className="h-8.5 flex-1"
+                        size="lg"
+                      >
+                        Stop
+                      </Button>
+                      <Button size="lg" className="h-8.5">
+                        Restart
+                      </Button>
+                      <Button size="lg" variant="destructive" className="h-8.5">
+                        Uninstall
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </main>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </main>
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }

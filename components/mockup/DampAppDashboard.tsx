@@ -1,417 +1,502 @@
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import {
   Box,
   Globe,
   Home,
-  Info,
-  Minus,
-  Play,
   Server,
   Settings,
   Square,
-  CircleStop,
-  RefreshCw,
-  X,
+  ArrowRight,
+  ArrowLeft,
+  Search,
+  AlertCircle,
 } from "lucide-react";
-import { SiRedis, SiSqlite, SiMysql, SiDocker } from "react-icons/si";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Marquee3D } from "@/components/ui/marquee-3d";
+import {
+  SiRedis,
+  SiSqlite,
+  SiMysql,
+  SiCaddy,
+  SiPostgresql,
+  SiMongodb,
+  SiMeilisearch,
+  SiMinio,
+  SiRabbitmq,
+} from "react-icons/si";
+import { Button } from "@/components/ui/button";
+
+const navItems = [
+  {
+    to: "/",
+    icon: Home,
+    label: "Dashboard",
+  },
+  {
+    to: "/services",
+    icon: Server,
+    label: "Services",
+  },
+  {
+    to: "/projects",
+    icon: Globe,
+    label: "Projects",
+  },
+];
+
+const allServices = [
+  {
+    id: "caddy",
+    icon: SiCaddy,
+    display_name: "Web Server",
+    description: "Caddy reverse proxy",
+    color: "#0f7c8e",
+  },
+  {
+    id: "mysql",
+    icon: SiMysql,
+    display_name: "MySQL Database",
+    description: "MySQL database server",
+    color: "#4479a1",
+  },
+  {
+    id: "postgres",
+    icon: SiPostgresql,
+    display_name: "PostgreSQL Database",
+    description: "PostgreSQL database server",
+    color: "#336791",
+  },
+  {
+    id: "mariadb",
+    icon: SiPostgresql,
+    display_name: "MariaDB Database",
+    description: "MariaDB database server",
+    color: "#003545",
+  },
+  {
+    id: "mongodb",
+    icon: SiMongodb,
+    display_name: "MongoDB Database",
+    description: "MongoDB document database",
+    color: "#47a248",
+  },
+  {
+    id: "sqlite",
+    icon: SiSqlite,
+    display_name: "SQLite",
+    description: "Lightweight, file-based relational database engine.",
+  },
+  {
+    id: "redis",
+    icon: SiRedis,
+    display_name: "Redis Cache",
+    description: "Redis key-value store for caching and sessions",
+    color: "#dc382d",
+  },
+  {
+    id: "meilisearch",
+    icon: SiMeilisearch,
+    display_name: "Meilisearch",
+    description: "Meilisearch full-text search engine",
+    color: "#ff5a5f",
+  },
+  {
+    id: "minio",
+    icon: SiMinio,
+    display_name: "MinIO Storage",
+    description: "MinIO S3-compatible object storage",
+    color: "#c72e2f",
+  },
+  {
+    id: "rabbitmq",
+    icon: SiRabbitmq,
+    display_name: "RabbitMQ",
+    description: "RabbitMQ message broker for queues and messaging",
+    color: "#ff6600",
+  },
+];
 
 export default function DampAppDashboard() {
   return (
-    <div
-      className="flex w-full h-full select-none bg-fd-background relative overflow-hidden"
-    >
-      {/* Sidebar - Icon Only */}
-      <div className="group peer text-fd-foreground h-full">
-        <div className="relative h-full w-12 flex border-r">
-          <div className="bg-sidebar flex h-full w-full flex-col">
-            {/* Sidebar Header - Icon Only */}
-            <div className="flex flex-col gap-2 p-2">
-              <div className="flex items-center justify-center w-8 h-8 bg-fd-primary text-fd-primary-foreground rounded-md">
-                <Box className="size-4" />
+    <div className="flex h-screen flex-col overflow-hidden select-none">
+      {/* Header */}
+      <div className="dark:bg-black bg-background relative h-[35px] w-full shrink-0 border-b">
+        {/* Draggable layer for empty spaces */}
+        <div className="absolute inset-0" />
+
+        <div className="relative z-10 flex h-full items-center justify-center">
+          {/* Left section - App icon (draggable) */}
+          <div className="bg-primary text-primary-foreground absolute left-0 ml-2 flex aspect-square items-center justify-center rounded-[5px] p-1">
+            <Box className="h-4 w-4" />
+          </div>
+
+          {/* Center section - Search on Windows/Linux, Title on macOS */}
+          <div>
+            {/* Search trigger button in title bar */}
+            <button className="bg-primary/5 border-border hover:bg-muted hover:border-ring/20 relative flex h-6.5 w-[320px] items-center justify-center gap-2 border px-3 font-mono text-sm transition-all duration-100">
+              <Search className="text-muted-foreground h-4 w-4" />
+              <span className="text-muted-foreground text-xs">DAMP</span>
+              <div className="absolute right-3 flex items-center gap-0.5">
+                <kbd
+                  data-slot="kbd"
+                  className="text-muted-foreground [[data-slot=tooltip-content]_&amp;]:bg-black/20 [[data-slot=tooltip-content]_&amp;]:text-background dark:[[data-slot=tooltip-content]_&amp;]:bg-black/10 h-5 w-fit min-w-5 gap-1 rounded-xs px-1 font-sans text-[0.625rem] font-medium [&amp;_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none dark:bg-black bg-background"
+                >
+                  Ctrl
+                </kbd>
+                <kbd
+                  data-slot="kbd"
+                  className="text-muted-foreground [[data-slot=tooltip-content]_&amp;]:bg-black/20 [[data-slot=tooltip-content]_&amp;]:text-background dark:[[data-slot=tooltip-content]_&amp;]:bg-black/10 h-5 w-fit min-w-5 gap-1 rounded-xs px-1 font-sans text-[0.625rem] font-medium [&amp;_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none dark:bg-black bg-background"
+                >
+                  P
+                </kbd>
               </div>
-            </div>
+            </button>
+          </div>
 
-            {/* Sidebar Content - Icons Only */}
-            <div className="flex min-h-0 flex-1 flex-col gap-2 px-2">
-              <nav className="space-y-2">
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors bg-fd-accent"
-                  title="Dashboard"
-                >
-                  <Home className="size-4" />
-                </button>
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Services"
-                >
-                  <Server className="size-4" />
-                </button>
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Sites"
-                >
-                  <Globe className="size-4" />
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-fd-secondary text-fd-secondary-foreground border-transparent inline-flex items-center justify-center">
-                    4
-                  </Badge>
-                </button>
-              </nav>
-
-              <nav className="mt-auto space-y-2">
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Settings"
-                >
-                  <Settings className="size-4" />
-                </button>
-                <button 
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="About"
-                >
-                  <Info className="size-4" />
-                </button>
-              </nav>
-            </div>
-
-            {/* Sidebar Footer - Icon Only */}
-            <div className="p-2">
-              <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
-                <div className="relative">
-                  <SiDocker className="size-4" />
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
-                </div>
+          {/* Right section - Window controls (Windows/Linux only) */}
+          <div className="absolute right-0">
+            <div className="ml-auto flex">
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-white/10 dark:hover:bg-white/10"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect fill="currentColor" width="10" height="1" y="5" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-white/10 dark:hover:bg-white/10"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect
+                    width="9"
+                    height="9"
+                    x="0.5"
+                    y="0.5"
+                    fill="none"
+                    stroke="currentColor"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-[#E81123] hover:text-white"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <path
+                    fill="currentColor"
+                    d="M 0.7,0 L 10,9.3 M 10,0.7 L 0.7,10"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                  />
+                </svg>
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="bg-fd-background relative flex w-full flex-1 flex-col overflow-y-hidden">
-        {/* Header */}
-        <header className="flex h-14 shrink-0 items-center gap-2 top-0 z-30">
-          <div className="flex items-center gap-2 px-4">
-            <button className="rounded-md">
-              <div className="flex items-center gap-2">
-                <div className="grid flex-1 text-left leading-tight">
-                  <span className="truncate text-xs font-semibold">DAMP</span>
-                  <span className="truncate text-xs text-fd-muted-foreground capitalize">
-                    dashboard
-                  </span>
-                </div>
-              </div>
-            </button>
-          </div>
+      {/* Main */}
+      <div className="flex flex-1 overflow-hidden">
+        <nav className="dark:bg-black bg-background flex h-full w-[35px] flex-col items-center border-r">
+          {/* Navigation Items */}
+          <div className="flex flex-1 flex-col">
+            {navItems.map((item) => {
+              const Icon = item.icon;
 
-          <div className="ml-auto flex items-center gap-3 mr-2">
-            <button
-              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Minimize window"
-            >
-              <Minus className="h-4 w-4" />
-            </button>
-            <button
-              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Maximize window"
-            >
-              <Square className="h-4 w-4" />
-            </button>
-            <button
-              className="h-8 w-8 rounded-md hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Close window"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </header>
-
-        {/* Dashboard Content */}
-        <div className="p-6 space-y-4">
-          <h1 className="text-2xl font-bold text-left">
-            Hi, Welcome back{" "}
-            <span
-              className="inline-block"
-              style={{
-                display: "inline-block",
-                transformOrigin: "70% 70%",
-                animation:
-                  "1.5s ease 0s infinite normal none running wave-hand",
-              }}
-            >
-              👋
-            </span>
-          </h1>
-          <style>
-            {`
-          @keyframes wave-hand {
-            0% { transform: rotate(0deg); }
-            10% { transform: rotate(20deg); }
-            20% { transform: rotate(-10deg); }
-            30% { transform: rotate(20deg); }
-            40% { transform: rotate(-5deg); }
-            50% { transform: rotate(10deg); }
-            60% { transform: rotate(0deg); }
-            100% { transform: rotate(0deg); }
-          }
-        `}
-          </style>
-
-          {/* Featured Banner */}
-          <div className="overflow-hidden rounded-md p-8 py-4 flex items-center justify-between bg-gradient-to-r from-orange-400 via-purple-600 to-blue-500">
-            <div className="w-86 shrink-0 text-left">
-              <h2 className="text-md font-bold text-white drop-shadow-lg">
-                Local services
-              </h2>
-              <p className=" text-white mb-4 drop-shadow-md text-xs">
-                Run local databases and dev tools instantly.
-              </p>
-              <div className="flex gap-4">
-                <button className="h-7 text-white rounded-md px-2.5 text-xs bg-white/20 hover:bg-white/30 shadow-xs shadow-black/5 inline-flex items-center justify-center font-medium">
-                  Browse services
-                </button>
-                <button className="h-7 text-white rounded-md px-2.5 text-xs hover:bg-white/30 inline-flex items-center justify-center font-medium">
-                  Learn more
-                </button>
-              </div>
-            </div>
-            <div className="flex shrink flex-nowrap gap-4 pr-0">
-              <Card className="text-white w-70 bg-white/20 backdrop-blur-sm border-white/30 py-0 rounded-md">
-                <div className="flex flex-row items-center gap-4 p-4 rounded-t-md">
-                  <div className="self-start mt-0.5 bg-fd-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <SiRedis className="w-4 h-4 text-[#FF4438]" />
-                  </div>
-                  <div className="flex flex-col justify-center flex-1">
-                    <div className="text-md font-semibold text-white drop-shadow-lg">
-                      Redis Cache
-                    </div>
-                    <div className="text-white text-xs drop-shadow-md">
-                      Fast in-memory cache for development.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-              <Card className="text-white w-70 bg-white/20 backdrop-blur-sm border-white/30 py-0 rounded-md">
-                <div className="flex flex-row items-center gap-4 p-4 rounded-t-md">
-                  <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <SiSqlite className="w-4 h-4 text-[#003B57]" />
-                  </div>
-                  <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base font-semibold text-white drop-shadow-lg">
-                      SQLite Database
-                    </div>
-                    <div className="text-white text-xs drop-shadow-md">
-                      Local SQL database for dev and testing.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-4 gap-4 w-full">
-            <div className="flex flex-col items-center justify-center p-4 bg-fd-card border rounded-md">
-              <p className="font-medium text-xs">Installed Services</p>
-              <p className="text-2xl font-bold">2</p>
-            </div>
-            <div className="flex flex-col items-center justify-center p-4 bg-fd-card border rounded-md">
-              <p className="font-medium text-xs">Running Services</p>
-              <p className="text-2xl font-bold">2</p>
-            </div>
-            <div className="flex col-span-2 items-center justify-between p-4 bg-fd-card border rounded-md">
-              <div className="flex items-center space-x-3">
-                <div>
-                  <p className="text-sm font-medium">Sites Status</p>
-                  <p className="text-xs text-fd-muted-foreground">
-                    Local sites overview
-                  </p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                <div className="flex flex-col items-center justify-center bg-fd-muted rounded-lg p-3 gap-1">
-                  <span className="text-2xl font-bold text-yellow-500">4</span>
-                  <span className="text-xs text-fd-accent-foreground">
-                    Created
-                  </span>
-                </div>
-                <div className="flex flex-col items-center justify-center bg-fd-muted rounded-lg p-3 gap-1">
-                  <span className="text-2xl font-bold text-green-500">0</span>
-                  <span className="text-xs text-fd-accent-foreground">
-                    Running
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Services Section */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-bold">Your Local Services</h2>
-                <p className="text-sm text-fd-muted-foreground">
-                  Quickly view and manage installed services.
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  className="h-10 w-10 rounded-md inline-flex items-center justify-center bg-fd-background text-fd-accent-foreground border border-fd-input shadow-xs shadow-black/5"
-                  disabled
+              return (
+                <div
+                  key={item.label}
+                  className={`flex h-[35px] w-[35px] items-center justify-center transition-colors hover:text-foreground ${
+                    item.label === "Dashboard"
+                      ? "text-foreground border-foreground border-r-2"
+                      : "text-muted-foreground"
+                  }`}
                 >
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="m12 19-7-7 7-7" />
-                    <path d="M19 12H5" />
-                  </svg>
-                </button>
-                <button className="h-10 w-10 rounded-md inline-flex items-center justify-center bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5">
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Service Cards Carousel */}
-            <div className="flex gap-4">
-              <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-fd-background flex-1">
-                <div className="flex flex-row items-center gap-4 p-4 rounded-t-md group">
-                  <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <SiMysql className="w-4 h-4 text-[#4479A1]" />
-                  </div>
-                  <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base font-semibold text-primary">
-                      MySQL Database
-                    </div>
-                    <div className="text-fd-muted-foreground text-xs">
-                      MySQL database server for local development
-                    </div>
-                  </div>
-                  <Badge className="bg-fd-primary text-fd-primary-foreground text-xs">
-                    Running
-                  </Badge>
+                  <Icon className="size-4" />
+                  <span className="sr-only">{item.label}</span>
                 </div>
-                <div className="flex flex-row gap-2 items-center justify-between bg-fd-card border-t rounded-b-md px-4 py-2">
-                  <button className="h-7 rounded-md px-2.5 text-xs bg-secondary text-fd-secondary-foreground hover:bg-fd-secondary/90 shadow-xs shadow-black/5 flex items-center gap-2">
-                    <Square className="w-4 h-4 text-destructive" />
-                    Stop
-                  </button>
-                  <button className="h-7 rounded-md px-2.5 text-xs text-fd-accent-foreground hover:bg-accent flex items-center gap-1 group">
-                    <Settings className="w-4 h-4 group-hover:animate-spin" />
-                  </button>
-                </div>
-              </Card>
-
-              <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-0 gap-0 bg-fd-background flex-1">
-                <div className="flex flex-row items-center gap-4 p-4 rounded-t-md group">
-                  <div className="self-start mt-0.5 bg-primary/10 w-6 h-6 rounded-lg flex items-center justify-center">
-                    <svg
-                      viewBox="0 0 132.292 121.708"
-                      className="w-4 h-4 text-black dark:text-white"
-                    >
-                      <path
-                        d="M12.321 0l53.861 53.918L120.365 0zM5.155 9.025l60.842 59.673 61.211-59.489-.185 36.835L66.921 70.54l15.164 12.616-8.137 5.986-41.609.184c-4.838-.022-25.877-18.34-27.185-41.255z"
-                        fill="currentColor"
-                        fillOpacity=".941"
-                      />
-                      <path
-                        d="M78.385 72.049l53.907-21.679-8.031 57.318-11.845-9.132c-21.727 23.171-45.255 26.289-67.997 20.837S12.281 98.39 5.155 83.8-.67 53.116 2.843 38.769c1.13 10.511-1.313 16.316 6.38 33.612 6.31 11.399 14.413 20.417 25.89 24.956 13.9 6.195 32.247 3.357 41.701-3.039l14.24-12.156z"
-                        fill="#00b786"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col justify-center flex-1">
-                    <div className="text-base text-primary font-semibold">Mail Testing</div>
-                    <div className="text-fd-muted-foreground text-xs">
-                      Email testing server for local development
-                    </div>
-                  </div>
-                  <Badge className="bg-fd-primary text-fd-primary-foreground text-xs">
-                    Running
-                  </Badge>
-                </div>
-                <div className="flex flex-row gap-2 items-center justify-between bg-fd-card border-t rounded-b-md px-4 py-2">
-                  <button className="h-7 rounded-md px-2.5 text-xs bg-fd-secondary text-fd-secondary-foreground hover:bg-fd-secondary/90 shadow-xs shadow-black/5 flex items-center gap-2">
-                    <Square className="w-4 h-4 text-destructive" />
-                    Stop
-                  </button>
-                  <button className="h-7 rounded-md px-2.5 text-xs text-fd-accent-foreground hover:bg-fd-accent flex items-center gap-1 group">
-                    <Settings className="w-4 h-4 group-hover:animate-spin" />
-                  </button>
-                </div>
-              </Card>
-            </div>
+              );
+            })}
           </div>
+        </nav>
+        <main className="relative flex flex-1 flex-col dark:bg-black bg-background">
+          <div className="h-full w-full">
+            <div className="space-y-4 p-6">
+              {/* Feature Highlight Banner */}
+              <div className="relative flex h-30 w-full flex-col items-center justify-center overflow-hidden bg-linear-65 from-orange-400 via-purple-600 to-blue-500">
+                <Marquee3D className="pl-130" pauseOnHover>
+                  {allServices.map((service) => (
+                    <Card
+                      key={service.id}
+                      className="w-64 rounded-none border-white/30 bg-white/20 py-0 text-white opacity-90 backdrop-blur-sm"
+                    >
+                      <CardHeader className="flex flex-row items-center gap-4 p-4">
+                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center self-start rounded-lg">
+                          <service.icon
+                            className="h-4 w-4"
+                            style={
+                              service.color
+                                ? { color: service.color }
+                                : undefined
+                            }
+                          />
+                        </div>
+                        <div className="flex flex-1 flex-col justify-center">
+                          <CardTitle className="text-base font-semibold text-white drop-shadow-lg">
+                            {service.display_name}
+                          </CardTitle>
+                          <CardDescription className="text-xs text-white drop-shadow-md">
+                            {service.description}
+                          </CardDescription>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </Marquee3D>
 
-          {/* Docker Status and Quick Actions */}
-          <Card className="text-fd-card-foreground flex flex-col border shadow-sm rounded-md p-4 bg-fd-background">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Docker Engine Status</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-4 bg-fd-background/50 border rounded-md">
-                    <div className="flex items-center space-x-3">
-                      <div>
-                        <p className="text-sm font-medium">Connection Status</p>
-                        <p className="text-xs text-fd-muted-foreground">
-                          Docker daemon connectivity
-                        </p>
-                      </div>
-                    </div>
-                    <Badge className="text-xs bg-fd-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
-                      Connected
-                    </Badge>
+                <div className="absolute bottom-4 left-4 z-10">
+                  <h2 className="text-lg font-bold text-white drop-shadow-lg">
+                    Local services
+                  </h2>
+                  <p className="mb-2 text-sm text-white drop-shadow-md">
+                    Run local databases and dev tools instantly.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="bg-white/20 hover:bg-white/30 rounded-none text-white"
+                    >
+                      Browse services
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="hover:bg-white/30 dark:hover:bg-white/30 rounded-none text-white hover:text-white"
+                      size="sm"
+                    >
+                      Learn more
+                    </Button>
                   </div>
-                  <div className="flex items-center justify-between p-4 bg-fd-background/50 border rounded-md">
+                </div>
+              </div>
+
+              {/* Summary Cards */}
+              <div className="flex gap-4">
+                {/* Services Cards */}
+                <div className="grid flex-1 grid-cols-2 gap-4">
+                  <div className="flex flex-col items-center justify-center border p-4">
+                    <p className="text-center text-sm font-medium">
+                      Installed Services
+                    </p>
+                    <p className="text-2xl font-bold">2</p>
+                  </div>
+                  <div className="group/services relative flex flex-col">
+                    <div className="flex h-full flex-col items-center justify-center border p-4">
+                      <p className="text-center text-sm font-medium">
+                        Running Services
+                      </p>
+                      <p className="text-2xl font-bold">2</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Projects Column */}
+                <div className="flex flex-1 items-center justify-between border p-4">
+                  <div className="flex items-center space-x-3">
                     <div>
-                      <p className="text-sm font-medium">Engine Version</p>
-                      <p className="text-xs text-fd-muted-foreground">
-                        Docker runtime version
+                      <p className="text-sm font-medium">Projects Status</p>
+                      <p className="text-muted-foreground text-xs">
+                        Local projects overview
                       </p>
                     </div>
-                    <Badge className="text-xs" variant="secondary">
-                      v28.3.2
-                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="dark:bg-[#090909] flex flex-col items-center justify-center gap-1 rounded-none p-3">
+                      <span className="text-2xl font-bold text-yellow-500">
+                        4
+                      </span>
+                      <span className="text-accent-foreground text-xs">
+                        Created
+                      </span>
+                    </div>
+                    <div className="dark:bg-[#090909] flex flex-col items-center justify-center gap-1 p-3 rounded-none">
+                      <span className="text-2xl font-bold text-green-500">
+                        1
+                      </span>
+                      <span className="text-accent-foreground text-xs">
+                        Running
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Service Carousel Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Quick Actions</h3>
-                <div className="space-y-3">
-                  <button
-                    className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5"
-                    disabled
-                  >
-                    <Play className="w-4 h-4 mr-2 text-emerald-500" />
-                    Start All Services
-                  </button>
-                  <button className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5">
-                    <CircleStop className="w-4 h-4 mr-2 text-destructive" />
-                    Stop All Services
-                  </button>
-                  <button className="w-full justify-start rounded-md h-8.5 px-3 text-[0.8125rem] bg-fd-background text-fd-accent-foreground border border-input hover:bg-fd-accent shadow-xs shadow-black/5 inline-flex items-center gap-1.5 group">
-                    <RefreshCw className="h-4 w-4 mr-2 group-hover:animate-spin" />
-                    Refresh Services
-                  </button>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-lg font-bold">Your Local Services</h2>
+                    <p className="text-muted-foreground text-sm">
+                      Quickly view and manage installed services.
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      disabled
+                      className="h-10 w-10 rounded-none"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-10 w-10 rounded-none"
+                    >
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
+                <Carousel
+                  opts={{
+                    align: "start",
+                    containScroll: "trimSnaps",
+                    skipSnaps: false,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-2">
+                    <CarouselItem className="basis-1/2 pl-2">
+                      <Card
+                        data-size="sm"
+                        className="group/card flex h-full w-full flex-co rounded-none py-3 gap-3 dark:bg-[#090909]"
+                      >
+                        {/* Card Header with border-bottom */}
+                        <CardHeader className="@container/card-header flex-1 border-b px-3 group-data-[size=sm]/card:[.border-b]:pb-3">
+                          <div className="flex items-start justify-between gap-3">
+                            {/* Icon and Title Section */}
+                            <div className="flex flex-1 items-start gap-3">
+                              <SiCaddy
+                                className="mt-0.5 h-5 w-5"
+                                style={{ color: "rgb(15, 124, 142)" }}
+                              />
+                              <div className="flex min-w-0 flex-1 flex-col gap-1">
+                                <div className="flex items-center gap-1.5">
+                                  <CardTitle className="text-sm leading-none font-semibold">
+                                    Web Server
+                                  </CardTitle>
+                                  <AlertCircle className="h-3.5 w-3.5 shrink-0 text-amber-500" />
+                                </div>
+                                <CardDescription className="text-xs leading-snug">
+                                  Caddy reverse proxy server for local
+                                  development
+                                </CardDescription>
+                              </div>
+                            </div>
+
+                            {/* Status Indicator (top-right) */}
+                            <div className="flex shrink-0 items-center gap-1.5"></div>
+                          </div>
+                        </CardHeader>
+
+                        {/* Card Content */}
+                        <CardContent className="flex flex-col gap-3 px-4">
+                          {/* Action Buttons */}
+                          <div className="flex gap-2">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              className="flex-1 rounded-none"
+                            >
+                              <Square className="text-destructive mr-1.5 h-3.5 w-3.5" />
+                              Stop
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="px-2 rounded-none"
+                            >
+                              <Settings className="h-3.5 w-3.5" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                    <CarouselItem className="basis-1/2 pl-2">
+                      <Card
+                        data-size="sm"
+                        className="group/card flex h-full w-full flex-co rounded-none py-3 gap-3 dark:bg-[#090909]"
+                      >
+                        {/* Card Header with border-bottom */}
+                        <CardHeader className="@container/card-header flex-1 border-b px-3 group-data-[size=sm]/card:[.border-b]:pb-3">
+                          <div className="flex items-start justify-between gap-3">
+                            {/* Icon and Title Section */}
+                            <div className="flex flex-1 items-start gap-3">
+                              <SiMysql
+                                className="mt-0.5 h-5 w-5"
+                                style={{ color: "rgb(68, 121, 161)" }}
+                              />
+                              <div className="flex min-w-0 flex-1 flex-col gap-1">
+                                <div className="flex items-center gap-1.5">
+                                  <CardTitle className="text-sm leading-none font-semibold">
+                                    MySQL Database
+                                  </CardTitle>
+                                </div>
+                                <CardDescription className="text-xs leading-snug">
+                                  MySQL database server
+                                </CardDescription>
+                              </div>
+                            </div>
+
+                            {/* Status Indicator (top-right) */}
+                            <div className="flex shrink-0 items-center gap-1.5"></div>
+                          </div>
+                        </CardHeader>
+
+                        {/* Card Content */}
+                        <CardContent className="flex flex-col gap-3 px-4">
+                          {/* Action Buttons */}
+                          <div className="flex gap-2">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              className="flex-1 rounded-none"
+                            >
+                              <Square className="text-destructive mr-1.5 h-3.5 w-3.5" />
+                              Stop
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="px-2 rounded-none"
+                            >
+                              <Settings className="h-3.5 w-3.5" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  </CarouselContent>
+                </Carousel>
               </div>
             </div>
-          </Card>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }

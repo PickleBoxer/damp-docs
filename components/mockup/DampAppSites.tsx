@@ -1,321 +1,309 @@
-import { Badge } from "@/components/ui/badge";
 import {
-  Box,
-  Globe,
-  Home,
-  Info,
-  Minus,
-  Server,
-  Settings,
-  Square,
-  X,
-  Search,
   Plus,
   Terminal,
   Sparkles,
-  Code,
   Trash2,
   FolderOpen,
   GripVertical,
+  Box,
+  Globe,
+  Home,
+  Server,
+  Search,
 } from "lucide-react";
-import { SiLaravel, SiPhp, SiDocker } from "react-icons/si";
+import { SiLaravel, SiPhp } from "react-icons/si";
+import { FaLink } from "react-icons/fa6";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HiOutlineStatusOnline } from "react-icons/hi";
+import { VscVscode } from "react-icons/vsc";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+
+const navItems = [
+  {
+    to: "/",
+    icon: Home,
+    label: "Dashboard",
+  },
+  {
+    to: "/services",
+    icon: Server,
+    label: "Services",
+  },
+  {
+    to: "/projects",
+    icon: Globe,
+    label: "Projects",
+  },
+];
 
 export default function DampAppSites() {
   return (
-    <div className="flex w-full h-full select-none bg-fd-background relative overflow-hidden">
-      {/* Sidebar - Icon Only */}
-      <div className="group peer text-fd-foreground h-full">
-        <div className="relative h-full w-12 flex border-r">
-          <div className="bg-sidebar flex h-full w-full flex-col">
-            {/* Sidebar Header - Icon Only */}
-            <div className="flex flex-col gap-2 p-2">
-              <div className="flex items-center justify-center w-8 h-8 bg-fd-primary text-fd-primary-foreground rounded-md">
-                <Box className="size-4" />
+    <div className="flex h-screen flex-col overflow-hidden select-none">
+      {/* Header */}
+      <div className="dark:bg-black bg-background relative h-[35px] w-full shrink-0 border-b">
+        {/* Draggable layer for empty spaces */}
+        <div className="absolute inset-0" />
+
+        <div className="relative z-10 flex h-full items-center justify-center">
+          {/* Left section - App icon (draggable) */}
+          <div className="bg-primary text-primary-foreground absolute left-0 ml-2 flex aspect-square items-center justify-center rounded-[5px] p-1">
+            <Box className="h-4 w-4" />
+          </div>
+
+          {/* Center section - Search on Windows/Linux, Title on macOS */}
+          <div>
+            {/* Search trigger button in title bar */}
+            <button className="bg-primary/5 border-border hover:bg-muted hover:border-ring/20 relative flex h-6.5 w-[320px] items-center justify-center gap-2 border px-3 font-mono text-sm transition-all duration-100">
+              <Search className="text-muted-foreground h-4 w-4" />
+              <span className="text-muted-foreground text-xs">DAMP</span>
+              <div className="absolute right-3 flex items-center gap-0.5">
+                <kbd
+                  data-slot="kbd"
+                  className="text-muted-foreground [[data-slot=tooltip-content]_&amp;]:bg-black/20 [[data-slot=tooltip-content]_&amp;]:text-background dark:[[data-slot=tooltip-content]_&amp;]:bg-black/10 h-5 w-fit min-w-5 gap-1 rounded-xs px-1 font-sans text-[0.625rem] font-medium [&amp;_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none dark:bg-black bg-background"
+                >
+                  Ctrl
+                </kbd>
+                <kbd
+                  data-slot="kbd"
+                  className="text-muted-foreground [[data-slot=tooltip-content]_&amp;]:bg-black/20 [[data-slot=tooltip-content]_&amp;]:text-background dark:[[data-slot=tooltip-content]_&amp;]:bg-black/10 h-5 w-fit min-w-5 gap-1 rounded-xs px-1 font-sans text-[0.625rem] font-medium [&amp;_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none dark:bg-black bg-background"
+                >
+                  P
+                </kbd>
               </div>
-            </div>
+            </button>
+          </div>
 
-            {/* Sidebar Content - Icons Only */}
-            <div className="flex min-h-0 flex-1 flex-col gap-2 px-2">
-              <nav className="space-y-2">
-                <button
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Dashboard"
-                >
-                  <Home className="size-4" />
-                </button>
-                <button
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Services"
-                >
-                  <Server className="size-4" />
-                </button>
-                <button
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors relative bg-fd-accent"
-                  title="Sites"
-                >
-                  <Globe className="size-4" />
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-fd-secondary text-fd-secondary-foreground border-transparent inline-flex items-center justify-center">
-                    4
-                  </Badge>
-                </button>
-              </nav>
-
-              <nav className="mt-auto space-y-2">
-                <button
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="Settings"
-                >
-                  <Settings className="size-4" />
-                </button>
-                <button
-                  className="h-8 rounded-md flex items-center p-2 justify-center transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  title="About"
-                >
-                  <Info className="size-4" />
-                </button>
-              </nav>
-            </div>
-
-            {/* Sidebar Footer - Icon Only */}
-            <div className="p-2">
-              <button className="w-full flex items-center justify-center p-2 rounded-md hover:bg-fd-accent/50 transition-colors">
-                <div className="relative">
-                  <SiDocker className="size-4" />
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background bg-emerald-500 animate-pulse shadow-emerald-500/50 shadow-lg" />
-                </div>
+          {/* Right section - Window controls (Windows/Linux only) */}
+          <div className="absolute right-0">
+            <div className="ml-auto flex">
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-white/10 dark:hover:bg-white/10"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect fill="currentColor" width="10" height="1" y="5" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-white/10 dark:hover:bg-white/10"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <rect
+                    width="9"
+                    height="9"
+                    x="0.5"
+                    y="0.5"
+                    fill="none"
+                    stroke="currentColor"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="flex h-[34px] w-[46px] items-center justify-center transition-colors hover:bg-[#E81123] hover:text-white"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <path
+                    fill="currentColor"
+                    d="M 0.7,0 L 10,9.3 M 10,0.7 L 0.7,10"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                  />
+                </svg>
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="bg-fd-background relative flex w-full flex-1 flex-col overflow-y-hidden">
-        {/* Header */}
-        <header className="flex h-14 shrink-0 items-center gap-2 top-0 z-30">
-          <div className="flex items-center gap-2 px-4">
-            <button className="rounded-md">
-              <div className="flex items-center gap-2">
-                <div className="grid flex-1 text-left leading-tight">
-                  <span className="truncate text-xs font-semibold">DAMP</span>
-                  <span className="truncate text-xs text-fd-muted-foreground capitalize">
-                    sites
-                  </span>
+      {/* Main */}
+      <div className="flex flex-1 overflow-hidden">
+        <nav className="dark:bg-black bg-background flex h-full w-[35px] flex-col items-center border-r">
+          {/* Navigation Items */}
+          <div className="flex flex-1 flex-col">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.label}
+                  className={`flex h-[35px] w-[35px] items-center justify-center transition-colors hover:text-foreground ${
+                    item.label === "Projects"
+                      ? "text-foreground border-foreground border-r-2"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <Icon className="size-4" />
+                  <span className="sr-only">{item.label}</span>
                 </div>
-              </div>
-            </button>
+              );
+            })}
           </div>
+        </nav>
+        <main className="relative flex flex-1 flex-col dark:bg-black bg-background">
+          <ResizablePanelGroup direction="horizontal" className="h-full">
+            {/* Left side - Project List */}
+            <ResizablePanel defaultSize={40}>
+              <div className="flex h-full flex-col">
+                {/* Header Bar */}
+                <div className="flex h-12 shrink-0 items-center justify-between border-b px-4">
+                  <h2 className="text-sm font-semibold tracking-wide">
+                    Projects
+                  </h2>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 rounded-none"
+                  >
+                    Add
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
 
-          <div className="ml-auto flex items-center gap-3 mr-2">
-            <button
-              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Minimize window"
-            >
-              <Minus className="h-4 w-4" />
-            </button>
-            <button
-              className="h-8 w-8 rounded-md hover:bg-fd-muted/80 transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Maximize window"
-            >
-              <Square className="h-4 w-4" />
-            </button>
-            <button
-              className="h-8 w-8 rounded-md hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-colors duration-150 inline-flex items-center justify-center"
-              aria-label="Close window"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </header>
-
-        {/* Sites Content */}
-        <div className="flex flex-col h-[calc(100vh-3.5rem)]">
-          {/* Search Bar */}
-          <div className="relative border-y">
-            <input
-              className="flex w-full min-w-0 px-3 py-1 text-xs shadow-xs outline-none pt-4 pb-4 pl-12 pr-2 h-10 focus-visible:ring-0 border-0"
-              placeholder="Search sites..."
-              value=""
-              readOnly
-            />
-            <Search className="pointer-events-none absolute top-1/2 left-6 size-4 -translate-y-1/2 opacity-50 select-none" />
-          </div>
-
-          {/* Main Content - Sidebar and Detail */}
-          <div className="flex h-full">
-            {/* Left Sidebar - Sites List */}
-            <div className="flex w-80 flex-col gap-4 border-r">
-              <div className="flex flex-col flex-1 overflow-hidden">
-                <div className="relative h-full">
-                  <div className="size-full rounded-[inherit] overflow-y-auto">
-                    <div style={{ minWidth: "100%", display: "table" }}>
-                      <div className="flex flex-col">
-                        {/* Add Site Button */}
-                        <button className="flex items-center gap-4 p-3 border-b hover:bg-muted/50 cursor-pointer transition-transform duration-200 text-left w-full focus-visible:translate-x-2">
-                          <div className="flex items-center justify-center gap-3 flex-1">
-                            <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                              <Plus className="h-8 w-8" />
-                              <span className="text-xs">Add Site</span>
+                <ScrollArea className="h-0 flex-1 [&_[data-radix-scroll-area-viewport]>:first-child]:block!">
+                  {/* Sortable Project List */}
+                  <div className="flex w-full flex-1 flex-col">
+                    {/* Another Project Item */}
+                    <div
+                      className={`group/project relative hover:bg-primary/5`}
+                    >
+                      <div className="bg-primary/5 absolute top-0 left-0 flex h-full w-0 cursor-grab items-center justify-center overflow-hidden opacity-0 transition-all duration-200 group-hover/project:w-8 group-hover/project:opacity-100 active:cursor-grabbing">
+                        <GripVertical className="text-muted-foreground h-4 w-4" />
+                      </div>
+                      <div className="transition-all duration-200 group-hover/project:pl-8">
+                        <div className="hover:bg-primary/5 flex w-full cursor-pointer items-center gap-4 p-3 text-left transition-colors duration-200">
+                          <div className="flex w-full flex-1 items-center gap-3">
+                            <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
+                            <div className="w-full truncate">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="truncate text-sm font-semibold capitalize">
+                                  Apihub
+                                </span>
+                                <div className="flex items-center gap-1.5">
+                                  <HiOutlineStatusOnline className="h-3.5 w-3.5 shrink-0 text-muted-foreground/40" />
+                                </div>
+                              </div>
+                              <p className="text-muted-foreground flex items-center gap-1 text-xs">
+                                <FaLink className="h-3 w-3 shrink-0" />
+                                <span className="truncate">apihub.local</span>
+                              </p>
                             </div>
                           </div>
-                        </button>
+                        </div>
+                      </div>
+                    </div>
 
-                        {/* apihub Site */}
-                        <div className="relative border-b">
-                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
-                            <GripVertical className="text-muted-foreground h-4 w-4" />
-                          </div>
-                          <div className="pl-6">
-                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-sm capitalize">
-                                      apihub
-                                    </span>
-                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                      PHP 8.4
-                                    </Badge>
-                                  </div>
-                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                    <Globe className="w-3 h-3" />
-                                    apihub.local
-                                  </p>
-                                  <div className="flex items-center gap-1 mt-1">
-                                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                    <span className="text-xs text-blue-600 dark:text-blue-400">
-                                      Ready to start
-                                    </span>
-                                  </div>
+                    {/* Another Project Item */}
+                    <div
+                      className={`group/project relative hover:bg-primary/5`}
+                    >
+                      <div className="bg-primary/5 absolute top-0 left-0 flex h-full w-0 cursor-grab items-center justify-center overflow-hidden opacity-0 transition-all duration-200 group-hover/project:w-8 group-hover/project:opacity-100 active:cursor-grabbing">
+                        <GripVertical className="text-muted-foreground h-4 w-4" />
+                      </div>
+                      <div className="transition-all duration-200 group-hover/project:pl-8">
+                        <div className="hover:bg-primary/5 flex w-full cursor-pointer items-center gap-4 p-3 text-left transition-colors duration-200">
+                          <div className="flex w-full flex-1 items-center gap-3">
+                            <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
+                            <div className="w-full truncate">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="truncate text-sm font-semibold capitalize">
+                                  Blogdemo
+                                </span>
+                                <div className="flex items-center gap-1.5">
+                                  <HiOutlineStatusOnline className="h-3.5 w-3.5 shrink-0 text-muted-foreground/40" />
                                 </div>
                               </div>
-                            </button>
+                              <p className="text-muted-foreground flex items-center gap-1 text-xs">
+                                <FaLink className="h-3 w-3 shrink-0" />
+                                <span className="truncate">blogdemo.local</span>
+                              </p>
+                            </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
 
-                        {/* blogdemo Site */}
-                        <div className="relative border-b">
-                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
-                            <GripVertical className="text-muted-foreground h-4 w-4" />
-                          </div>
-                          <div className="pl-6">
-                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-sm capitalize">
-                                      blogdemo
-                                    </span>
-                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                      PHP 8.4
-                                    </Badge>
-                                  </div>
-                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                    <Globe className="w-3 h-3" />
-                                    blogdemo.local
-                                  </p>
-                                  <div className="flex items-center gap-1 mt-1">
-                                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                    <span className="text-xs text-blue-600 dark:text-blue-400">
-                                      Ready to start
-                                    </span>
-                                  </div>
+                    {/* Another Project Item */}
+                    <div className={`group/project relative bg-primary/5`}>
+                      <div className="bg-primary/5 absolute top-0 left-0 flex h-full w-0 cursor-grab items-center justify-center overflow-hidden opacity-0 transition-all duration-200 group-hover/project:w-8 group-hover/project:opacity-100 active:cursor-grabbing">
+                        <GripVertical className="text-muted-foreground h-4 w-4" />
+                      </div>
+                      <div className="transition-all duration-200 group-hover/project:pl-8">
+                        <div className="hover:bg-primary/5 flex w-full cursor-pointer items-center gap-4 p-3 text-left transition-colors duration-200">
+                          <div className="flex w-full flex-1 items-center gap-3">
+                            <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
+                            <div className="w-full truncate">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="truncate text-sm font-semibold capitalize">
+                                  Laravel
+                                </span>
+                                <div className="flex items-center gap-1.5">
+                                  <HiOutlineStatusOnline className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
                                 </div>
                               </div>
-                            </button>
+                              <p className="text-muted-foreground flex items-center gap-1 text-xs">
+                                <FaLink className="h-3 w-3 shrink-0" />
+                                <span className="truncate">laravel.local</span>
+                              </p>
+                            </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
 
-                        {/* laravel Site - Active/Selected */}
-                        <div className="relative border-b border-r-2 border-r-primary">
-                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
-                            <GripVertical className="text-muted-foreground h-4 w-4" />
-                          </div>
-                          <div className="pl-6">
-                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiLaravel className="w-8 h-8 text-[#FF2D20]" />
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-sm capitalize">
-                                      laravel
-                                    </span>
-                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                      PHP 8.4
-                                    </Badge>
-                                  </div>
-                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                    <Globe className="w-3 h-3" />
-                                    laravel.local
-                                  </p>
-                                  <div className="flex items-center gap-1 mt-1">
-                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                    <span className="text-xs text-green-600 dark:text-green-400">
-                                      Running
-                                    </span>
-                                  </div>
+                    {/* Another Project Item */}
+                    <div
+                      className={`group/project relative hover:bg-primary/5`}
+                    >
+                      <div className="bg-primary/5 absolute top-0 left-0 flex h-full w-0 cursor-grab items-center justify-center overflow-hidden opacity-0 transition-all duration-200 group-hover/project:w-8 group-hover/project:opacity-100 active:cursor-grabbing">
+                        <GripVertical className="text-muted-foreground h-4 w-4" />
+                      </div>
+                      <div className="transition-all duration-200 group-hover/project:pl-8">
+                        <div className="hover:bg-primary/5 flex w-full cursor-pointer items-center gap-4 p-3 text-left transition-colors duration-200">
+                          <div className="flex w-full flex-1 items-center gap-3">
+                            <SiPhp className="w-8 h-8 text-[#777BB4]" />
+                            <div className="w-full truncate">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="truncate text-sm font-semibold capitalize">
+                                  Checkoutdemo
+                                </span>
+                                <div className="flex items-center gap-1.5">
+                                  <HiOutlineStatusOnline className="h-3.5 w-3.5 shrink-0 text-muted-foreground/40" />
                                 </div>
                               </div>
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* checkoutdemo Site */}
-                        <div className="relative border-b">
-                          <div className="absolute top-0 left-0 flex h-full w-8 cursor-grab items-center justify-center opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing">
-                            <GripVertical className="text-muted-foreground h-4 w-4" />
-                          </div>
-                          <div className="pl-6">
-                            <button className="flex items-center gap-4 p-3 cursor-pointer transition-transform duration-200 text-left w-full hover:translate-x-2 focus-visible:translate-x-2">
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="p-2 bg-primary/10 rounded-md">
-                                  <SiPhp className="w-8 h-8 text-[#777BB4]" />
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-sm capitalize">
-                                      checkoutdemo
-                                    </span>
-                                    <Badge className="text-xs bg-fd-secondary text-fd-secondary-foreground">
-                                      PHP 8.4
-                                    </Badge>
-                                  </div>
-                                  <p className="text-xs text-fd-muted-foreground truncate flex items-center gap-1">
-                                    <Globe className="w-3 h-3" />
-                                    checkoutdemo.local
-                                  </p>
-                                  <div className="flex items-center gap-1 mt-1">
-                                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
-                                    <span className="text-xs text-blue-600 dark:text-blue-400">
-                                      Ready to start
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </button>
+                              <p className="text-muted-foreground flex items-center gap-1 text-xs">
+                                <FaLink className="h-3 w-3 shrink-0" />
+                                <span className="truncate">
+                                  checkoutdemo.local
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </ScrollArea>
               </div>
-            </div>
+            </ResizablePanel>
 
-            {/* Right Side - Site Detail */}
-            <div className="flex-1 overflow-hidden p-4">
-              <div className="relative h-full">
-                <div className="size-full rounded-[inherit] overflow-y-auto">
-                  <div style={{ minWidth: "100%", display: "table" }}>
-                    <div className="pr-3">
+            <ResizableHandle />
+
+            {/* Right side - Project Detail */}
+            <ResizablePanel defaultSize={60}>
+              <div className="h-full overflow-hidden">
+                {/* Right Side - Site Detail */}
+                <div className="flex h-full flex-col">
+                  <ScrollArea className="h-1/2 min-h-1/2 transition-all [&_[data-radix-scroll-area-viewport]>:first-child]:h-full">
+                    <div className="flex h-full flex-1 flex-col space-y-4 p-2">
+                      {/* Safari Preview with Hover Expansion */}
                       {/* Browser Preview */}
                       <div className="h-36 overflow-hidden duration-700 rounded hover:h-90 hover:duration-800 hover:transition-[height] max-h-max">
                         <div className="w-full max-w-2xl mx-auto relative">
@@ -568,7 +556,9 @@ export default function DampAppSites() {
                                           ></path>
                                         </g>
                                         <g
-                                          style={{ mixBlendMode: "hard-light" }}
+                                          style={{
+                                            mixBlendMode: "hard-light",
+                                          }}
                                           className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
                                         >
                                           <path
@@ -811,7 +801,9 @@ export default function DampAppSites() {
                                           ></path>
                                         </g>
                                         <g
-                                          style={{ mixBlendMode: "hard-light" }}
+                                          style={{
+                                            mixBlendMode: "hard-light",
+                                          }}
                                           className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
                                         >
                                           <path
@@ -826,7 +818,9 @@ export default function DampAppSites() {
                                           ></path>
                                         </g>
                                         <g
-                                          style={{ mixBlendMode: "hard-light" }}
+                                          style={{
+                                            mixBlendMode: "hard-light",
+                                          }}
                                           className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
                                         >
                                           <path
@@ -887,7 +881,9 @@ export default function DampAppSites() {
                                         </g>
                                         <g
                                           className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
-                                          style={{ mixBlendMode: "hard-light" }}
+                                          style={{
+                                            mixBlendMode: "hard-light",
+                                          }}
                                         >
                                           <path
                                             d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z"
@@ -1122,7 +1118,9 @@ export default function DampAppSites() {
                                         </g>
                                         <g
                                           className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
-                                          style={{ mixBlendMode: "hard-light" }}
+                                          style={{
+                                            mixBlendMode: "hard-light",
+                                          }}
                                         >
                                           <path
                                             d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z"
@@ -1137,7 +1135,9 @@ export default function DampAppSites() {
                                         </g>
                                         <g
                                           className="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4"
-                                          style={{ mixBlendMode: "hard-light" }}
+                                          style={{
+                                            mixBlendMode: "hard-light",
+                                          }}
                                         >
                                           <path
                                             d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z"
@@ -1159,89 +1159,138 @@ export default function DampAppSites() {
                           </div>
                         </div>
                       </div>
-
-                      {/* Site Details */}
-                      <div className="space-y-4 p-2">
-                        {/* Header with Logo and Actions */}
-                        <div className="flex items-baseline justify-between mb-0 -mt-7 z-10">
-                          <div className="z-10 bg-fd-background p-2 rounded-md flex items-center">
-                            <SiLaravel className="w-11 h-11 text-[#FF2D20]" />
-                          </div>
-                          <div className="flex gap-2 items-center">
-                            <button
-                              className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-[color,box-shadow] bg-fd-background text-fd-accent-foreground border border-input hover:bg-accent size-8.5 rounded-md shrink-0  w-8.5 h-8.5 p-0"
-                              title="Open site in browser"
-                            >
-                              <Globe className="h-4 w-4 text-muted-foreground" />
-                            </button>
-                            <button
-                              className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-[color,box-shadow] bg-fd-background text-fd-accent-foreground border border-input hover:bg-accent size-8.5 rounded-md shrink-0  w-8.5 h-8.5 p-0"
-                              title="Open site folder"
-                            >
-                              <FolderOpen className="h-4 w-4 text-muted-foreground" />
-                            </button>
-                          </div>
+                      {/* Compact Project Header */}
+                      <div className="z-10 -mt-7 mb-0 flex items-baseline justify-between px-2">
+                        <div className="dark:bg-black bg-background z-10 flex items-center p-2">
+                          <SiLaravel className="w-11 h-11 text-[#FF2D20]" />
                         </div>
-
-                        {/* Site Title */}
-                        <div className="flex items-start justify-between px-2">
-                          <div className="flex-1">
-                            <h2 className="text-2xl font-bold capitalize">
-                              laravel
-                            </h2>
-                          </div>
-                        </div>
-
-                        {/* Tabs */}
-                        <div className="flex flex-col gap-4 px-2">
-                          <div className="text-fd-muted-foreground inline-flex items-center justify-center rounded-lg p-[3px] bg-fd-muted w-full h-8">
-                            <button
-                              data-state="active"
-                              className="dark:data-[state=active]:text-fd-foreground text-foreground dark:text-muted-foreground flex-1 gap-1.5 data-[state=active]:bg-fd-background dark:data-[state=active]:bg-fd-background data-[state=active]:text-secondary-foreground hover:text-muted-foreground/70 dark:hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-xs font-medium whitespace-nowrap transition-all"
-                            >
-                              Actions
-                            </button>
-                            <button className="dark:data-[state=active]:text-foreground text-foreground dark:text-muted-foreground flex-1 gap-1.5 data-[state=active]:bg-fd-background dark:data-[state=active]:bg-background data-[state=active]:text-secondary-foreground hover:text-muted-foreground/70 dark:hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-xs font-medium whitespace-nowrap transition-all">
-                              Environment
-                            </button>
-                            <button className="dark:data-[state=active]:text-foreground text-foreground dark:text-muted-foreground flex-1 gap-1.5 data-[state=active]:bg-fd-background dark:data-[state=active]:bg-background data-[state=active]:text-secondary-foreground hover:text-muted-foreground/70 dark:hover:text-muted-foreground/70 inline-flex items-center justify-center rounded-md px-3 py-1 text-xs font-medium whitespace-nowrap transition-all">
-                              Volume Sync
-                            </button>
-                          </div>
-
-                          {/* Actions Tab Content */}
-                          <div>
-                            <div className="grid grid-cols-6 gap-3">
-                              <button className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-fd-background text-accent-foreground border border-input hover:bg-accent h-8.5 rounded-md px-3 gap-1.5 text-[0.8125rem]  col-span-3">
-                                <Terminal className="h-4 w-4 mr-2" />
-                                Open Terminal
-                              </button>
-                              <button className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-fd-background text-accent-foreground border border-input hover:bg-accent h-8.5 px-3 gap-1.5 text-[0.8125rem] w-full rounded-md col-span-3">
-                                <Sparkles className="h-4 w-4 mr-2" />
-                                Open Tinker
-                              </button>
-                              <button className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-fd-primary text-primary-foreground hover:bg-primary/90 h-8.5 rounded-md px-3 gap-1.5 text-[0.8125rem] col-span-5">
-                                <Code className="h-4 w-4 mr-2" />
-                                Open in VS Code
-                              </button>
-                              <button
-                                className="cursor-pointer group inline-flex items-center justify-center whitespace-nowrap font-medium transition-[color,box-shadow] bg-destructive text-fd-destructive-foreground hover:bg-destructive/90 h-8.5 rounded-md px-3 gap-1.5 text-[0.8125rem] col-span-1"
-                                aria-label="Remove Site"
-                              >
-                                <Trash2 className="h-4 w-4 text-primary-foreground" />
-                              </button>
-                            </div>
-                          </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-8.5 w-8.5 shrink-0 rounded-none"
+                          >
+                            <Globe className="text-muted-foreground h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-8.5 w-8.5 shrink-0 rounded-none"
+                          >
+                            <FolderOpen className="text-muted-foreground h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="border-destructive/50 text-destructive hover:bg-destructive hover:text-destructive-foreground h-8.5 w-8.5 shrink-0 rounded-none"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
+
+                      <div className="flex items-start justify-between px-2">
+                        <div className="flex-1">
+                          <h2 className="text-2xl font-bold capitalize">
+                            Laravel
+                          </h2>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-4 px-2">
+                        {/* Tabs for Actions/Environment/Volume Sync */}
+                        <Tabs
+                          defaultValue="actions"
+                          className="flex w-full flex-col gap-4 px-2 rounded-none"
+                        >
+                          <TabsList className="bg-muted text-muted-foreground inline-flex h-8 w-full items-center justify-center p-[3px] rounded-none">
+                            <TabsTrigger
+                              value="actions"
+                              className="rounded-none dark:data-[state=active]:bg-black"
+                            >
+                              Actions
+                            </TabsTrigger>
+                            <TabsTrigger
+                              disabled
+                              value="environment"
+                              className="rounded-none dark:data-[state=active]:bg-black"
+                            >
+                              Environment
+                            </TabsTrigger>
+                            <TabsTrigger
+                              disabled
+                              value="volumes"
+                              className="rounded-none dark:data-[state=active]:bg-black"
+                            >
+                              Volume Sync
+                            </TabsTrigger>
+                            <TabsTrigger
+                              value="ngrok"
+                              className="rounded-none dark:data-[state=active]:bg-black"
+                              disabled
+                            >
+                              Share Online
+                            </TabsTrigger>
+                          </TabsList>
+
+                          {/* Actions Tab */}
+                          <TabsContent
+                            value="actions"
+                            className="flex flex-col gap-4"
+                          >
+                            {/* Action Buttons */}
+                            <div className="flex flex-col gap-3">
+                              <div className="grid grid-cols-2 gap-3">
+                                <Button
+                                  variant="outline"
+                                  className="h-8.5 gap-1.5 rounded-none"
+                                >
+                                  <Terminal className="mr-2 h-4 w-4" />
+                                  Open Terminal
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  className="h-8.5 gap-1.5 rounded-none"
+                                >
+                                  <Sparkles className="mr-2 h-4 w-4" />
+                                  Open Tinker
+                                </Button>
+                              </div>
+                              <Button className="h-8.5 gap-1.5 bg-[#007ACC] text-white hover:bg-[#005A9E] rounded-none">
+                                <VscVscode className="mr-2 h-4 w-4" />
+                                Open in VS Code
+                              </Button>
+                            </div>
+                          </TabsContent>
+
+                          {/* Environment Tab */}
+                          <TabsContent
+                            value="environment"
+                            className="flex flex-col gap-4"
+                          ></TabsContent>
+
+                          {/* Volume Sync Tab */}
+                          <TabsContent
+                            value="volumes"
+                            className="flex flex-col gap-4"
+                          ></TabsContent>
+
+                          {/* Share Online Tab (Ngrok) */}
+                          <TabsContent
+                            value="ngrok"
+                            className="flex flex-col gap-4"
+                          ></TabsContent>
+                        </Tabs>
+                      </div>
                     </div>
-                  </div>
+                  </ScrollArea>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </main>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </main>
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }
