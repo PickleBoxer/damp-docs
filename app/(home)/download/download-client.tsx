@@ -66,14 +66,14 @@ export function DownloadClient() {
           <p className="text-center text-fd-muted-foreground mb-4">{error}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://releases.getdamp.app/win32/x64/damp-0.1.0 Setup.exe"
+              href={releaseData ? releaseData.platforms["windows-x86_64"].url : "https://releases.getdamp.app/win32/x64/damp-0.1.1 Setup.exe"}
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-fd-primary text-fd-primary-foreground rounded-lg font-semibold hover:bg-fd-primary/90 transition-colors"
             >
               <Download className="w-5 h-5" />
               Download Setup.exe (Fallback)
             </a>
             <a
-              href="https://releases.getdamp.app/win32/x64/damp-win32-x64-0.1.0.zip"
+              href={releaseData ? releaseData.platforms["windows-x86_64-portable"].url : "https://releases.getdamp.app/win32/x64/damp-win32-x64-0.1.1.zip"}
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-fd-secondary text-fd-secondary-foreground border border-fd-border rounded-lg font-semibold hover:bg-fd-secondary/80 transition-colors"
             >
               <Download className="w-5 h-5" />

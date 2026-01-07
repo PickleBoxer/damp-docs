@@ -22,17 +22,18 @@ export async function GET() {
       ? new Date(lastModified).toISOString() 
       : new Date().toISOString();
     
-    // Parse RELEASES file to extract version
+    // Parse RELEASES file to extract version from the last -full.nupkg entry
     // Format: SHA1 FILENAME FILESIZE
-    // Example: 94689FEDE03A3C1946BCCD23A09CE9813E9F6F0E damp-0.1.0-full.nupkg 138680320
-    const versionRegex = /damp-(\d+\.\d+\.\d+)/;
-    const versionMatch = versionRegex.exec(releasesText);
+    // Example: 4B0D4628364F827AEEDBDB71DD854496D58FD7E2 damp-0.1.1-full.nupkg 139397653
+    const fullPackageRegex = /damp-(\d+\.\d+\.\d+)-full\.nupkg/g;
+    const matches = [...releasesText.matchAll(fullPackageRegex)];
     
-    if (!versionMatch) {
-      throw new Error('Could not extract version from RELEASES file');
+    if (matches.length === 0) {
+      throw new Error('Could not find any -full.nupkg packages in RELEASES file');
     }
     
-    const version = versionMatch[1];
+    // Get version from the last -full.nupkg entry (newest version)
+    const version = matches[matches.length - 1][1];
     
     // Construct release metadata
     const data = {
