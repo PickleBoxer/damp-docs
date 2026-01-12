@@ -1,5 +1,5 @@
 ---
-title: Managing Sites
+title: Managing Projects
 description: Manage, delete, and sync your DAMP projects
 ---
 
@@ -7,44 +7,40 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 
 View, manage, and delete your PHP projects from DAMP's dashboard.
 
-## Site Dashboard
+## Project Dashboard
 
-### Site List
+### Project List
 
 All your projects displayed as cards showing:
 
-- **Site Name** - Project identifier
-- **Domain** - HTTPS URL (e.g., `mysite.local`)
+- **Project Name** - Project identifier
+- **Domain** - HTTPS URL (e.g., `myproject.local`)
 - **Status Indicator**
   - 🟢 **Running** - DevContainer active
   - 🔴 **Created** - Not yet opened in VS Code
   - ⚪ **Stopped** - DevContainer stopped
 
 <Callout type="info">
-  **Status Detection**
-  
-  DAMP checks if your DevContainer is running in real-time. Green = accessible via browser!
+  DAMP checks if your DevContainer is running in real-time. Green = accessible via browser.
 </Callout>
 
-### Site Details
+### Project Details
 
-Click any site card to view full details and actions.
+Click any project card to view full details and actions.
 
-## Site Actions
+## Project Actions
 
 ### Open in VS Code
 
-**One-click launch** directly into VS Code:
+Launch directly into VS Code:
 
 1. Click "Open in VS Code" button
 2. VS Code opens the project
 3. Reopen in Container when prompted
-4. Start coding!
+4. Start coding
 
 <Callout type="tip">
-  **Quick Access**
-  
-  This is the fastest way to start working on a project - no folder browsing needed!
+  This launches your project in VS Code without folder browsing.
 </Callout>
 
 ### Open Folder
@@ -55,18 +51,16 @@ Open the project folder in Windows Explorer:
 - Copy/paste files
 - Backup project manually
 
-### Browse Site
+### Browse Project
 
-Visit the site in your default browser:
+Visit the project in your default browser:
 
 ```
-https://mysite.local
+https://myproject.local
 ```
 
 <Callout type="warning">
-  **DevContainer Required**
-  
-  Site must be running in VS Code DevContainer to respond to browser requests!
+  Project must be running in VS Code DevContainer to respond to browser requests.
 </Callout>
 
 ### Environment Variables
@@ -104,18 +98,12 @@ Named volumes provide **fast performance** but files live in the container. Sync
 - Exclude `vendor/` - Skip PHP dependencies
 
 <Callout type="info">
-  **Detailed Guide**
-  
-  Learn when and how to sync effectively. See the complete [Volume Sync Guide](/docs/volume-sync) for:
-  - Performance benefits of named volumes
-  - When to sync (backup, Git commits, code review)
-  - Excluding large folders for faster sync
-  - Troubleshooting sync issues
+  See the complete [Volume Sync Guide](/docs/volume-sync) for details on performance, sync timing, and troubleshooting.
 </Callout>
 
 ## Laravel Tools
 
-Sites marked as Laravel get additional features:
+Projects marked as Laravel get additional features:
 
 ### Open Tinker
 
@@ -138,7 +126,7 @@ Learn more: [Tinker Documentation](/docs/tinker-repl)
 
 ## Ngrok Tunneling
 
-Share your local site publicly:
+Share your local project publicly:
 
 ### Enable Tunnel
 
@@ -147,7 +135,7 @@ Share your local site publicly:
 <Step>
 **Open Tunnel Tab**
 
-Select a site → click "Tunnel" tab
+Select a project → click "Tunnel" tab
 </Step>
 
 <Step>
@@ -160,7 +148,7 @@ Select a site → click "Tunnel" tab
 <Step>
 **Start Tunnel**
 
-Click "Start Tunnel" - public URL created in seconds!
+Click "Start Tunnel" - public URL created in seconds
 </Step>
 
 </Steps>
@@ -168,21 +156,21 @@ Click "Start Tunnel" - public URL created in seconds!
 **Tunnel URL Example:**
 
 ```
-https://abc123.ngrok.io → https://mysite.local
+https://abc123.ngrok.io → https://myproject.local
 ```
 
-Share the ngrok URL with clients, testers, or webhooks!
+Share the ngrok URL with clients, testers, or webhooks.
 
 Learn more: [Ngrok Tunneling](/docs/ngrok-tunneling)
 
-## Deleting Sites
+## Deleting Projects
 
 ### Safe Deletion
 
-When you delete a site, DAMP:
+When you delete a project, DAMP:
 
 1. ✅ Stops the DevContainer (if running)
-2. ✅ Removes site from DAMP dashboard
+2. ✅ Removes project from DAMP dashboard
 3. ✅ Removes domain from hosts file
 4. ✅ Removes SSL certificate
 5. ✅ Removes Caddy configuration
@@ -190,9 +178,7 @@ When you delete a site, DAMP:
 7. ✅ **Preserves named volume**
 
 <Callout type="success">
-  **Non-Destructive**
-  
-  Your code and data are safe! Only DAMP's tracking and configuration are removed.
+  Your code and data are safe - only DAMP's tracking and configuration are removed.
 </Callout>
 
 ### Delete Process
@@ -200,15 +186,15 @@ When you delete a site, DAMP:
 <Steps>
 
 <Step>
-**Select Site**
+**Select Project**
 
-Click the site you want to remove
+Click the project you want to remove
 </Step>
 
 <Step>
 **Click Delete**
 
-Click "Delete Site" button
+Click "Delete Project" button
 </Step>
 
 <Step>
@@ -220,7 +206,7 @@ Confirm deletion in dialog
 <Step>
 **Done**
 
-Site removed from DAMP - folder and volume remain on disk
+Project removed from DAMP - folder and volume remain on disk
 </Step>
 
 </Steps>
@@ -230,14 +216,14 @@ Site removed from DAMP - folder and volume remain on disk
 Your local filesystem still contains:
 
 ```
-C:\Users\You\Projects\mysite\    ← Project folder intact
+C:\Users\You\Projects\myproject\    ← Project folder intact
 ```
 
 Docker volumes still exist:
 
 ```bash
 docker volume ls
-# Shows: mysite_data
+# Shows: myproject_data
 ```
 
 ### Complete Removal
@@ -248,50 +234,48 @@ To fully remove everything:
 # 1. Delete from DAMP (above steps)
 
 # 2. Delete project folder
-Remove-Item -Path "C:\Users\You\Projects\mysite" -Recurse -Force
+Remove-Item -Path "C:\Users\You\Projects\myproject" -Recurse -Force
 
 # 3. Delete Docker volume
-docker volume rm mysite_data
+docker volume rm myproject_data
 ```
 
 ## Bulk Operations
 
-### Refresh All Sites
+### Refresh All Projects
 
 Click **"Refresh"** button to:
-- Update all site statuses
+- Update all project statuses
 - Check DevContainer states
 - Refresh connection info
 
-### Search Sites
+### Search Projects
 
-Use the search bar to filter sites by name or domain.
+Use the search bar to filter projects by name or domain.
 
 ---
 
 <Callout type="tip">
-  **Pro Tip**
-  
-  Keep your sites organized with clear naming conventions like `client-project` or `app-v2`!
+  Keep projects organized with clear naming conventions like `client-project` or `app-v2`.
 </Callout>
 
 ## Troubleshooting
 
 <Accordions>
-  <Accordion title="Site Shows 'Created' Instead of 'Running'">
-    **Problem:** Site exists but shows red "Created" status
+  <Accordion title="Project Shows 'Created' Instead of 'Running'">
+    **Problem:** Project exists but shows red "Created" status
 
     **Solution:**
-    1. Open site in VS Code
+    1. Open project in VS Code
     2. Reopen in Container
     3. Wait for DevContainer to fully start
     4. Refresh DAMP
   </Accordion>
-  <Accordion title="Site Not Accessible in Browser">
-    **Problem:** `https://mysite.local` doesn't load
+  <Accordion title="Project Not Accessible in Browser">
+    **Problem:** `https://myproject.local` doesn't load
 
     **Solutions:**
-    - ✅ Check site status is "Running" (green)
+    - ✅ Check project status is "Running" (green)
     - ✅ Verify DevContainer is active in VS Code
     - ✅ Trust SSL certificate in DAMP
     - ✅ Check Caddy service is running
@@ -301,7 +285,7 @@ Use the search bar to filter sites by name or domain.
     **Problem:** Sync fails or files don't update
 
     **Solutions:**
-    - ✅ Close site in VS Code before syncing
+    - ✅ Close project in VS Code before syncing
     - ✅ Check Docker Desktop is running
     - ✅ Verify volume exists: `docker volume ls`
     - ✅ Try opposite sync direction
@@ -318,7 +302,7 @@ Use the search bar to filter sites by name or domain.
   </Card>
   
   <Card title="Ngrok Tunneling" href="/docs/development-tools/ngrok-tunneling">
-    Share sites publicly with tunnels
+    Share projects publicly with tunnels
   </Card>
   
   <Card title="DevContainers" href="/docs/core-features/devcontainers">

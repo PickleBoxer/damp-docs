@@ -1,253 +1,209 @@
 ---
 title: Migrate from Laragon
-description: Switch from Laragon to DAMP on Windows
+description: Switch from Laragon to DAMP
 ---
 
-import { Steps, Step } from 'fumadocs-ui/components/steps';
+import { Steps, Step } from "fumadocs-ui/components/steps";
 
-Switch from **Laragon** to DAMP and get **DevContainers**, **service isolation**, and **cross-platform compatibility**.
-
-## Migration Process
+## Migration Steps
 
 <Steps>
 
 <Step>
 **Stop Laragon Services**
 
-Stop all services to free ports:
+Free ports 80 and 443:
 
 1. Open Laragon
-2. Click **"Stop All"** button
-3. Right-click system tray icon → **"Exit"**
-4. Verify ports are free:
+2. Click "Stop All"
+3. Right-click system tray icon → Exit
+4. Verify ports are free (Windows):
    ```powershell
    netstat -ano | findstr ":80 :443"
-   # Should return nothing
    ```
+
 </Step>
 
 <Step>
-**Open DAMP**
+**Add Project to DAMP**
 
-Launch DAMP and click **"Add Site"** button.
-</Step>
-
-<Step>
-**Select "Existing Project"**
-
-Choose the **Existing Project** option.
-</Step>
-
-<Step>
-**Configure Site**
-
-Fill in the details:
-
-| Field | Value | Example |
-|-------|-------|---------|
-| **Name** | Your site name | `my-laragon-site` |
-| **Path** | Your Laragon project | `C:\laragon\www\my-project` |
-| **PHP Version** | Your current PHP | `8.3` |
+1. Launch DAMP
+2. Click "Add Project"
+3. Select "Existing Project"
+4. Configure:
+   - **Name**: Your project name
+   - **Path**: Your project folder (e.g., `C:\laragon\www\my-project`)
+   - **PHP Version**: Match your current version
 
 </Step>
 
 <Step>
 **Install Services**
 
-Install services your project uses:
+Go to Services page and install required services:
 
-| Service | Install? | Why? |
-|---------|----------|------|
-| **MySQL** | ✅ Required | If using database |
-| **PostgreSQL** | ✅ If needed | If using PostgreSQL |
-| **Redis** | ✅ Recommended | For caching/queues |
-| **Mailpit** | ✅ Recommended | For email testing |
+- **MySQL** - For database
+- **PostgreSQL** - If using PostgreSQL
+- **Redis** - For caching/queues
+- **Mailpit** - For email testing
 
-Go to Services page → Click "Install" for each needed service.
 </Step>
 
 <Step>
-**Export Laragon Database**
+**Migrate Database (Optional)**
 
-Export your existing data:
+If you have existing data, export and import:
 
-1. Open Laragon
-2. Click **"Database"** → **"Open"** (HeidiSQL)
-3. Right-click database → **"Export database as SQL"**
-4. Save as `backup.sql`
-</Step>
-
-<Step>
-**Import to DAMP**
-
-Import data to DAMP MySQL:
+**Option 1: Command Line**
 
 ```bash
-# Inside VS Code DevContainer terminal
+# Export from Laragon MySQL
+mysqldump -u root -p your_database > backup.sql
+
+# Import to DAMP (inside VS Code DevContainer)
 mysql -h damp-mysql -u damp -pdamp damp < backup.sql
 ```
+
+**Option 2: GUI Tools**
+
+Use database management tools like TablePlus, DBeaver, or HeidiSQL:
+
+1. **Export from Laragon**: Connect to `localhost:3306`, export database as SQL
+2. **Import to DAMP**: Get MySQL port from DAMP Services page, connect to `localhost:{port}`, import SQL file
+
+Connection details for DAMP MySQL:
+
+- **Host**: `localhost`
+- **Port**: Check DAMP app (Services page)
+- **Username**: `damp`
+- **Password**: `damp`
+- **Database**: `damp`
+
 </Step>
 
 <Step>
 **Update Configuration**
 
-Open project in VS Code DevContainer and update `.env` or `config.php`:
+Open project in VS Code DevContainer and update configuration:
 
 **Laravel .env:**
-```
-# Old Laragon config
-DB_HOST=127.0.0.1
-DB_DATABASE=my_database
 
-# New DAMP config
+```
+# Update database connection
 DB_HOST=damp-mysql
 DB_DATABASE=damp
 DB_USERNAME=damp
 DB_PASSWORD=damp
 
-# Redis (if using)
+# Update Redis (if using)
 REDIS_HOST=damp-redis
 
-# Mail
+# Update Mail (if using)
 MAIL_HOST=damp-mailpit
 MAIL_PORT=1025
 ```
 
 **Plain PHP:**
+
 ```php
-// Old Laragon
-$host = '127.0.0.1';
-
-// New DAMP
+// Update database host
 $host = 'damp-mysql';
+$db = 'damp';
+$user = 'damp';
+$pass = 'damp';
 ```
+
 </Step>
 
 <Step>
-**Update Hosts (Optional)**
+**Test Project**
 
-Laragon managed your `hosts` file. With DAMP:
-
-1. Sites use `*.local` domains
-2. Caddy handles routing automatically
-3. No hosts file editing needed!
-</Step>
-
-<Step>
-**Test Your Site**
-
-1. Open in VS Code: Click "Open in VS Code" in DAMP
+1. Click "Open in VS Code" in DAMP
 2. Reopen in Container when prompted
-3. Browse to `https://yoursite.local`
-4. Install SSL certificate from DAMP
+3. Browse to `https://yourproject.local`
+4. Install SSL certificate if prompted
+
 </Step>
 
 </Steps>
 
-## What Changed
+## Configuration Changes
 
-### File Structure
+### Generated Files
 
-DAMP adds DevContainer files to your existing project:
+DAMP adds these files to your project:
 
 ```
-my-project/
-├── .devcontainer/          ← Added by DAMP
-│   ├── devcontainer.json
-│   ├── Dockerfile
-│   └── php.ini
-├── .vscode/                ← Added by DAMP
-│   ├── launch.json
-│   └── settings.json
-└── [Your existing Laragon files remain]
+your-project/
+├── .devcontainer/
+│   └── devcontainer.json
+├── .vscode/
+│   └── launch.json
+├── Dockerfile
+├── docker-compose.yml
+└── .dockerignore
 ```
 
-### Service Access
+### Service Hostnames
 
-**Laragon:**
-```php
-$host = '127.0.0.1';  // Localhost
-$port = 3306;
+Service names are automatically generated by Docker. Get actual service names and ports from the DAMP app (Services page).
+
+Default pattern:
+
+| Service  | Laragon     | DAMP           |
+| -------- | ----------- | -------------- |
+| Database | `127.0.0.1` | `damp-mysql`   |
+| Redis    | `127.0.0.1` | `damp-redis`   |
+| Mail     | `127.0.0.1` | `damp-mailpit` |
+
+### Domain Format
+
+| Tool    | Format                  |
+| ------- | ----------------------- |
+| Laragon | `http://project.test`   |
+| DAMP    | `https://project.local` |
+
+### Commands
+
+Run commands directly in DevContainer (no wrapper needed):
+
+```bash
+php artisan migrate
+composer install
+npm run dev
 ```
-
-**DAMP:**
-```php
-$host = 'damp-mysql';  // Container name
-$port = 3306;
-```
-
-### Domain Names
-
-**Laragon:**
-```
-http://my-project.test
-```
-
-**DAMP:**
-```
-https://my-project.local  # HTTPS by default
-```
-
-## Key Differences
-
-### Service Management
-
-**Laragon:** Start/stop all services together
-
-**DAMP:** Install/uninstall services per project
-
-### Port Assignment
-
-**Laragon:** Fixed ports (80, 443, 3306, etc.)
-
-**DAMP:** Auto-assigned ports (no conflicts!)
 
 ## Troubleshooting
 
 <Accordions>
   <Accordion title="Port Conflict">
-  **Problem:** Caddy can't start
-
-  **Solutions:**
+  Caddy can't start:
   1. Fully exit Laragon (not just stop)
   2. Check for Apache/IIS:
-    ```powershell
-    Get-Process | Where-Object {$_.ProcessName -like "*apache*" -or $_.ProcessName -like "*nginx*"}
-    ```
+     ```powershell
+     Get-Process | Where-Object {$_.ProcessName -like "*apache*" -or $_.ProcessName -like "*nginx*"}
+     ```
   3. Stop conflicting services
   </Accordion>
   <Accordion title="Database Connection Failed">
-  **Problem:** Can't connect to MySQL
-
-  **Solutions:**
-  1. Install MySQL service in DAMP
-  2. Update connection strings to `damp-mysql`
-  3. Import database (see Step 7)
+  Can't connect to MySQL:
+  1. Verify MySQL service is installed in DAMP
+  2. Check `.env` has `DB_HOST=damp-mysql`
+  3. Import database if needed
   4. Restart DevContainer
   </Accordion>
   <Accordion title="Missing Extensions">
-  **Problem:** PHP extension not found
-
-  **Solutions:**
+  PHP extension not found:
   1. Edit `.devcontainer/Dockerfile`
-  2. Add extension: `docker-php-ext-install <extension>`
-  3. Rebuild DevContainer: `Ctrl+Shift+P` → "Rebuild Container"
+  2. Add extension: `RUN docker-php-ext-install <extension>`
+  3. Rebuild: Ctrl+Shift+P → "Rebuild Container"
   </Accordion>
   <Accordion title="Slow Performance">
-  **Problem:** Site is slower than Laragon
-
-  **Solution:**
-  DAMP uses named volumes for performance. Enable volume sync:
-  1. Click site in DAMP
+  Site is slower than Laragon:
+  1. Click project in DAMP
   2. Click "Sync Volume"
   3. Choose excluded folders (node_modules, vendor)
+
+  Note: Volume sync is bidirectional - changes sync from local filesystem to named Docker volume and vice versa.
   </Accordion>
 </Accordions>
-
----
-
-<Callout type="tip">
-  **Keep Laragon Installed**
-  
-  You can keep Laragon for non-DevContainer projects - just don't run both on ports 80/443 simultaneously!
-</Callout>

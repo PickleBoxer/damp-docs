@@ -1,22 +1,20 @@
 ---
 title: Custom Domains
-description: Beautiful local domains for every project with automatic hosts file management
--icon: Globe
+description: Local domains for every project with automatic hosts file management
+icon: Globe
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-DAMP gives every project its own **beautiful local domain** using the Windows hosts file. Access your sites with clean URLs like `myapp.local` instead of `localhost:8080`.
+DAMP gives every project its own **local domain** using the Windows hosts file. Access your projects with URLs like `myapp.local` instead of `localhost:8080`.
 
 <Callout type="success">
-  **Automatic Domain Management**
-  
-  DAMP generates custom domains for each project and automatically manages your Windows hosts file - no manual editing required.
+  DAMP generates custom domains for each project and automatically manages your Windows hosts file.
 </Callout>
 
 ## How It Works
 
-When you create a new site named "myapp", DAMP automatically:
+When you create a new project named "myapp", DAMP automatically:
 
 <Steps>
 
@@ -41,7 +39,7 @@ Sets up reverse proxy from domain to your container
 <Step>
 **Ready to Use**
 
-Access your site at `https://myapp.local` immediately!
+Access your project at `https://myapp.local` immediately.
 </Step>
 
 </Steps>
@@ -54,14 +52,12 @@ By default, DAMP uses the `.local` top-level domain:
 Project Name: myapp
           ↓
 Generated Domains:
-  • https://myapp.local       (main site)
+  • https://myapp.local       (main project)
   • https://vite.myapp.local  (Vite dev server for React/Vue)
 ```
 
 <Callout type="info">
-  **Why `.local`?**
-  
-  The `.local` TLD is reserved for local networks and won't conflict with real internet domains. It's perfect for development!
+  The `.local` TLD is reserved for local networks and won't conflict with real internet domains.
 </Callout>
 
 ## Benefits
@@ -99,14 +95,12 @@ DAMP uses the `hostie` utility to manage your Windows hosts file:
 127.0.0.1   vite.shop.local
 ```
 
-- ✅ **Automatic Addition** - Domains added when sites are created
-- ✅ **Automatic Removal** - Domains cleaned up when sites are deleted
-- ✅ **Admin Privileges** - Uses UAC elevation for secure modification
-- ✅ **Safe Operations** - No manual editing or typos
+- Automatic Addition - Domains added when sites are created
+- Automatic Removal - Domains cleaned up when sites are deleted
+- Admin Privileges - Uses UAC elevation for secure modification
+- Safe Operations - No manual editing or typos
 
 <Callout type="warning">
-  **UAC Prompt Expected**
-  
   When creating or deleting sites, you'll see a UAC (User Account Control) prompt. This is normal - DAMP needs administrator permission to modify the hosts file.
 </Callout>
 
@@ -146,16 +140,14 @@ Enter your preferred domain extension (e.g., `.dev`, `.test`, `.localhost`)
 </Step>
 
 <Step>
-**Apply to New Sites**
+**Apply to New Projects**
 
-New sites will use your custom domain extension
+New projects will use your custom domain extension
 </Step>
 
 </Steps>
 
 <Callout type="info">
-  **Future Feature**
-  
   Custom domain configuration is coming in a future update. Currently, all projects use `.local` by default.
 </Callout>
 
@@ -192,7 +184,7 @@ Here's the complete flow when you access `myapp.local`:
 
 ## Multi-Site Benefits
 
-With custom domains, running multiple projects is seamless:
+With custom domains, running multiple projects works smoothly:
 
 ```
 Running Projects:
@@ -210,28 +202,26 @@ Each project:
 
 ## Cleanup on Delete
 
-When you delete a site, DAMP automatically:
+When you delete a project, DAMP automatically:
 
-1. ✅ Removes domain from hosts file
-2. ✅ Removes vite subdomain from hosts file
-3. ✅ Updates Caddy configuration
-4. ✅ Stops and removes containers
-5. ✅ Cleans up Docker volumes (if requested)
+1. Removes domain from hosts file
+2. Removes vite subdomain from hosts file
+3. Updates Caddy configuration
+4. Stops and removes containers
+5. Cleans up Docker volumes (if requested)
 
 <Callout type="success">
-  **No Manual Cleanup**
-  
-  DAMP handles all domain management automatically - you never need to manually edit the hosts file.
+  DAMP handles all domain management automatically.
 </Callout>
 
 ## Troubleshooting
 
 <Accordions type="single">
   <Accordion title="Domain Not Resolving">
-    <b>Problem:</b> Can't access <code>myapp.local</code> after creating site<br/><br/>
+    <b>Problem:</b> Can't access <code>myapp.local</code> after creating project<br/><br/>
     <b>Solutions:</b>
     <ol>
-      <li>Check that site is running in DAMP dashboard</li>
+      <li>Check that project is running in DAMP dashboard</li>
       <li>Verify Caddy service is running</li>
       <li>Try flushing DNS cache: <code>ipconfig /flushdns</code></li>
       <li>Check Windows hosts file for entry: <code>C:\Windows\System32\drivers\etc\hosts</code></li>
@@ -262,7 +252,5 @@ When you delete a site, DAMP automatically:
 ---
 
 <Callout type="info">
-  **Need Help?**
-  
   If you're experiencing domain resolution issues, check the DAMP troubleshooting guide or open an issue on GitHub.
 </Callout>

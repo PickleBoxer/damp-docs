@@ -1,40 +1,36 @@
 ---
-title: Zero System Impact
-description: Keep your machine clean with complete Docker isolation
--icon: Shield
+title: System Isolation
+description: Docker isolation for clean system
+icon: Shield
 ---
 
-One of DAMP's core principles is **keeping your system pristine**. Unlike traditional development stacks that clutter your machine with global installations, DAMP runs everything in isolated Docker containers.
+DAMP runs everything in isolated Docker containers.
 
 <Callout type="success">
-  **Nothing installs globally on your machine**
-  
-  Every project runs in complete isolation using Docker containers. Your system remains clean and conflict-free.
+  No global installations on your machine. Every project runs in isolated Docker containers.
 </Callout>
 
-## Complete Isolation
+## Container Isolation
 
 <Cards>
   <Card title="No Global PHP" icon={<Package />}>
-    Each project uses its own PHP version in a container - no system-wide PHP installation needed
+    Each project uses its own PHP version in a container
   </Card>
-  
+
   <Card title="No Database Conflicts" icon={<Database />}>
-    MySQL, PostgreSQL, or Redis run in containers with zero impact on your host system
+    MySQL, PostgreSQL, or Redis run in containers
   </Card>
-  
+
   <Card title="Clean Uninstall" icon={<Trash />}>
-    Remove DAMP and all projects with a single click - no traces left behind
+    Remove DAMP and all projects - minimal traces
   </Card>
-  
+
   <Card title="Multiple Versions" icon={<Layers />}>
-    Run PHP 7.4, 8.1, 8.2, and 8.3 simultaneously without conflicts
+    Run PHP 7.4, 8.1, 8.2, and 8.3 simultaneously
   </Card>
 </Cards>
 
 ## How It Works
-
-DAMP leverages Docker's containerization technology to ensure complete isolation:
 
 ```
 ┌─────────────────────────────────────────┐
@@ -43,7 +39,6 @@ DAMP leverages Docker's containerization technology to ensure complete isolation
 │  ✅ No PHP installed globally           │
 │  ✅ No MySQL installed globally         │
 │  ✅ No Apache/Nginx installed globally  │
-│  ✅ No Composer conflicts               │
 └─────────────────────────────────────────┘
               │
               │ Docker isolation
@@ -57,38 +52,17 @@ DAMP leverages Docker's containerization technology to ensure complete isolation
 └─────────────────────────────────────────┘
 ```
 
-<Callout type="info">
-  Each project gets its own isolated environment with dedicated PHP version and dependencies - all running independently.
-</Callout>
+## Container Characteristics
 
-## Benefits
-
-### For Your System
-- **No Version Conflicts** - Run different PHP versions without conflicts
-- **Clean Registry** - No leftover registry entries or system modifications
-- **Easy Cleanup** - Remove everything with Docker container removal
-- **System Stability** - Your system services remain untouched
-
-### For Your Projects
-- **Reproducible** - Share exact environments with your team
-- **Portable** - Move projects between machines effortlessly
-- **Consistent** - Development matches production perfectly
-- **Flexible** - Each project can have different configurations
-
-<Callout type="tip">
-  **Switching Between Projects?**
-  
-  Stop one container, start another - your system resources are used only when projects are running.
-</Callout>
+- **Isolation** - Run different PHP versions
+- **No Registry Changes** - Minimal registry entries
+- **Container Cleanup** - Remove via Docker container removal
+- **Reproducible** - Share environments with your team
+- **Portable** - Move projects between machines
 
 ## What About Docker Desktop?
 
-DAMP requires Docker Desktop to be installed, but Docker Desktop is:
-
-- ✅ A standard development tool used by millions
-- ✅ Clean and well-maintained software
-- ✅ The only requirement DAMP needs
-- ✅ Useful for many other projects beyond DAMP
+DAMP requires Docker Desktop to be installed - it's the only requirement.
 
 <Callout type="warning">
   Docker Desktop is the **only** system requirement. Once installed, DAMP handles everything else in containers.
@@ -109,10 +83,6 @@ DAMP requires Docker Desktop to be installed, but Docker Desktop is:
       <td>✅ Containerized PHP</td>
     </tr>
     <tr>
-      <td>❌ Shared configuration files</td>
-      <td>✅ Isolated configs</td>
-    </tr>
-    <tr>
       <td>❌ Version conflicts</td>
       <td>✅ Multiple versions coexist</td>
     </tr>
@@ -123,16 +93,3 @@ DAMP requires Docker Desktop to be installed, but Docker Desktop is:
   </tbody>
 </table>
 
-## Your System Stays Clean
-
-With DAMP, your machine remains as clean as the day you installed it:
-
-1. **Installation** - Only Docker Desktop is needed
-2. **Development** - All tools run in containers
-3. **Uninstallation** - Remove containers, no traces left
-
-<Callout type="success">
-  **Perfect for professionals and learners alike**
-  
-  Whether you're learning PHP or managing production apps, DAMP keeps your system clean while providing enterprise-grade isolation.
-</Callout>

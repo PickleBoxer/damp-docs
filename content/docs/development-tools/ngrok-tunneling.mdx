@@ -1,16 +1,14 @@
 ---
 title: Ngrok Tunneling
 description: Expose your local sites to the internet with one click
--icon: Globe
+icon: Globe
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-Share your local development sites with anyone, anywhere using **ngrok** - integrated directly into DAMP with a single-click tunnel setup.
+Share your local development projects with anyone, anywhere using **ngrok** - integrated into DAMP with single-click tunnel setup.
 
 <Callout type="success">
-  **Instant Public URLs**
-  
   Start a secure tunnel for any project with one click and get a public URL to share with clients, teammates, or for testing webhooks.
 </Callout>
 
@@ -29,7 +27,7 @@ Navigate to Settings → Ngrok Tunneling and add your ngrok authtoken. Get yours
 <Step>
 **Start Tunnel**
 
-Open any project and click the "Tunnel" tab - start your tunnel with a single click!
+Open any project and click the "Tunnel" tab - start your tunnel with a single click.
 </Step>
 
 </Steps>
@@ -91,9 +89,7 @@ Each project can override global settings with site-specific configuration:
 - **Compression** - Enable/disable compression per site
 
 <Callout type="tip">
-  **Pro Tip: Custom Domains**
-  
-  With a paid ngrok plan, use custom domains like `api.yourdomain.com` for professional demos!
+  With a paid ngrok plan, use custom domains like `api.yourdomain.com` for demos.
 </Callout>
 
 ## Using Tunnels
@@ -118,8 +114,6 @@ HTTP Requests   → Total requests served
 ```
 
 <Callout type="warning">
-  **Devcontainer Required**
-  
   Your project must be running in VS Code's devcontainer before starting a tunnel. The tunnel connects to your devcontainer's web server.
 </Callout>
 
@@ -131,7 +125,7 @@ Share work-in-progress with clients without deploying:
 
 ```
 You: "Check out the new feature at https://demo-abc123.ngrok.io"
-Client: Views your local dev environment instantly!
+Client: Views your local dev environment
 ```
 
 ### 🔔 Webhook Testing
@@ -149,7 +143,7 @@ Test your site on real mobile devices:
 
 ```
 Public URL: https://mobile-test.ngrok.io
-Access from your phone, tablet, or any device!
+Access from your phone, tablet, or any device
 ```
 
 ### 👥 Team Collaboration
@@ -158,7 +152,7 @@ Share your local environment with remote team members:
 
 ```
 "Hey team, check my branch at https://feature-xyz.ngrok.io"
-No deployment, no waiting - instant collaboration!
+No deployment, no waiting - instant collaboration
 ```
 
 ## Tunnel Architecture
@@ -172,7 +166,7 @@ No deployment, no waiting - instant collaboration!
                  │ Ngrok Cloud
                  ↓
 ┌──────────────────────────────────────┐
-│   Ngrok Container (devnet)           │
+│   Ngrok Container (damp-network)     │
 │   Port: 4040 (local API)             │
 └────────────────┬─────────────────────┘
                  │
@@ -226,8 +220,6 @@ Each project gets its own isolated tunnel.
 ## Security Considerations
 
 <Callout type="warning">
-  **Important Security Notes**
-  
   - Tunnels expose your local environment to the internet
   - Anyone with the URL can access your site
   - Use .env protection for sensitive data
@@ -236,13 +228,13 @@ Each project gets its own isolated tunnel.
 
 ### Best Practices
 
-✅ **Do:**
+Do:
 - Use tunnels for temporary sharing
 - Add authentication to sensitive endpoints
 - Monitor tunnel traffic
 - Stop tunnels when not in use
 
-❌ **Don't:**
+Don't:
 - Share tunnel URLs in public forums
 - Use production credentials in dev
 - Leave tunnels running indefinitely
@@ -280,7 +272,5 @@ Each project gets its own isolated tunnel.
 </Accordions>
 
 <Callout type="success">
-  **Ready to Share?**
-  
-  Configure your authtoken in Settings, then start tunneling with a single click from any project!
+  Configure your authtoken in Settings, then start tunneling with a single click from any project.
 </Callout>

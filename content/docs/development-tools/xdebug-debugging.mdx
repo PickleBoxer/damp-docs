@@ -1,17 +1,15 @@
 ---
 title: XDebug Debugging
 description: Professional PHP debugging out of the box
--icon: Bug
+icon: Bug
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-Every DAMP project comes with **XDebug pre-configured** and ready to use. Set breakpoints, inspect variables, and step through your code like a pro - all from VS Code.
+Every DAMP project comes with **XDebug pre-configured** and ready to use. Set breakpoints, inspect variables, and step through your code from VS Code.
 
 <Callout type="success">
-  **Zero Configuration Required**
-  
-  XDebug is installed and configured automatically in every project. Just press F5 and start debugging immediately!
+  XDebug is installed and configured automatically in every project. Press F5 to start debugging.
 </Callout>
 
 ## Quick Start
@@ -74,8 +72,6 @@ xdebug.client_port = 9003
 ```
 
 <Callout type="info">
-  **What This Means**
-  
   - **develop,debug** - Full debugging capabilities enabled
   - **trigger** - Debugging starts only when triggered (via browser extension or URL parameter)
   - **9003** - Standard XDebug 3.x port
@@ -113,8 +109,6 @@ Included in `.vscode/launch.json`:
    - Use debug toolbar to step through
 
 <Callout type="info">
-  **Trigger Mode**
-  
   XDebug is configured with `start_with_request = trigger`, which means debugging only starts when triggered - giving you full control over when to debug.
 </Callout>
 
@@ -148,9 +142,7 @@ Set breakpoints that only trigger when conditions are met:
 4. Breakpoint only triggers when condition is true
 
 <Callout type="tip">
-  **Pro Tip: Logpoints**
-  
-  Instead of adding `echo` or `var_dump`, use logpoints! Right-click → "Add Logpoint" to log messages without modifying code.
+  Instead of adding `echo` or `var_dump`, use logpoints. Right-click and select "Add Logpoint" to log messages without modifying code.
 </Callout>
 
 ## Advanced Features
@@ -287,9 +279,7 @@ xdebug.max_nesting_level = 512
 After changes, rebuild with `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"
 
 <Callout type="warning">
-  **Remember to Rebuild**
-  
-  XDebug configuration changes require a container rebuild to take effect!
+  XDebug configuration changes require a container rebuild to take effect.
 </Callout>
 
 ## Troubleshooting
@@ -340,7 +330,5 @@ Container path must match your workspace folder name.
 ---
 
 <Callout type="success">
-  **Happy Debugging!**
-  
-  XDebug is ready to use in every project - no setup required. Just open in VS Code, press F5, and start debugging like a professional!
+  XDebug is ready to use in every project - no setup required. Open in VS Code, press F5, and start debugging.
 </Callout>

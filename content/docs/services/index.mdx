@@ -5,19 +5,11 @@ description: Manage development services with one-click install
 
 import { Card, Cards } from 'fumadocs-ui/components/card';
 
-**One-click installation** of development services. Install, start, stop, and remove services without leaving DAMP.
+Install and manage development services from DAMP. All services run in Docker containers on the `damp-network` network.
 
-## Overview
+## Available Services
 
-DAMP provides **13 pre-configured services** for your development environment. All services run in Docker containers on the `devnet` network.
-
-<Callout type="success">
-  **Zero Configuration**
-  
-  Every service comes with sensible defaults. Just click "Install" and start using it immediately!
-</Callout>
-
-## Service Categories
+DAMP provides **14 pre-configured services** for development.
 
 ### Web Servers
 
@@ -31,17 +23,17 @@ DAMP provides **13 pre-configured services** for your development environment. A
 
 <Cards>
   <Card title="MySQL" href="/docs/services/mysql" icon={<Database />}>
-    Popular relational database
+    Relational database
   </Card>
-  
+
   <Card title="PostgreSQL" href="/docs/services/postgresql" icon={<Database />}>
-    Advanced open-source database
+    Open-source database
   </Card>
-  
+
   <Card title="MariaDB" href="/docs/services/mariadb" icon={<Database />}>
     MySQL-compatible database
   </Card>
-  
+
   <Card title="MongoDB" href="/docs/services/mongodb" icon={<Database />}>
     NoSQL document database
   </Card>
@@ -53,11 +45,11 @@ DAMP provides **13 pre-configured services** for your development environment. A
   <Card title="Redis" href="/docs/services/redis" icon={<Zap />}>
     In-memory data store
   </Card>
-  
+
   <Card title="Valkey" href="/docs/services/valkey" icon={<Zap />}>
     Redis-compatible cache
   </Card>
-  
+
   <Card title="Memcached" href="/docs/services/memcached" icon={<Zap />}>
     Distributed caching system
   </Card>
@@ -69,7 +61,7 @@ DAMP provides **13 pre-configured services** for your development environment. A
   <Card title="Meilisearch" href="/docs/services/meilisearch" icon={<Search />}>
     Full-text search engine
   </Card>
-  
+
   <Card title="Typesense" href="/docs/services/typesense" icon={<Search />}>
     Open-source search engine
   </Card>
@@ -81,7 +73,7 @@ DAMP provides **13 pre-configured services** for your development environment. A
   <Card title="Mailpit" href="/docs/services/mailpit" icon={<Mail />}>
     Email testing with web UI
   </Card>
-  
+
   <Card title="MinIO" href="/docs/services/minio" icon={<FolderOpen />}>
     S3-compatible object storage
   </Card>
@@ -95,15 +87,13 @@ DAMP provides **13 pre-configured services** for your development environment. A
   </Card>
 </Cards>
 
-## How It Works
+## Service Features
 
-Every service in DAMP provides:
-
-- ✅ **One-Click Install** - No manual Docker commands
-- ✅ **Start/Stop/Remove** - Full lifecycle management
-- ✅ **Connection Info** - Host & Docker network details
-- ✅ **Default Configuration** - Sensible environment variables and ports
-- ✅ **Data Persistence** - Named volumes for data storage
+- Install, start, stop, and remove via DAMP interface
+- Connection info displayed in DAMP (host and container connections)
+- Default configuration with sensible environment variables
+- Data persistence via Docker named volumes
+- Port mapping to host machine (dynamic if defaults are occupied)
 
 ```
 ┌──────────────────────────────────────────┐
@@ -115,98 +105,95 @@ Every service in DAMP provides:
 ┌──────────────────────────────────────────┐
 │   Docker Container Created               │
 │   - Named volumes for data               │
-│   - Connected to devnet network          │
+│   - Connected to damp-network            │
 │   - Ports exposed to host                │
 └─────────────┬────────────────────────────┘
               │
               ↓
 ┌──────────────────────────────────────────┐
 │   Service Running                        │
-│   View connection details:               │
-│   - Container name (internal)            │
-│   - localhost:port (external)            │
-│   - Environment variables                │
+│   Connection details shown in DAMP       │
 └──────────────────────────────────────────┘
 ```
 
-## Connection Types
+## Container Identification
 
-When a service is running, you get **two connection methods**:
+DAMP identifies service containers using **Docker labels**, not container names.
 
-### From Docker Containers (DevContainers)
+- Container names are auto-generated by Docker
+- DAMP queries containers by labels: `com.pickleboxer.damp.service-id`
+- Connection information (container name) is displayed in DAMP interface
+
+## Connection Methods
+
+### From Project Containers (DevContainers)
+
+Use the container name shown in DAMP interface:
 
 ```bash
-# Use the container name
-mysql -h damp-mysql -u developer -p
-redis-cli -h damp-redis
+# Example: Replace [container-name] with actual name from DAMP
+mysql -h [container-name] -u developer -p
+redis-cli -h [container-name]
 ```
 
-<Callout type="info">
-  **DevNet Network**
-  
-  All containers communicate via the `devnet` Docker network using container names as hostnames.
-</Callout>
+All containers communicate via the `damp-network` Docker network.
 
-### From Host Machine
+### From Host Machine (Windows)
+
+Use localhost with the port shown in DAMP:
 
 ```bash
-# Use localhost
+# Use localhost and actual port from DAMP interface
 mysql -h localhost -P 3306 -u developer -p
 redis-cli -h localhost -p 6379
 ```
+
+If the default port is occupied, DAMP uses the next available port automatically.
+
+## Port Configuration
+
+**Default ports** are attempted first. If occupied, DAMP finds the next available port.
+
+**Example:**
+- Service: MySQL (default port 3306)
+- If 3306 is occupied → DAMP uses 3307 (or next available)
+- Actual port is shown in DAMP interface
+
+Check DAMP for the actual port assigned to each service.
 
 ## Managing Services
 
 ### Install
 
-Click **"Install Service"** to:
-1. Pull the Docker image
-2. Create named volumes for data persistence
-3. Create and start the container
+Click "Install Service" in DAMP to:
+1. Pull Docker image
+2. Create named volumes for data
+3. Create and start container
 4. Display connection information
 
 ### Start/Stop
 
-Control running services without removing data:
 - **Start** - Starts a stopped service
 - **Stop** - Stops a running service (data persists)
 
 ### Remove
 
-Completely remove a service:
-- Stops the container
-- Removes the container
-- **Keeps the data volume** (safe removal)
+Removes the container. Data volume is preserved.
 
 <Callout type="warning">
-  **Data Volumes Preserved**
-  
-  Removing a service does NOT delete its data volume. Your data is safe and will be restored if you reinstall the service.
+  Removing a service does NOT delete its data volume. Data persists and is restored if you reinstall.
 </Callout>
 
 ## Service Status
 
-Each service shows its current state:
-
-- 🟢 **Running** - Service is active and available
+- 🟢 **Running** - Service is active
 - 🔴 **Stopped** - Service installed but not running
-- ⚪ **Not Installed** - Service not yet installed
-
----
-
-<Callout type="tip">
-  **Quick Start**
-  
-  New to DAMP? Start with these services:
-  - **MySQL** for database
-  - **Mailpit** for email testing
-  - **Redis** for caching
-</Callout>
+- ⚪ **Not Installed** - Service not installed
 
 ## Learn More
 
-Visit individual service pages to see:
-- Default configuration
+Visit individual service pages for:
+- Docker configuration (image, ports, volumes)
+- Credentials and environment variables
 - Connection strings
-- Environment variables
-- Port mappings
+- Data persistence information

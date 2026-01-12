@@ -1,20 +1,14 @@
 ---
 title: Installation Guide
-description: Get started with DAMP in minutes on Windows
+description: Get started with DAMP on Windows
 icon: Download
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-Get DAMP up and running on your Windows machine in just a few simple steps.
-
-<Callout type="info">
-  **Platform Support**: Currently available for Windows. macOS and Linux support coming soon!
-</Callout>
+Get DAMP up and running on Windows.
 
 ## Prerequisites
-
-Before installing DAMP, ensure you have the following installed on your system:
 
 ### 1. Docker Desktop
 
@@ -45,69 +39,27 @@ Open PowerShell and run:
 docker --version
 ```
 
-You should see the Docker version output.
-
 </Step>
 
 </Steps>
 
 <Callout type="warning">
-  **Important**: Docker Desktop must be running for DAMP to work. Make sure Docker is started before launching DAMP.
+  Docker Desktop must be running for DAMP to work.
 </Callout>
 
-### 2. Code Editor
+### 2. Visual Studio Code
 
-DAMP works best with editors that support Dev Container development. We recommend:
+Download [VS Code](https://code.visualstudio.com/) for Dev Container support.
 
-<Tabs items={['VS Code (Recommended)', 'Alternatives']}>
-  <Tab value="VS Code (Recommended)">
-    ### Visual Studio Code
-    
-    Download [VS Code](https://code.visualstudio.com/) - the most popular choice with excellent Dev Container support.
-    
-    #### Essential Extensions
-    
-    Install these extensions for the best DAMP experience:
-    
-    <Cards>
-      <Card title="Dev Containers" icon={<Box />}>
-        **Required for container development**
-        
-        \ms-vscode-remote.remote-containers\
-        
-        [Install Extension](vscode:extension/ms-vscode-remote.remote-containers)
-      </Card>
-      
-      <Card title="Docker" icon={<Box />}>
-        **Manage Docker containers visually**
-        
-        \ms-azuretools.vscode-docker\
-        
-        [Install Extension](vscode:extension/ms-azuretools.vscode-docker)
-      </Card>
-      
-      <Card title="Remote Development" icon={<Box />}>
-        **Complete remote development suite**
-        
-        \ms-vscode-remote.vscode-remote-extensionpack\
-        
-        [Install Extension](vscode:extension/ms-vscode-remote.vscode-remote-extensionpack)
-      </Card>
-    </Cards>
-  </Tab>
-  
-  <Tab value="Alternatives">
-    ### Alternative Editors
-    
-    Any editor with Dev Container support will work:
-    
-    - **JetBrains IDEs** (PhpStorm, WebStorm) - Built-in Docker support
-    - **Cursor** - VS Code fork with AI features
-    - **VSCodium** - Open-source VS Code alternative
-    
-    Make sure your chosen editor has Docker/Dev Container integration enabled.
-  </Tab>
-</Tabs>
+**Required Extension:**
+
+<Card title="Dev Containers" icon={<Box />}>
+  **Required for container development**
+
+  `ms-vscode-remote.remote-containers`
+
+  [Install Extension](vscode:extension/ms-vscode-remote.remote-containers)
+</Card>
 
 ## Installing DAMP
 
@@ -119,25 +71,21 @@ DAMP works best with editors that support Dev Container development. We recommen
 
 Download the latest Windows installer from our [download page](/download).
 
-```
-damp-x.x.x Setup.exe
-```
-
   </Step>
-  
-  <Step> 
+
+  <Step>
 
 ### Run the Installer
 
-Double-click the installer and follow the installation wizard. DAMP will be installed to your Program Files.
+Double-click the installer and follow the installation wizard.
 
   </Step>
-  
+
   <Step>
 
 ### Launch DAMP
 
-Find DAMP in your Start Menu or desktop shortcut and launch the application.
+Find DAMP in your Start Menu and launch the application.
 
   </Step>
 
@@ -148,105 +96,24 @@ Find DAMP in your Start Menu or desktop shortcut and launch the application.
   On first launch, DAMP will:
   - ✓ Verify Docker Desktop is running
   - ✓ Check system requirements
-  - ✓ Set up the necessary network configurations
+  - ✓ Set up network configurations
 
   </Step>
 
 </Steps>
 
 <Callout type="success">
-  **Congratulations!** DAMP is now installed and ready to use. Create your first site to get started!
+  DAMP is now installed. Create your first project to get started.
 </Callout>
-
-## Recommended PHP Extensions
-
-Enhance your PHP development experience with these VS Code extensions:
-
-### PHP Language Support
-
-<Card icon={<Code />}>
-  **PHP Intelephense**
-  
-  \mewburn.vscode-intelephense-client\
-  
-  Advanced PHP language server with IntelliSense, code completion, and navigation.
-  
-  [Install Extension](vscode:extension/bmewburn.vscode-intelephense-client)
-</Card>
-
-### Debugging
-
-<Card icon={<Bug />}>
-  **PHP Debug**
-  
-  \xdebug.php-debug\
-  
-  Xdebug integration for step-by-step debugging, breakpoints, and variable inspection.
-  
-  [Install Extension](vscode:extension/xdebug.php-debug)
-</Card>
-
-### Laravel Development
-
-<Card icon={<Package />}>
-  **Laravel Extension Pack**
-  
-  \onecentlin.laravel-extension-pack\
-  
-  Complete Laravel tooling including snippets, blade syntax highlighting, and artisan commands.
-  
-  [Install Extension](vscode:extension/onecentlin.laravel-extension-pack)
-</Card>
-
-## Quick Extension Install
-
-Copy and paste this into your terminal to install all recommended extensions at once:
-
-```powershell
-code --install-extension ms-vscode-remote.remote-containers
-code --install-extension ms-azuretools.vscode-docker
-code --install-extension ms-vscode-remote.vscode-remote-extensionpack
-code --install-extension bmewburn.vscode-intelephense-client
-code --install-extension xdebug.php-debug
-code --install-extension onecentlin.laravel-extension-pack
-```
-
-## Troubleshooting
-
-<Accordions>
-  <Accordion title="docker-not-running">
-    ### Docker Desktop is not running
-    
-    Make sure Docker Desktop is installed and running. Check the system tray for the Docker icon. If Docker is not starting, try:
-    
-    1. Restart Docker Desktop
-    2. Restart your computer
-    3. Reinstall Docker Desktop if issues persist
-  </Accordion>
-  
-  <Accordion title="Port already in use">
-    ### Port already in use
-    
-    If DAMP reports port conflicts:
-    
-    1. Check if other services are using ports 80 or 443
-    2. Stop IIS or other web servers
-    3. Use DAMP's port configuration to use alternative ports
-  </Accordion>
-</Accordions>
 
 ## Next Steps
 
 <Cards>
-  <Card title="Create Your First Site" href="/docs">
-    Follow our quick start guide to create your first PHP project
+  <Card title="Create Your First Project" href="/docs/creating-sites">
+    Create your first PHP project
   </Card>
-  
+
   <Card title="Service Management" href="/docs/services">
-    Learn how to install and manage MySQL, Redis, and other services
+    Install and manage MySQL, Redis, and other services
   </Card>
 </Cards>
-
-<Callout type="tip">
-  **Need Help?** Join our [Discord community](https://discord.gg/hSXe4vmMF) for support and tips from other DAMP users!
-</Callout>

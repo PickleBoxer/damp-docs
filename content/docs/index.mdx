@@ -8,12 +8,10 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 ## Introduction
 
-Get your first DAMP project up and running in under 5 minutes. This guide assumes you have DAMP already installed and are familiar with web development concepts.
+Get your first DAMP project running. This guide assumes you have DAMP already installed.
 
 <Callout title='Note'>
-
     New to DAMP? Start with our [installation guide](/docs/installation) first.
-
 </Callout>
 
 ## Create Your First Project
@@ -25,19 +23,16 @@ Get your first DAMP project up and running in under 5 minutes. This guide assume
    Launch DAMP from your applications menu or system tray.
 
 2. **Create a new project**
-   
-   Click the **"New Project"** button in the DAMP dashboard.
-   
+
+   Click the **"Add Project"** button in the Projects page.
 
 3. **Choose project type**
-   
-   Select your project template:
-   
-   - **Laravel** Recommended badge - Full Laravel framework with MySQL
-   - **PHP** - Basic LAMP stack
-   - **Existing project** - Bring your own codebase
 
-  IMAGE OF THE DAMP NEW PROJECT SCREEN
+   Select your project template:
+
+   - **Laravel** - Full Laravel framework
+   - **Basic PHP** - Empty PHP project
+   - **Existing project** - Add DevContainer to existing code
 
 4. **Configure project**
    
@@ -56,7 +51,7 @@ Get your first DAMP project up and running in under 5 minutes. This guide assume
    - 🔄 Start development services
    
    <Callout title="tip">
-   First-time setup takes 2-3 minutes as Docker images are downloaded. Subsequent projects start in seconds!
+   First-time setup takes longer as Docker images are downloaded. Subsequent projects are much faster.
    </Callout>
 
 </Steps>
@@ -70,7 +65,7 @@ Once creation is complete, your project is immediately available:
 
 ## Open in VS Code
 
-For the best development experience, open your project in VS Code with DevContainer support:
+Open your project in VS Code with DevContainer support:
 
 <Steps>
 
@@ -146,45 +141,25 @@ For other project types:
 
 ## Next Steps
 
-Your development environment is ready! Here's what to explore next:
+Your development environment is ready.
 
 <Card title="Essential Features" icon={<Star />}>
 
-**Master these DAMP features for maximum productivity:**
-
-- [**SSL Certificates**](/docs/core-features/automatic-ssl) - Understand HTTPS development
-- [**Xdebug Setup**](/docs/development-tools/xdebug-debugging) - Configure debugging
-- [**Custom Domains**](/docs/core-features/custom-domains) - Create memorable local URLs
+- [**Creating Projects**](/docs/creating-sites) - Detailed project creation guide
+- [**Managing Projects**](/docs/managing-sites) - Project management and actions
+- [**Volume Sync**](/docs/volume-sync) - Sync files from containers
 
 </Card>
-
-### Development Workflow
-
-1. **Project Management**: Use the DAMP dashboard to start/stop services
-2. **Code Editing**: Work in VS Code with DevContainer for best experience
-3. **Database Management**: Use PHPMyAdmin or your preferred database client
-4. **Email Testing**: Check emails in Mailpit during development
-5. **Debugging**: Use Xdebug for step-through debugging
-
-### Advanced Features
-
-Once you're comfortable with the basics:
-
-- [**Claude Integration**](/docs/development-tools/claude-code-cli) - AI-powered development
 
 ## Troubleshooting
 
 If something isn't working:
 
-1. **Check service status** in the DAMP dashboard
-2. **Verify Docker is running** and accessible
-3. **Clear browser cache** for SSL certificate issues
-4. **Restart the project** if services seem stuck
-
-<Callout title="Pro Tip">
-Keep DAMP running in your system tray for quick access to all your projects. You can start/stop individual projects without opening the main interface.
-</Callout>
+1. **Check Docker Desktop is running**
+2. **Verify project status** in DAMP dashboard
+3. **Open in VS Code** and reopen in container
+4. **Check DAMP console** for errors
 
 ---
 
-**Congratulations!** 🎉 You've successfully created your first DAMP project. You now have a professional development environment with SSL, database access, email testing, and debugging capabilities - all configured automatically.
+**Congratulations!** You've successfully created your first DAMP project.
