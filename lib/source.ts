@@ -1,4 +1,4 @@
-import { docs, changelog } from '@/.source';
+import { docs, changelog } from '@/.source/server';
 import { type InferPageType, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 
